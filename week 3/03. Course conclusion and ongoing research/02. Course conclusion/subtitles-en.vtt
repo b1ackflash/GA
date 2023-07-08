@@ -1,0 +1,187 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.978
+Along with responsible AI,
+researchers are looking into techniques
+
+2
+00:00:04.978 --> 00:00:08.689
+to align models with human values and
+preferences,
+
+3
+00:00:08.689 --> 00:00:14.530
+increase model interpretability, and
+implement efficient model governance.
+
+4
+00:00:14.530 --> 00:00:19.983
+As model capabilities increase, we'll also
+need more scalable techniques for human
+
+5
+00:00:19.983 --> 00:00:25.145
+oversight, such as constitutional AI,
+which I discussed in a previous lesson.
+
+6
+00:00:25.145 --> 00:00:30.234
+Researchers continue to explore scaling
+laws for all steps of the project
+
+7
+00:00:30.234 --> 00:00:35.569
+lifecycle, including techniques that
+better predict model performance so
+
+8
+00:00:35.569 --> 00:00:40.410
+that you can make sure resources
+are used efficiently, for example,
+
+9
+00:00:40.410 --> 00:00:42.069
+through simulations.
+
+10
+00:00:42.069 --> 00:00:47.002
+And scale doesn't always mean bigger,
+research teams are working on
+
+11
+00:00:47.002 --> 00:00:51.360
+model optimizations for
+small device and edge deployments.
+
+12
+00:00:51.360 --> 00:00:56.666
+For example, llama.cpp is a C++
+implementation of the LLaMA
+
+13
+00:00:56.666 --> 00:01:01.790
+model using four bit integer
+quantization to run on a laptop.
+
+14
+00:01:01.790 --> 00:01:05.602
+Similarly, I'm confident that
+we'll see advancements and
+
+15
+00:01:05.602 --> 00:01:09.490
+efficiencies across the whole
+model development lifecycle.
+
+16
+00:01:09.490 --> 00:01:13.717
+Especially, more efficient techniques for
+pre-training,
+
+17
+00:01:13.717 --> 00:01:16.753
+finetuning, and reinforcement learning.
+
+18
+00:01:16.753 --> 00:01:20.928
+We'll see increased and
+emergent LLM capabilities.
+
+19
+00:01:20.928 --> 00:01:25.525
+For example, researchers are looking
+into developing models that support
+
+20
+00:01:25.525 --> 00:01:27.402
+longer prompts and contexts.
+
+21
+00:01:27.402 --> 00:01:30.554
+For example, to summarize entire books.
+
+22
+00:01:30.554 --> 00:01:35.084
+In fact, during the development of
+this course, we've seen the first
+
+23
+00:01:35.084 --> 00:01:39.932
+announcement of a model supporting
+100,000 token context window.
+
+24
+00:01:39.932 --> 00:01:46.017
+This corresponds roughly to 75,000
+words and hundreds of pages.
+
+25
+00:01:46.017 --> 00:01:52.120
+Models will also increasingly support
+multi-modality across language,
+
+26
+00:01:52.120 --> 00:01:54.701
+images, video, audio, etc.
+
+27
+00:01:54.701 --> 00:01:58.316
+This will unlock new applications and
+use cases and
+
+28
+00:01:58.316 --> 00:02:00.930
+change how we interact with models.
+
+29
+00:02:00.930 --> 00:02:05.798
+We've seen the first amazing results
+of this with the latest generation
+
+30
+00:02:05.798 --> 00:02:07.472
+of text to image models,
+
+31
+00:02:07.472 --> 00:02:12.764
+where natural language becomes the user
+interface to create visual content.
+
+32
+00:02:12.764 --> 00:02:17.454
+Researchers are also trying to
+learn more about LLM reasoning and
+
+33
+00:02:17.454 --> 00:02:23.091
+are exploring LLMs that combine structured
+knowledge and symbolic methods.
+
+34
+00:02:23.091 --> 00:02:28.359
+This research field of neurosymbolic
+AI explores the model's abilities to
+
+35
+00:02:28.359 --> 00:02:33.638
+learn from experience and the ability
+to reason from what has been learned.
+
+36
+00:02:33.638 --> 00:02:35.937
+Thanks so much for taking this course.
+
+37
+00:02:35.937 --> 00:02:38.593
+We hope you enjoyed the lessons and
+
+38
+00:02:38.593 --> 00:02:42.814
+can't wait to see what you
+build with this knowledge.
+
+39
+00:02:42.814 --> 00:02:47.142
+To conclude,
+let's ask our AI what the future holds.

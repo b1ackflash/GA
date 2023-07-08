@@ -1,0 +1,638 @@
+WEBVTT
+
+1
+00:00:00.058 --> 00:00:04.827
+In the previous video, you saw how
+structured prompts can be used to
+
+2
+00:00:04.827 --> 00:00:09.443
+help an LLM write Python scripts
+to solve complex math problems.
+
+3
+00:00:09.443 --> 00:00:14.036
+An application making use of PAL
+can link the LLM to a Python
+
+4
+00:00:14.036 --> 00:00:18.841
+interpreter to run the code and
+return the answer to the LLM.
+
+5
+00:00:18.841 --> 00:00:24.356
+Most applications will require the LLM to
+manage more complex workflows, perhaps
+
+6
+00:00:24.356 --> 00:00:29.960
+in including interactions with multiple
+external data sources and applications.
+
+7
+00:00:29.960 --> 00:00:34.561
+In this video, you'll explore
+a framework called ReAct that can
+
+8
+00:00:34.561 --> 00:00:38.000
+help LLMs plan out and
+execute these workflows.
+
+9
+00:00:38.000 --> 00:00:42.702
+ReAct is a prompting strategy that
+combines chain of thought reasoning
+
+10
+00:00:42.702 --> 00:00:44.279
+with action planning.
+
+11
+00:00:44.279 --> 00:00:50.205
+The framework was proposed by researchers
+at Princeton and Google in 2022.
+
+12
+00:00:50.205 --> 00:00:54.723
+The paper develops a series of
+complex prompting examples based on
+
+13
+00:00:54.723 --> 00:00:59.737
+problems from Hot Pot QA,
+a multi-step question answering benchmark.
+
+14
+00:00:59.737 --> 00:01:04.489
+That requires reasoning over two or
+more Wikipedia passages and
+
+15
+00:01:04.489 --> 00:01:09.505
+fever, a benchmark that uses
+Wikipedia passages to verify facts.
+
+16
+00:01:09.505 --> 00:01:14.113
+The figure on the right shows some example
+prompts from the paper, and we'll explore
+
+17
+00:01:14.113 --> 00:01:18.338
+one shortly, so don't worry about reading
+the prompts on this slide for now.
+
+18
+00:01:18.338 --> 00:01:23.092
+You'll be able to look at the figure
+in more detail in a reading exercise
+
+19
+00:01:23.092 --> 00:01:24.289
+after the video.
+
+20
+00:01:24.289 --> 00:01:29.342
+ReAct uses structured examples to show
+a large language model how to reason
+
+21
+00:01:29.342 --> 00:01:34.810
+through a problem and decide on actions to
+take that move it closer to a solution.
+
+22
+00:01:34.810 --> 00:01:39.578
+The example prompts start with a question
+that will require multiple steps to
+
+23
+00:01:39.578 --> 00:01:40.173
+answer.
+
+24
+00:01:40.173 --> 00:01:46.586
+In this example, the goal is to determine
+which of two magazines was created first.
+
+25
+00:01:46.586 --> 00:01:50.651
+The example then includes
+a related thought action
+
+26
+00:01:50.651 --> 00:01:53.117
+observation trio of strings.
+
+27
+00:01:53.117 --> 00:01:57.854
+The thought is a reasoning step that
+demonstrates to the model how to
+
+28
+00:01:57.854 --> 00:02:01.440
+tackle the problem and
+identify an action to take.
+
+29
+00:02:01.440 --> 00:02:06.216
+In the newspaper publishing example,
+the prompt specifies that the model
+
+30
+00:02:06.216 --> 00:02:11.158
+will search for both magazines and
+determine which one was published first.
+
+31
+00:02:11.158 --> 00:02:17.206
+In order for the model to interact with
+an external application or data source,
+
+32
+00:02:17.206 --> 00:02:22.184
+it has to identify an action to
+take from a pre-determined list.
+
+33
+00:02:22.184 --> 00:02:24.632
+In the case of the ReAct framework,
+
+34
+00:02:24.632 --> 00:02:29.293
+the authors created a small Python API
+to interact with Wikipedia.
+
+35
+00:02:29.293 --> 00:02:34.717
+The three allowed actions are search,
+which looks for a Wikipedia entry about
+
+36
+00:02:34.717 --> 00:02:40.075
+a particular topic lookup, which searches
+for a string on a Wikipedia page.
+
+37
+00:02:40.075 --> 00:02:41.114
+And finish,
+
+38
+00:02:41.114 --> 00:02:46.984
+which the model carries out when it
+decides it has determined the answer.
+
+39
+00:02:46.984 --> 00:02:51.789
+As you saw on the previous slide,
+the thought in the prompt identified
+
+40
+00:02:51.789 --> 00:02:55.140
+two searches to carry out one for
+each magazine.
+
+41
+00:02:55.140 --> 00:02:59.846
+In this example, the first search
+will be for Arthur's magazine.
+
+42
+00:02:59.846 --> 00:03:05.345
+The action is formatted using the specific
+square bracket notation you see here,
+
+43
+00:03:05.345 --> 00:03:09.501
+so that the model will format
+its completions in the same way.
+
+44
+00:03:09.501 --> 00:03:15.881
+The Python interpreter searches for
+this code to trigger specific API actions.
+
+45
+00:03:15.881 --> 00:03:19.445
+The last part of the prompt
+template is the observation,
+
+46
+00:03:19.445 --> 00:03:23.677
+this is where the new information
+provided by the external search is
+
+47
+00:03:23.677 --> 00:03:26.216
+brought into the context of the prompt.
+
+48
+00:03:26.216 --> 00:03:31.051
+For the model to interpret the prompt
+then repeats the cycle as many
+
+49
+00:03:31.051 --> 00:03:34.689
+times as is necessary to
+obtain the final answer.
+
+50
+00:03:34.689 --> 00:03:39.642
+In the second thought, the prompt states
+the start year of Arthur's magazine and
+
+51
+00:03:39.642 --> 00:03:42.957
+identifies the next step
+needed to solve the problem.
+
+52
+00:03:42.957 --> 00:03:48.947
+The second action is to search for first
+for women, and the second observation
+
+53
+00:03:48.947 --> 00:03:55.495
+includes text that states the start date
+of the publication, in this case 1989.
+
+54
+00:03:55.495 --> 00:04:00.993
+At this point, all the information
+required to answer the question is known.
+
+55
+00:04:00.993 --> 00:04:06.034
+The third thought states the start
+year of first for women and then gives
+
+56
+00:04:06.034 --> 00:04:11.343
+the explicit logic used to determine
+which magazine was published first.
+
+57
+00:04:11.343 --> 00:04:16.778
+The final action is to finish the cycle
+and pass the answer back to the user.
+
+58
+00:04:16.778 --> 00:04:20.209
+It's important to note that
+in the ReAct framework,
+
+59
+00:04:20.209 --> 00:04:24.938
+the LLM can only choose from a limited
+number of actions that are defined by
+
+60
+00:04:24.938 --> 00:04:29.452
+a set of instructions that is
+pre-pended to the example prompt text.
+
+61
+00:04:29.452 --> 00:04:33.742
+The full text of
+the instructions is shown here.
+
+62
+00:04:33.742 --> 00:04:37.630
+First, the task is defined,
+telling the model to answer
+
+63
+00:04:37.630 --> 00:04:42.260
+a question using the prompt structure
+you just explored in detail.
+
+64
+00:04:42.260 --> 00:04:47.552
+Next, the instructions give more detail
+about what is meant by thought and
+
+65
+00:04:47.552 --> 00:04:52.258
+then specifies that the action step
+can only be one of three types.
+
+66
+00:04:52.258 --> 00:04:55.631
+The first is the search action,
+which looks for
+
+67
+00:04:55.631 --> 00:04:59.433
+Wikipedia entries related
+to the specified entity.
+
+68
+00:04:59.433 --> 00:05:01.523
+The second is the lookup action,
+
+69
+00:05:01.523 --> 00:05:06.166
+which retrieves the next sentence
+that contains the specified keyword.
+
+70
+00:05:06.166 --> 00:05:11.960
+The last action is finish, which returns
+the answer and brings the task to an end.
+
+71
+00:05:11.960 --> 00:05:16.809
+It is critical to define a set of
+allowed actions when using LLMs to plan
+
+72
+00:05:16.809 --> 00:05:19.449
+tasks that will power applications.
+
+73
+00:05:19.449 --> 00:05:24.081
+LLMs are very creative, and
+they may propose taking steps that don't
+
+74
+00:05:24.081 --> 00:05:28.335
+actually correspond to something
+that the application can do.
+
+75
+00:05:28.335 --> 00:05:33.043
+The final sentence in the instructions
+lets the LLM know that some
+
+76
+00:05:33.043 --> 00:05:36.222
+examples will come next
+in the prompt text.
+
+77
+00:05:36.222 --> 00:05:39.897
+Okay, so let's put all the pieces
+together, for inference.
+
+78
+00:05:39.897 --> 00:05:43.470
+You'll start with
+the ReAct example prompt.
+
+79
+00:05:43.470 --> 00:05:48.131
+Note that depending on the LLM you're
+working with, you may find that you
+
+80
+00:05:48.131 --> 00:05:52.582
+need to include more than one example and
+carry out future inference.
+
+81
+00:05:52.582 --> 00:05:57.862
+Next, you'll pre-pend the instructions
+at the beginning of the example and
+
+82
+00:05:57.862 --> 00:06:01.547
+then insert the question you
+want to answer at the end.
+
+83
+00:06:01.547 --> 00:06:05.651
+The full prompt now includes all
+of these individual pieces, and
+
+84
+00:06:05.651 --> 00:06:08.268
+it can be passed to the LLM for inference.
+
+85
+00:06:08.268 --> 00:06:11.228
+The ReAct framework shows
+one way to use LLMs
+
+86
+00:06:11.228 --> 00:06:15.630
+to power an application through
+reasoning and action planning.
+
+87
+00:06:15.630 --> 00:06:20.201
+This strategy can be extended for your
+specific use case by creating examples
+
+88
+00:06:20.201 --> 00:06:22.312
+that work through the decisions and
+
+89
+00:06:22.312 --> 00:06:25.354
+actions that will take
+place in your application.
+
+90
+00:06:25.354 --> 00:06:26.936
+Thankfully, frameworks for
+
+91
+00:06:26.936 --> 00:06:31.313
+developing applications powered by
+language models are in active development.
+
+92
+00:06:31.313 --> 00:06:35.480
+One solution that is being widely
+adopted is called LangChain,
+
+93
+00:06:35.480 --> 00:06:40.111
+the LangChain framework provides you
+with modular pieces that contain
+
+94
+00:06:40.111 --> 00:06:43.058
+the components necessary
+to work with LLMs.
+
+95
+00:06:43.058 --> 00:06:48.052
+These components include prompt templates
+for many different use cases that
+
+96
+00:06:48.052 --> 00:06:52.291
+you can use to format both input
+examples and model completions.
+
+97
+00:06:52.291 --> 00:06:57.665
+And memory that you can use to
+store interactions with an LLM.
+
+98
+00:06:57.665 --> 00:07:02.946
+The framework also includes pre-built
+tools that enable you to carry out
+
+99
+00:07:02.946 --> 00:07:08.835
+a wide variety of tasks, including calls
+to external datasets and various APIs.
+
+100
+00:07:08.835 --> 00:07:14.590
+Connecting a selection of these individual
+components together results in a chain.
+
+101
+00:07:14.590 --> 00:07:19.142
+The creators of LangChain have developed
+a set of predefined chains that
+
+102
+00:07:19.142 --> 00:07:22.052
+have been optimized for
+different use cases,
+
+103
+00:07:22.052 --> 00:07:26.624
+and you can use these off the shelf to
+quickly get your app up and running.
+
+104
+00:07:26.624 --> 00:07:31.003
+Sometimes your application workflow
+could take multiple paths depending
+
+105
+00:07:31.003 --> 00:07:33.304
+on the information the user provides.
+
+106
+00:07:33.304 --> 00:07:37.019
+In this case,
+you can't use a pre-determined chain, but
+
+107
+00:07:37.019 --> 00:07:41.404
+instead we'll need the flexibility
+to decide which actions to take as
+
+108
+00:07:41.404 --> 00:07:43.802
+the user moves through the workflow.
+
+109
+00:07:43.802 --> 00:07:48.002
+LangChain defines another construct,
+known as an agent,
+
+110
+00:07:48.002 --> 00:07:51.866
+that you can use to interpret
+the input from the user and
+
+111
+00:07:51.866 --> 00:07:55.990
+determine which tool or
+tools to use to complete the task.
+
+112
+00:07:55.990 --> 00:08:00.880
+LangChain currently includes agents for
+both PAL and ReAct, among others.
+
+113
+00:08:00.880 --> 00:08:05.640
+Agents can be incorporated into
+chains to take an action or plan and
+
+114
+00:08:05.640 --> 00:08:07.770
+execute a series of actions.
+
+115
+00:08:07.770 --> 00:08:10.282
+LangChain is in active development, and
+
+116
+00:08:10.282 --> 00:08:14.731
+new features are being added all the time,
+like the ability to examine and
+
+117
+00:08:14.731 --> 00:08:18.411
+evaluate the LLM's completions
+throughout the workflow.
+
+118
+00:08:18.411 --> 00:08:22.450
+It's an exciting framework that can
+help you with fast prototyping and
+
+119
+00:08:22.450 --> 00:08:23.460
+deployment, and
+
+120
+00:08:23.460 --> 00:08:28.118
+is likely to become an important tool in
+your generative AI toolbox in the future.
+
+121
+00:08:28.118 --> 00:08:33.681
+The last thing to keep in mind as you
+develop applications using LLMs is that
+
+122
+00:08:33.681 --> 00:08:39.439
+the ability of the model to reason well
+and plan actions depends on its scale.
+
+123
+00:08:39.439 --> 00:08:42.788
+Larger models are generally
+your best choice for
+
+124
+00:08:42.788 --> 00:08:47.043
+techniques that use advanced prompting,
+like PAL or ReAct.
+
+125
+00:08:47.043 --> 00:08:52.395
+Smaller models may struggle to understand
+the tasks in highly structured prompts and
+
+126
+00:08:52.395 --> 00:08:57.076
+may require you to perform additional
+fine tuning to improve their ability
+
+127
+00:08:57.076 --> 00:08:58.352
+to reason and plan.
+
+128
+00:08:58.352 --> 00:09:01.977
+This could slow down
+your development process.
+
+129
+00:09:01.977 --> 00:09:05.133
+Instead, if you start with a large,
+capable model and
+
+130
+00:09:05.133 --> 00:09:09.523
+collect lots of user data in deployment,
+you may be able to use it to train and
+
+131
+00:09:09.523 --> 00:09:13.180
+fine tune a smaller model that you
+can switch to at a later time.

@@ -1,0 +1,31 @@
+Along with responsible AI,
+researchers are looking into techniques to align models with human values and
+preferences, increase model interpretability, and
+implement efficient model governance. As model capabilities increase, we'll also
+need more scalable techniques for human oversight, such as constitutional AI,
+which I discussed in a previous lesson. Researchers continue to explore scaling
+laws for all steps of the project lifecycle, including techniques that
+better predict model performance so that you can make sure resources
+are used efficiently, for example, through simulations. And scale doesn't always mean bigger,
+research teams are working on model optimizations for
+small device and edge deployments. For example, llama.cpp is a C++
+implementation of the LLaMA model using four bit integer
+quantization to run on a laptop. Similarly, I'm confident that
+we'll see advancements and efficiencies across the whole
+model development lifecycle. Especially, more efficient techniques for
+pre-training, finetuning, and reinforcement learning. We'll see increased and
+emergent LLM capabilities. For example, researchers are looking
+into developing models that support longer prompts and contexts. For example, to summarize entire books. In fact, during the development of
+this course, we've seen the first announcement of a model supporting
+100,000 token context window. This corresponds roughly to 75,000
+words and hundreds of pages. Models will also increasingly support
+multi-modality across language, images, video, audio, etc. This will unlock new applications and
+use cases and change how we interact with models. We've seen the first amazing results
+of this with the latest generation of text to image models, where natural language becomes the user
+interface to create visual content. Researchers are also trying to
+learn more about LLM reasoning and are exploring LLMs that combine structured
+knowledge and symbolic methods. This research field of neurosymbolic
+AI explores the model's abilities to learn from experience and the ability
+to reason from what has been learned. Thanks so much for taking this course. We hope you enjoyed the lessons and can't wait to see what you
+build with this knowledge. To conclude,
+let's ask our AI what the future holds.

@@ -1,0 +1,713 @@
+WEBVTT
+
+1
+00:00:00.130 --> 00:00:04.546
+Although all the training, tuning and
+aligning techniques you've explored can
+
+2
+00:00:04.546 --> 00:00:07.305
+help you build a great model for
+your application.
+
+3
+00:00:07.305 --> 00:00:11.874
+There are some broader challenges with
+large language models that can't be solved
+
+4
+00:00:11.874 --> 00:00:13.570
+by training alone.
+
+5
+00:00:13.570 --> 00:00:16.702
+Let's take a look at a few examples.
+
+6
+00:00:16.702 --> 00:00:21.295
+One issue is that the internal
+knowledge held by a model cuts off at
+
+7
+00:00:21.295 --> 00:00:23.890
+the moment of pretraining.
+
+8
+00:00:23.890 --> 00:00:28.670
+For example, if you ask a model
+that was trained in early 2022 who
+
+9
+00:00:28.670 --> 00:00:33.796
+the British Prime Minister is,
+it will probably tell you Boris Johnson.
+
+10
+00:00:33.796 --> 00:00:35.804
+This knowledge is out of date.
+
+11
+00:00:35.804 --> 00:00:40.781
+The model does not know that Johnson
+left office in late 2022 because that
+
+12
+00:00:40.781 --> 00:00:43.166
+event happened after its training.
+
+13
+00:00:43.166 --> 00:00:46.342
+Models can also struggle
+with complex math.
+
+14
+00:00:46.342 --> 00:00:51.296
+If you prompt a model to behave like
+a calculator, it may get the answer wrong,
+
+15
+00:00:51.296 --> 00:00:54.161
+depending on the difficulty
+of the problem.
+
+16
+00:00:54.161 --> 00:00:58.212
+Here, you ask the model to
+carry out a division problem.
+
+17
+00:00:58.212 --> 00:01:03.341
+The model returns a number close to
+the correct answer, but it's incorrect.
+
+18
+00:01:03.341 --> 00:01:07.830
+Note the LLMs do not carry
+out mathematical operations.
+
+19
+00:01:07.830 --> 00:01:12.829
+They are still just trying to predict the
+next best token based on their training,
+
+20
+00:01:12.829 --> 00:01:15.884
+and as a result,
+can easily get the answer wrong.
+
+21
+00:01:15.884 --> 00:01:20.236
+Lastly, one of the best known
+problems of LLMs is their tendency
+
+22
+00:01:20.236 --> 00:01:25.370
+to generate text even when they
+don't know the answer to a problem.
+
+23
+00:01:25.370 --> 00:01:30.773
+This is often called hallucination,
+and here you can see the model clearly
+
+24
+00:01:30.773 --> 00:01:36.017
+making up a description of a nonexistent
+plant, the Martian Dunetree.
+
+25
+00:01:36.017 --> 00:01:39.769
+Although there is still no
+definitive evidence of life on Mars,
+
+26
+00:01:39.769 --> 00:01:43.090
+the model will happily tell you otherwise.
+
+27
+00:01:43.090 --> 00:01:48.282
+In this section, you'll learn about some
+techniques that you can use to help your
+
+28
+00:01:48.282 --> 00:01:53.715
+LLM overcome these issues by connecting to
+external data sources and applications.
+
+29
+00:01:53.715 --> 00:01:58.182
+You'll have a bit more work to do to be
+able to connect your LLM to these external
+
+30
+00:01:58.182 --> 00:02:04.070
+components and fully integrate everything
+for deployment within your application.
+
+31
+00:02:04.070 --> 00:02:08.079
+Your application must manage
+the passing of user input to
+
+32
+00:02:08.079 --> 00:02:12.097
+the large language model and
+the return of completions.
+
+33
+00:02:12.097 --> 00:02:16.810
+This is often done through some
+type of orchestration library.
+
+34
+00:02:16.810 --> 00:02:21.254
+This layer can enable some powerful
+technologies that augment and
+
+35
+00:02:21.254 --> 00:02:24.438
+enhance the performance
+of the LLM at runtime.
+
+36
+00:02:24.438 --> 00:02:27.630
+By providing access to
+external data sources or
+
+37
+00:02:27.630 --> 00:02:31.730
+connecting to existing APIs
+of other applications.
+
+38
+00:02:31.730 --> 00:02:34.303
+One implementation example is Langchain,
+
+39
+00:02:34.303 --> 00:02:37.440
+which you'll learn more
+about later in this lesson.
+
+40
+00:02:37.440 --> 00:02:42.910
+Let's start by considering how to
+connect LLMs to external data sources.
+
+41
+00:02:43.910 --> 00:02:48.508
+Retrieval Augmented Generation, or
+RAG for short, is a framework for
+
+42
+00:02:48.508 --> 00:02:53.040
+building LLM powered systems that
+make use of external data sources.
+
+43
+00:02:53.040 --> 00:02:58.066
+And applications to overcome some
+of the limitations of these models.
+
+44
+00:02:58.066 --> 00:03:01.847
+RAG is a great way to overcome
+the knowledge cutoff issue and
+
+45
+00:03:01.847 --> 00:03:05.333
+help the model update its
+understanding of the world.
+
+46
+00:03:05.333 --> 00:03:08.303
+While you could retrain
+the model on new data,
+
+47
+00:03:08.303 --> 00:03:11.133
+this would quickly become very expensive.
+
+48
+00:03:11.133 --> 00:03:15.705
+And require repeated retraining to
+regularly update the model with new
+
+49
+00:03:15.705 --> 00:03:16.551
+knowledge.
+
+50
+00:03:16.551 --> 00:03:21.511
+A more flexible and less expensive way
+to overcome knowledge cutoffs is to
+
+51
+00:03:21.511 --> 00:03:27.170
+give your model access to additional
+external data at inference time.
+
+52
+00:03:27.170 --> 00:03:31.960
+RAG is useful in any case where you want
+the language model to have access to
+
+53
+00:03:31.960 --> 00:03:33.979
+data that it may not have seen.
+
+54
+00:03:33.979 --> 00:03:38.601
+This could be new information documents
+not included in the original training
+
+55
+00:03:38.601 --> 00:03:43.918
+data, or proprietary knowledge stored in
+your organization's private databases.
+
+56
+00:03:43.918 --> 00:03:46.824
+Providing your model with
+external information,
+
+57
+00:03:46.824 --> 00:03:50.549
+can improve both the relevance and
+accuracy of its completions.
+
+58
+00:03:50.549 --> 00:03:54.410
+Let's take a closer
+look at how this works.
+
+59
+00:03:54.410 --> 00:03:59.789
+Retrieval augmented generation isn't
+a specific set of technologies, but rather
+
+60
+00:03:59.789 --> 00:04:04.877
+a framework for providing LLMs access to
+data they did not see during training.
+
+61
+00:04:04.877 --> 00:04:09.229
+A number of different implementations
+exist, and the one you choose will depend
+
+62
+00:04:09.229 --> 00:04:13.730
+on the details of your task and the format
+of the data you have to work with.
+
+63
+00:04:13.730 --> 00:04:17.690
+Here you'll walk through
+the implementation discussed in one of
+
+64
+00:04:17.690 --> 00:04:23.310
+the earliest papers on RAG by researchers
+at Facebook, originally published in 2020.
+
+65
+00:04:23.310 --> 00:04:28.451
+At the heart of this implementation is
+a model component called the Retriever,
+
+66
+00:04:28.451 --> 00:04:32.950
+which consists of a query encoder and
+an external data source.
+
+67
+00:04:32.950 --> 00:04:36.086
+The encoder takes
+the user's input prompt and
+
+68
+00:04:36.086 --> 00:04:40.356
+encodes it into a form that can
+be used to query the data source.
+
+69
+00:04:40.356 --> 00:04:44.313
+In the Facebook paper,
+the external data is a vector store,
+
+70
+00:04:44.313 --> 00:04:47.348
+which we'll discuss in
+more detail shortly.
+
+71
+00:04:47.348 --> 00:04:53.386
+But it could instead be a SQL database,
+CSV files, or other data storage format.
+
+72
+00:04:53.386 --> 00:04:57.568
+These two components are trained
+together to find documents within
+
+73
+00:04:57.568 --> 00:05:01.466
+the external data that are most
+relevant to the input query.
+
+74
+00:05:01.466 --> 00:05:06.302
+The Retriever returns the best single or
+group of documents from the data
+
+75
+00:05:06.302 --> 00:05:11.067
+source and combines the new information
+with the original user query.
+
+76
+00:05:11.067 --> 00:05:15.095
+The new expanded prompt is then
+passed to the language model,
+
+77
+00:05:15.095 --> 00:05:18.820
+which generates a completion
+that makes use of the data.
+
+78
+00:05:19.990 --> 00:05:23.471
+Let's take a look at
+a more specific example.
+
+79
+00:05:23.471 --> 00:05:27.434
+Imagine you are a lawyer using
+a large language model to help you in
+
+80
+00:05:27.434 --> 00:05:29.484
+the discovery phase of a case.
+
+81
+00:05:29.484 --> 00:05:34.356
+A Rag architecture can help you ask
+questions of a corpus of documents, for
+
+82
+00:05:34.356 --> 00:05:36.768
+example, previous court filings.
+
+83
+00:05:36.768 --> 00:05:41.580
+Here you ask the model about the plaintiff
+named in a specific case number.
+
+84
+00:05:42.590 --> 00:05:45.242
+The prompt is passed to the query encoder,
+
+85
+00:05:45.242 --> 00:05:49.528
+which encodes the data in the same
+format as the external documents.
+
+86
+00:05:49.528 --> 00:05:54.690
+And then searches for a relevant
+entry in the corpus of documents.
+
+87
+00:05:54.690 --> 00:05:59.509
+Having found a piece of text that
+contains the requested information,
+
+88
+00:05:59.509 --> 00:06:04.098
+the Retriever then combines the new
+text with the original prompt.
+
+89
+00:06:04.098 --> 00:06:08.882
+The expanded prompt that now contains
+information about the specific
+
+90
+00:06:08.882 --> 00:06:12.390
+case of interest is
+then passed to the LLM.
+
+91
+00:06:12.390 --> 00:06:16.540
+The model uses the information in
+the context of the prompt to generate
+
+92
+00:06:16.540 --> 00:06:19.437
+a completion that contains
+the correct answer.
+
+93
+00:06:19.437 --> 00:06:22.126
+The use case you have seen
+here is quite simple and
+
+94
+00:06:22.126 --> 00:06:26.620
+only returns a single piece of information
+that could be found by other means.
+
+95
+00:06:26.620 --> 00:06:31.241
+But imagine the power of Rag to be able
+to generate summaries of filings or
+
+96
+00:06:31.241 --> 00:06:33.743
+identify specific people, places and
+
+97
+00:06:33.743 --> 00:06:37.787
+organizations within the full
+corpus of the legal documents.
+
+98
+00:06:37.787 --> 00:06:42.599
+Allowing the model to access information
+contained in this external data
+
+99
+00:06:42.599 --> 00:06:46.720
+set greatly increases its utility for
+this specific use case.
+
+100
+00:06:47.730 --> 00:06:51.930
+In addition to overcoming knowledge
+cutoffs, rag also helps you avoid
+
+101
+00:06:51.930 --> 00:06:56.270
+the problem of the model hallucinating
+when it doesn't know the answer.
+
+102
+00:06:56.270 --> 00:07:01.175
+RAG architectures can be used to integrate
+multiple types of external information
+
+103
+00:07:01.175 --> 00:07:02.310
+sources.
+
+104
+00:07:02.310 --> 00:07:07.657
+You can augment large language models
+with access to local documents,
+
+105
+00:07:07.657 --> 00:07:11.142
+including private wikis and
+expert systems.
+
+106
+00:07:11.142 --> 00:07:16.122
+Rag can also enable access to the Internet
+to extract information posted on web
+
+107
+00:07:16.122 --> 00:07:19.230
+pages, for example, Wikipedia.
+
+108
+00:07:19.230 --> 00:07:23.064
+By encoding the user input
+prompt as a SQL query,
+
+109
+00:07:23.064 --> 00:07:26.159
+RAG can also interact with databases.
+
+110
+00:07:26.159 --> 00:07:29.923
+Another important data storage
+strategy is a Vector Store,
+
+111
+00:07:29.923 --> 00:07:33.650
+which contains vector
+representations of text.
+
+112
+00:07:33.650 --> 00:07:38.489
+This is a particularly useful data format
+for language models, since internally
+
+113
+00:07:38.489 --> 00:07:42.640
+they work with vector representations
+of language to generate text.
+
+114
+00:07:42.640 --> 00:07:44.650
+Vector stores enable a fast and
+
+115
+00:07:44.650 --> 00:07:48.950
+efficient kind of relevant
+search based on similarity.
+
+116
+00:07:48.950 --> 00:07:53.359
+Note that implementing RAG is a little
+more complicated than simply adding text
+
+117
+00:07:53.359 --> 00:07:55.151
+into the large language model.
+
+118
+00:07:55.151 --> 00:07:58.697
+There are a couple of key
+considerations to be aware of,
+
+119
+00:07:58.697 --> 00:08:01.810
+starting with the size
+of the context window.
+
+120
+00:08:01.810 --> 00:08:07.309
+Most text sources are too long to fit into
+the limited context window of the model,
+
+121
+00:08:07.309 --> 00:08:10.668
+which is still at most just
+a few thousand tokens.
+
+122
+00:08:10.668 --> 00:08:15.543
+Instead, the external data sources
+are chopped up into many chunks,
+
+123
+00:08:15.543 --> 00:08:18.822
+each of which will fit
+in the context window.
+
+124
+00:08:18.822 --> 00:08:22.581
+Packages like Langchain can
+handle this work for you.
+
+125
+00:08:22.581 --> 00:08:26.402
+Second, the data must be available
+in a format that allows for
+
+126
+00:08:26.402 --> 00:08:29.252
+easy retrieval of the most relevant text.
+
+127
+00:08:29.252 --> 00:08:33.817
+Recall that large language models
+don't work directly with text, but
+
+128
+00:08:33.817 --> 00:08:38.774
+instead create vector representations
+of each token in an embedding space.
+
+129
+00:08:38.774 --> 00:08:43.742
+These embedding vectors allow the LLM
+to identify semantically related words
+
+130
+00:08:43.742 --> 00:08:46.677
+through measures such
+as cosine similarity,
+
+131
+00:08:46.677 --> 00:08:49.690
+which you learned about earlier.
+
+132
+00:08:49.690 --> 00:08:54.523
+Rag methods take the small chunks of
+external data and process them through
+
+133
+00:08:54.523 --> 00:08:58.830
+the large language model,
+to create embedding vectors for each.
+
+134
+00:08:58.830 --> 00:09:03.324
+These new representations of the data
+can be stored in structures called
+
+135
+00:09:03.324 --> 00:09:07.228
+vector stores, which allow for
+fast searching of datasets and
+
+136
+00:09:07.228 --> 00:09:11.108
+efficient identification of
+semantically related text.
+
+137
+00:09:11.108 --> 00:09:15.791
+Vector databases are a particular
+implementation of a vector store
+
+138
+00:09:15.791 --> 00:09:19.001
+where each vector is
+also identified by a key.
+
+139
+00:09:19.001 --> 00:09:23.038
+This can allow, for instance,
+the text generated by RAG to
+
+140
+00:09:23.038 --> 00:09:27.914
+also include a citation for
+the document from which it was received.
+
+141
+00:09:27.914 --> 00:09:32.776
+So you've seen how access to external data
+sources can help a model overcome limits
+
+142
+00:09:32.776 --> 00:09:34.447
+to its internal knowledge.
+
+143
+00:09:34.447 --> 00:09:39.147
+By providing up to date relevant
+information and avoiding hallucinations,
+
+144
+00:09:39.147 --> 00:09:44.570
+you can greatly improve the experience of
+using your application for your users.
+
+145
+00:09:44.570 --> 00:09:49.781
+Next, we'll explore a technique that can
+improve a model's ability to reason and
+
+146
+00:09:49.781 --> 00:09:54.186
+make plans important steps when using
+an LLM to power an application.
+
+147
+00:09:54.186 --> 00:09:56.886
+Join me in the next video to learn more.

@@ -1,0 +1,247 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.785
+It's important to note that
+
+2
+00:00:01.785 --> 00:00:04.215
+generative algorithms
+are not new.
+
+3
+00:00:04.215 --> 00:00:07.395
+Previous generations of
+language models made use of
+
+4
+00:00:07.395 --> 00:00:11.355
+an architecture called recurrent
+neural networks or RNNs.
+
+5
+00:00:11.355 --> 00:00:14.070
+RNNs while powerful
+for their time,
+
+6
+00:00:14.070 --> 00:00:16.260
+were limited by the
+amount of compute and
+
+7
+00:00:16.260 --> 00:00:19.440
+memory needed to perform
+well at generative tasks.
+
+8
+00:00:19.440 --> 00:00:22.410
+Let's look at an example
+of an RNN carrying out
+
+9
+00:00:22.410 --> 00:00:26.355
+a simple next-word
+prediction generative task.
+
+10
+00:00:26.355 --> 00:00:30.000
+With just one previous
+words seen by the model,
+
+11
+00:00:30.000 --> 00:00:32.415
+the prediction
+can't be very good.
+
+12
+00:00:32.415 --> 00:00:35.610
+As you scale the RNN
+implementation to be able
+
+13
+00:00:35.610 --> 00:00:39.260
+to see more of the preceding
+words in the text,
+
+14
+00:00:39.260 --> 00:00:40.820
+you have to significantly
+
+15
+00:00:40.820 --> 00:00:43.165
+scale the resources
+that the model uses.
+
+16
+00:00:43.165 --> 00:00:44.670
+As for the prediction,
+
+17
+00:00:44.670 --> 00:00:47.035
+well, the model failed here.
+
+18
+00:00:47.035 --> 00:00:49.045
+Even though you scale the model,
+
+19
+00:00:49.045 --> 00:00:51.130
+it still hasn't seen enough of
+
+20
+00:00:51.130 --> 00:00:54.060
+the input to make
+a good prediction.
+
+21
+00:00:54.060 --> 00:00:56.480
+To successfully
+predict the next word,
+
+22
+00:00:56.480 --> 00:01:00.970
+models need to see more than
+just the previous few words.
+
+23
+00:01:00.970 --> 00:01:03.670
+Models needs to have
+an understanding of
+
+24
+00:01:03.670 --> 00:01:07.845
+the whole sentence or
+even the whole document.
+
+25
+00:01:07.845 --> 00:01:11.900
+The problem here is that
+language is complex.
+
+26
+00:01:11.900 --> 00:01:16.030
+In many languages, one word
+can have multiple meanings.
+
+27
+00:01:16.030 --> 00:01:17.815
+These are homonyms.
+
+28
+00:01:17.815 --> 00:01:21.160
+In this case, it's only
+with the context of
+
+29
+00:01:21.160 --> 00:01:25.105
+the sentence that we can see
+what kind of bank is meant.
+
+30
+00:01:25.105 --> 00:01:27.850
+Words within a sentence
+structures can be
+
+31
+00:01:27.850 --> 00:01:32.205
+ambiguous or have what we might
+call syntactic ambiguity.
+
+32
+00:01:32.205 --> 00:01:34.850
+Take for example this sentence,
+
+33
+00:01:34.850 --> 00:01:38.435
+"The teacher taught the
+students with the book."
+
+34
+00:01:38.435 --> 00:01:40.430
+Did the teacher teach using
+
+35
+00:01:40.430 --> 00:01:43.000
+the book or did the
+student have the book,
+
+36
+00:01:43.000 --> 00:01:44.335
+or was it both?
+
+37
+00:01:44.335 --> 00:01:46.270
+How can an algorithm
+make sense of
+
+38
+00:01:46.270 --> 00:01:49.380
+human language if
+sometimes we can't?
+
+39
+00:01:49.380 --> 00:01:53.125
+Well in 2017, after the
+publication of this paper,
+
+40
+00:01:53.125 --> 00:01:55.060
+Attention is All You Need,
+
+41
+00:01:55.060 --> 00:01:57.970
+from Google and the
+University of Toronto,
+
+42
+00:01:57.970 --> 00:01:59.620
+everything changed.
+
+43
+00:01:59.620 --> 00:02:02.880
+The transformer
+architecture had arrived.
+
+44
+00:02:02.880 --> 00:02:05.500
+This novel approach unlocked
+
+45
+00:02:05.500 --> 00:02:08.730
+the progress in generative
+AI that we see today.
+
+46
+00:02:08.730 --> 00:02:12.475
+It can be scaled efficiently
+to use multi-core GPUs,
+
+47
+00:02:12.475 --> 00:02:14.965
+it can parallel
+process input data,
+
+48
+00:02:14.965 --> 00:02:17.080
+making use of much larger
+
+49
+00:02:17.080 --> 00:02:19.785
+training datasets,
+and crucially,
+
+50
+00:02:19.785 --> 00:02:22.705
+it's able to learn
+to pay attention
+
+51
+00:02:22.705 --> 00:02:26.125
+to the meaning of the
+words it's processing.
+
+52
+00:02:26.125 --> 00:02:30.170
+And attention is all you
+need. It's in the title.

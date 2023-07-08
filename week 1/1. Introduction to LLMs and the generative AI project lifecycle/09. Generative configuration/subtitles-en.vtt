@@ -1,0 +1,838 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.060
+In this video, you'll
+examine some of
+
+2
+00:00:03.060 --> 00:00:04.080
+the methods and
+
+3
+00:00:04.080 --> 00:00:06.840
+associated configuration
+parameters that you
+
+4
+00:00:06.840 --> 00:00:09.720
+can use to influence the
+way that the model makes
+
+5
+00:00:09.720 --> 00:00:13.575
+the final decision about
+next-word generation.
+
+6
+00:00:13.575 --> 00:00:16.440
+If you've used LLMs in
+playgrounds such as
+
+7
+00:00:16.440 --> 00:00:19.215
+on the Hugging Face
+website or an AWS,
+
+8
+00:00:19.215 --> 00:00:21.915
+you might have been
+presented with controls like
+
+9
+00:00:21.915 --> 00:00:25.200
+these to adjust how
+the LLM behaves.
+
+10
+00:00:25.200 --> 00:00:27.270
+Each model exposes a set of
+
+11
+00:00:27.270 --> 00:00:29.205
+configuration
+parameters that can
+
+12
+00:00:29.205 --> 00:00:32.325
+influence the model's
+output during inference.
+
+13
+00:00:32.325 --> 00:00:34.200
+Note that these
+are different than
+
+14
+00:00:34.200 --> 00:00:36.150
+the training
+parameters which are
+
+15
+00:00:36.150 --> 00:00:38.575
+learned during training time.
+
+16
+00:00:38.575 --> 00:00:41.355
+Instead, these
+configuration parameters
+
+17
+00:00:41.355 --> 00:00:43.715
+are invoked at inference time
+
+18
+00:00:43.715 --> 00:00:45.830
+and give you control
+over things like
+
+19
+00:00:45.830 --> 00:00:48.965
+the maximum number of
+tokens in the completion,
+
+20
+00:00:48.965 --> 00:00:51.620
+and how creative the output is.
+
+21
+00:00:51.620 --> 00:00:53.510
+Max new tokens is
+
+22
+00:00:53.510 --> 00:00:55.720
+probably the simplest
+of these parameters,
+
+23
+00:00:55.720 --> 00:00:57.200
+and you can use it to limit
+
+24
+00:00:57.200 --> 00:00:59.975
+the number of tokens that
+the model will generate.
+
+25
+00:00:59.975 --> 00:01:02.840
+You can think of this as
+putting a cap on the number of
+
+26
+00:01:02.840 --> 00:01:06.185
+times the model will go
+through the selection process.
+
+27
+00:01:06.185 --> 00:01:10.070
+Here you can see examples
+of max new tokens being set
+
+28
+00:01:10.070 --> 00:01:14.630
+to 100, 150, or 200.
+
+29
+00:01:14.630 --> 00:01:17.225
+But note how the length
+of the completion
+
+30
+00:01:17.225 --> 00:01:19.850
+in the example for
+200 is shorter.
+
+31
+00:01:19.850 --> 00:01:22.910
+This is because another
+stop condition was reached,
+
+32
+00:01:22.910 --> 00:01:26.840
+such as the model predicting
+and end of sequence token.
+
+33
+00:01:26.840 --> 00:01:29.240
+Remember it's max new tokens,
+
+34
+00:01:29.240 --> 00:01:32.615
+not a hard number of
+new tokens generated.
+
+35
+00:01:32.615 --> 00:01:35.975
+The output from the
+transformer's softmax layer is
+
+36
+00:01:35.975 --> 00:01:38.120
+a probability
+distribution across
+
+37
+00:01:38.120 --> 00:01:41.890
+the entire dictionary of
+words that the model uses.
+
+38
+00:01:41.890 --> 00:01:44.090
+Here you can see a selection of
+
+39
+00:01:44.090 --> 00:01:47.000
+words and their probability
+score next to them.
+
+40
+00:01:47.000 --> 00:01:49.370
+Although we are only
+showing four words here,
+
+41
+00:01:49.370 --> 00:01:51.050
+imagine that this is a list that
+
+42
+00:01:51.050 --> 00:01:53.755
+carries on to the
+complete dictionary.
+
+43
+00:01:53.755 --> 00:01:57.260
+Most large language
+models by default
+
+44
+00:01:57.260 --> 00:02:00.685
+will operate with
+so-called greedy decoding.
+
+45
+00:02:00.685 --> 00:02:04.190
+This is the simplest form
+of next-word prediction,
+
+46
+00:02:04.190 --> 00:02:06.110
+where the model
+will always choose
+
+47
+00:02:06.110 --> 00:02:08.885
+the word with the
+highest probability.
+
+48
+00:02:08.885 --> 00:02:10.910
+This method can work very well
+
+49
+00:02:10.910 --> 00:02:13.130
+for short generation but is
+
+50
+00:02:13.130 --> 00:02:15.335
+susceptible to repeated words
+
+51
+00:02:15.335 --> 00:02:17.435
+or repeated sequences of words.
+
+52
+00:02:17.435 --> 00:02:20.375
+If you want to generate
+text that's more natural,
+
+53
+00:02:20.375 --> 00:02:23.510
+more creative and
+avoids repeating words,
+
+54
+00:02:23.510 --> 00:02:25.985
+you need to use some
+other controls.
+
+55
+00:02:25.985 --> 00:02:28.550
+Random sampling is
+the easiest way
+
+56
+00:02:28.550 --> 00:02:30.475
+to introduce some variability.
+
+57
+00:02:30.475 --> 00:02:32.765
+Instead of selecting
+the most probable word
+
+58
+00:02:32.765 --> 00:02:35.315
+every time with random sampling,
+
+59
+00:02:35.315 --> 00:02:38.420
+the model chooses an output
+word at random using
+
+60
+00:02:38.420 --> 00:02:41.615
+the probability distribution
+to weight the selection.
+
+61
+00:02:41.615 --> 00:02:43.745
+For example, in
+the illustration,
+
+62
+00:02:43.745 --> 00:02:48.845
+the word banana has a
+probability score of 0.02.
+
+63
+00:02:48.845 --> 00:02:51.605
+With random sampling,
+this equates to
+
+64
+00:02:51.605 --> 00:02:54.800
+a 2% chance that this
+word will be selected.
+
+65
+00:02:54.800 --> 00:02:56.795
+By using this
+sampling technique,
+
+66
+00:02:56.795 --> 00:03:00.295
+we reduce the likelihood
+that words will be repeated.
+
+67
+00:03:00.295 --> 00:03:02.345
+However, depending
+on the setting,
+
+68
+00:03:02.345 --> 00:03:03.860
+there is a possibility that
+
+69
+00:03:03.860 --> 00:03:06.200
+the output may be too creative,
+
+70
+00:03:06.200 --> 00:03:09.500
+producing words that cause
+the generation to wander
+
+71
+00:03:09.500 --> 00:03:13.330
+off into topics or words
+that just don't make sense.
+
+72
+00:03:13.330 --> 00:03:15.605
+Note that in some
+implementations,
+
+73
+00:03:15.605 --> 00:03:17.270
+you may need to disable
+
+74
+00:03:17.270 --> 00:03:21.455
+greedy and enable random
+sampling explicitly.
+
+75
+00:03:21.455 --> 00:03:22.940
+For example, the Hugging Face
+
+76
+00:03:22.940 --> 00:03:25.220
+transformers implementation
+that we use in
+
+77
+00:03:25.220 --> 00:03:30.245
+the lab requires that we set
+do sample to equal true.
+
+78
+00:03:30.245 --> 00:03:35.285
+Let's explore top k and top p
+sampling techniques to help
+
+79
+00:03:35.285 --> 00:03:37.370
+limit the random sampling and
+
+80
+00:03:37.370 --> 00:03:40.585
+increase the chance that the
+output will be sensible.
+
+81
+00:03:40.585 --> 00:03:42.920
+Two Settings, top p and
+
+82
+00:03:42.920 --> 00:03:46.280
+top k are sampling techniques
+that we can use to
+
+83
+00:03:46.280 --> 00:03:48.980
+help limit the
+random sampling and
+
+84
+00:03:48.980 --> 00:03:52.225
+increase the chance that the
+output will be sensible.
+
+85
+00:03:52.225 --> 00:03:54.110
+To limit the options while still
+
+86
+00:03:54.110 --> 00:03:55.895
+allowing some variability,
+
+87
+00:03:55.895 --> 00:03:58.730
+you can specify a top k value
+
+88
+00:03:58.730 --> 00:04:00.050
+which instructs the model to
+
+89
+00:04:00.050 --> 00:04:02.795
+choose from only the k tokens
+
+90
+00:04:02.795 --> 00:04:05.185
+with the highest probability.
+
+91
+00:04:05.185 --> 00:04:06.950
+In this example here,
+
+92
+00:04:06.950 --> 00:04:08.945
+k is set to three,
+
+93
+00:04:08.945 --> 00:04:10.700
+so you're restricting
+the model to choose
+
+94
+00:04:10.700 --> 00:04:12.925
+from these three options.
+
+95
+00:04:12.925 --> 00:04:16.090
+The model then selects
+from these options using
+
+96
+00:04:16.090 --> 00:04:18.895
+the probability weighting
+and in this case,
+
+97
+00:04:18.895 --> 00:04:21.605
+it chooses donut
+as the next word.
+
+98
+00:04:21.605 --> 00:04:25.180
+This method can help the model
+have some randomness while
+
+99
+00:04:25.180 --> 00:04:26.620
+preventing the selection of
+
+100
+00:04:26.620 --> 00:04:29.170
+highly improbable
+completion words.
+
+101
+00:04:29.170 --> 00:04:32.140
+This in turn makes
+your text generation
+
+102
+00:04:32.140 --> 00:04:35.920
+more likely to sound
+reasonable and to make sense.
+
+103
+00:04:35.920 --> 00:04:38.860
+Alternatively, you
+can use the top p
+
+104
+00:04:38.860 --> 00:04:41.560
+setting to limit the
+random sampling to
+
+105
+00:04:41.560 --> 00:04:44.635
+the predictions whose
+combined probabilities
+
+106
+00:04:44.635 --> 00:04:47.575
+do not exceed p. For example,
+
+107
+00:04:47.575 --> 00:04:50.680
+if you set p to equal 0.3,
+
+108
+00:04:50.680 --> 00:04:55.010
+the options are cake and donut
+since their probabilities
+
+109
+00:04:55.010 --> 00:05:00.035
+of 0.2 and 0.1 add up to 0.3.
+
+110
+00:05:00.035 --> 00:05:01.715
+The model then uses the
+
+111
+00:05:01.715 --> 00:05:03.785
+random probability
+weighting method
+
+112
+00:05:03.785 --> 00:05:06.095
+to choose from these tokens.
+
+113
+00:05:06.095 --> 00:05:08.600
+With top k, you specify
+
+114
+00:05:08.600 --> 00:05:11.330
+the number of tokens to
+randomly choose from,
+
+115
+00:05:11.330 --> 00:05:12.725
+and with top p,
+
+116
+00:05:12.725 --> 00:05:15.125
+you specify the
+total probability
+
+117
+00:05:15.125 --> 00:05:16.990
+that you want the
+model to choose from.
+
+118
+00:05:16.990 --> 00:05:19.250
+One more parameter that
+you can use to control
+
+119
+00:05:19.250 --> 00:05:21.100
+the randomness of
+the model output
+
+120
+00:05:21.100 --> 00:05:22.600
+is known as temperature.
+
+121
+00:05:22.600 --> 00:05:25.340
+This parameter
+influences the shape of
+
+122
+00:05:25.340 --> 00:05:27.110
+the probability
+distribution that
+
+123
+00:05:27.110 --> 00:05:29.705
+the model calculates
+for the next token.
+
+124
+00:05:29.705 --> 00:05:32.615
+Broadly speaking, the
+higher the temperature,
+
+125
+00:05:32.615 --> 00:05:34.475
+the higher the randomness,
+
+126
+00:05:34.475 --> 00:05:36.155
+and the lower the temperature,
+
+127
+00:05:36.155 --> 00:05:37.990
+the lower the randomness.
+
+128
+00:05:37.990 --> 00:05:39.530
+The temperature value is
+
+129
+00:05:39.530 --> 00:05:41.690
+a scaling factor
+that's applied within
+
+130
+00:05:41.690 --> 00:05:44.435
+the final softmax layer
+of the model that
+
+131
+00:05:44.435 --> 00:05:45.590
+impacts the shape of
+
+132
+00:05:45.590 --> 00:05:48.485
+the probability distribution
+of the next token.
+
+133
+00:05:48.485 --> 00:05:52.580
+In contrast to the top
+k and top p parameters,
+
+134
+00:05:52.580 --> 00:05:54.770
+changing the
+temperature actually
+
+135
+00:05:54.770 --> 00:05:57.685
+alters the predictions
+that the model will make.
+
+136
+00:05:57.685 --> 00:06:00.305
+If you choose a low
+value of temperature,
+
+137
+00:06:00.305 --> 00:06:01.805
+say less than one,
+
+138
+00:06:01.805 --> 00:06:04.100
+the resulting probability
+distribution from
+
+139
+00:06:04.100 --> 00:06:06.530
+the softmax layer
+is more strongly
+
+140
+00:06:06.530 --> 00:06:08.720
+peaked with the
+probability being
+
+141
+00:06:08.720 --> 00:06:12.245
+concentrated in a
+smaller number of words.
+
+142
+00:06:12.245 --> 00:06:16.595
+You can see this here in the
+blue bars beside the table,
+
+143
+00:06:16.595 --> 00:06:20.675
+which show a probability bar
+chart turned on its side.
+
+144
+00:06:20.675 --> 00:06:22.610
+Most of the probability here is
+
+145
+00:06:22.610 --> 00:06:24.980
+concentrated on the word cake.
+
+146
+00:06:24.980 --> 00:06:27.710
+The model will select
+from this distribution
+
+147
+00:06:27.710 --> 00:06:31.070
+using random sampling and
+the resulting text will be
+
+148
+00:06:31.070 --> 00:06:34.100
+less random and will
+more closely follow
+
+149
+00:06:34.100 --> 00:06:36.380
+the most likely word sequences
+
+150
+00:06:36.380 --> 00:06:38.570
+that the model learned
+during training.
+
+151
+00:06:38.570 --> 00:06:42.470
+If instead you set the
+temperature to a higher value,
+
+152
+00:06:42.470 --> 00:06:44.165
+say, greater than one,
+
+153
+00:06:44.165 --> 00:06:45.785
+then the model will calculate
+
+154
+00:06:45.785 --> 00:06:49.280
+a broader flatter
+probability distribution
+
+155
+00:06:49.280 --> 00:06:50.870
+for the next token.
+
+156
+00:06:50.870 --> 00:06:53.960
+Notice that in contrast
+to the blue bars,
+
+157
+00:06:53.960 --> 00:06:58.190
+the probability is more evenly
+spread across the tokens.
+
+158
+00:06:58.190 --> 00:07:00.755
+This leads the model
+to generate text
+
+159
+00:07:00.755 --> 00:07:03.335
+with a higher degree
+of randomness
+
+160
+00:07:03.335 --> 00:07:05.450
+and more variability in
+
+161
+00:07:05.450 --> 00:07:08.785
+the output compared to a
+cool temperature setting.
+
+162
+00:07:08.785 --> 00:07:10.370
+This can help you generate
+
+163
+00:07:10.370 --> 00:07:12.635
+text that sounds more creative.
+
+164
+00:07:12.635 --> 00:07:15.725
+If you leave the temperature
+value equal to one,
+
+165
+00:07:15.725 --> 00:07:18.200
+this will leave the
+softmax function as
+
+166
+00:07:18.200 --> 00:07:20.120
+default and the unaltered
+
+167
+00:07:20.120 --> 00:07:22.420
+probability distribution
+will be used.
+
+168
+00:07:22.420 --> 00:07:24.870
+You've covered a lot
+of ground so far.
+
+169
+00:07:24.870 --> 00:07:27.890
+You've examined the types
+of tasks that LLMs are
+
+170
+00:07:27.890 --> 00:07:30.965
+capable of performing and
+learned about transformers,
+
+171
+00:07:30.965 --> 00:07:34.405
+the model architecture that
+powers these amazing tools.
+
+172
+00:07:34.405 --> 00:07:36.500
+You've also explored how to get
+
+173
+00:07:36.500 --> 00:07:39.995
+the best possible performance
+out of these models using
+
+174
+00:07:39.995 --> 00:07:42.740
+prompt engineering and
+by experimenting with
+
+175
+00:07:42.740 --> 00:07:45.790
+different inference
+configuration parameters.
+
+176
+00:07:45.790 --> 00:07:48.560
+In the next video,
+you'll start building on
+
+177
+00:07:48.560 --> 00:07:51.200
+this foundational knowledge
+by thinking through
+
+178
+00:07:51.200 --> 00:07:53.900
+the steps required
+to develop and
+
+179
+00:07:53.900 --> 00:07:57.960
+launch an LLM
+-powered application.

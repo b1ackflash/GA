@@ -1,0 +1,86 @@
+Now that you've explored
+the fundamentals of building applications
+using LLMs, I want to show you
+an AWS service called Amazon
+Sagemaker JumpStart, that can help you
+get into production quickly and operate at scale. Here's the application
+stack that you explored in the previous video. As you saw, building an LLM-powered application
+requires multiple components. Sagemaker JumpStart
+is a model hub, and it allows you
+to quickly deploy foundation models that are
+available within the service, and integrate them into
+your own applications. The JumpStart service
+also provides an easy way to fine-tune
+and deploy models. JumpStart covers many parts of this diagram, including
+the infrastructure, the LLM itself, the tools and frameworks, and even an API to
+invoke the model. In contrast to the models that you worked
+with in the labs, JumpStart models require GPUs
+to fine tune and deploy. And keep in mind, these GPUs are subject to on-demand
+pricing and you should refer to the
+Sagemaker pricing page before selecting the
+compute you want to use. Also, please be sure to delete the Sagemaker model
+endpoints when not in use and follow cost monitoring best practices to optimize cost. Let me show you a quick tour of JumpStart and how to access
+it from your own AWS account. Sagemaker JumpStart is
+accessible from the AWS console, or through Sagemaker studio. For this brief tour, I'll start in studio then choose JumpStart from the main screen. I could optionally choose JumpStart from the
+left-hand menu, and select models, notebooks, and solutions as well. After I click on "JumpStart", you'll see different
+categories that include end-to-end solutions across
+different use cases, as well as a number of foundation models for
+different modalities that you can easily deploy, as well as fine-tune, where yes is indicated under
+the fine-tuning option. Let's look at an
+example you're all familiar with after working
+through the course, which is the Flan-T5 model. You've specifically been
+using the base variant in the course to minimize the resources needed by
+the lab environments. However, as you can see here, you can also utilize
+other variants of Flan-T5 through JumpStart
+depending on your needs. You'll also notice the
+Hugging Face logo here, which means they're
+actually coming directly from Hugging Face. And AWS has worked with Hugging Face to the point
+where you can easily, with just a few clicks, deploy, or fine-tune the model. If I select Flan-T5 Base, you'll see I have a few options. First, I can choose to deploy
+the model by identifying a few key parameters like
+the instance type and size. And this is the
+instance type and size that should be used
+to host the model. And as a reminder, this deploys to a real-time
+persistent endpoint, and the price depends on the hosting instance
+that you select here. And some of these
+can be quite large, so always remember to delete any endpoints that
+are not in use to avoid incurring
+any unnecessary cost. You'll also notice
+you can specify a number of security settings allowing you to implement
+the controls that are acquired for your own
+security requirements. You can then choose
+to hit "Deploy", and this will
+automatically deploy that Flan-T5 Base model to the endpoint using the
+infrastructure that you specify. In the second tab, you'll notice the
+option to train. Because this model
+supports fine-tuning, you can also set up your
+fine-tuning jobs by specifying the location of your training
+and validation data sets, then selecting the size of the compute that you want
+to use for training. And it's just an easy adjustment to the size that compute
+through this drop-down, you can easily
+choose what type of compute you'd want to use
+for your training job. And keep in mind again, you're charged for the
+underlying compute for the time it takes
+to train the model. So we recommend choosing the smallest instance that's required for your specific task. Another feature is the ability to quickly identify and modify the tunable hyperparameters for this specific model
+through these drop-downs. If we go ahead and scroll
+down to the bottom, you'll see a parameter
+type called PEFT, parameter-efficient
+fine-tuning which you learned about in Lesson 6. Here you can select Laura, which you learned about in Lesson 4 through just
+a simple dropdown, making it easier to implement these various techniques
+that you learned. You can then go ahead
+and hit "Train". And that'll kick off a training job to
+fine-tune this pre-trained Flan-T5 model using the input provided for your specific task. Finally, here is another
+option which is to have JumpStart automatically
+generate a notebook for you. Let's say you don't like
+using the drop-down, and preferred to programmatically
+work with these models. This notebook basically
+provides you all the code behind what is happening in the options that we
+previously covered. This is an option if
+you prefer to work with JumpStart at the lowest
+level programmatically. That was just a quick tour
+of JumpStart to illustrate an implementation of a model hub that you learned
+about in the course. In addition to acting as a model hub that includes
+foundation models, JumpStart also provides a lot of resources in terms of blogs, videos, and example
+notebooks as well. I definitely encourage
+you to check it out more by exploring the
+different foundation models, and their variants
+that are available to help you get started quickly.

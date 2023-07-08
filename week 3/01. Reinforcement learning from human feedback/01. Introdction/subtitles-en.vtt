@@ -1,0 +1,358 @@
+WEBVTT
+
+1
+00:00:00.250 --> 00:00:01.181
+Welcome back.
+
+2
+00:00:01.181 --> 00:00:03.959
+Last week you learned about
+instruction tuning for
+
+3
+00:00:03.959 --> 00:00:06.099
+large language models as well as peft.
+
+4
+00:00:06.099 --> 00:00:07.836
+This week we'll dive into RLHF,
+
+5
+00:00:07.836 --> 00:00:10.328
+reinforcement learning
+from human feedback.
+
+6
+00:00:10.328 --> 00:00:14.033
+One of those techniques that you may
+have heard about in the news, maybe, but
+
+7
+00:00:14.033 --> 00:00:15.347
+how does it actually work?
+
+8
+00:00:15.347 --> 00:00:19.642
+We'll take a deep dive into that
+as well as the second, I think,
+
+9
+00:00:19.642 --> 00:00:23.781
+very exciting topic on how to use
+LLMs as a reasoning engine and
+
+10
+00:00:23.781 --> 00:00:27.222
+let it cause our own of
+routines to create an agent.
+
+11
+00:00:27.222 --> 00:00:28.716
+They can take actions.
+
+12
+00:00:28.716 --> 00:00:31.533
+>> So RLHF is really exciting.
+
+13
+00:00:31.533 --> 00:00:34.604
+It helps to align the model
+with human values.
+
+14
+00:00:34.604 --> 00:00:39.068
+So, for example,
+LLMs might have a challenge in that it's
+
+15
+00:00:39.068 --> 00:00:44.084
+creating sometimes harmful content or
+like a toxic tone or voice.
+
+16
+00:00:44.084 --> 00:00:46.938
+And by aligning the model
+with human feedback and
+
+17
+00:00:46.938 --> 00:00:49.800
+using reinforcement
+learning as an algorithm.
+
+18
+00:00:49.800 --> 00:00:54.649
+You can help to align the model to
+reduce that and to align towards,
+
+19
+00:00:54.649 --> 00:00:59.076
+less harmful content and
+much more helpful content as well.
+
+20
+00:00:59.076 --> 00:01:02.894
+>> Sometimes people feel like
+LLMs train on this horrible,
+
+21
+00:01:02.894 --> 00:01:06.163
+some horrible internet data feel so
+dangerous.
+
+22
+00:01:06.163 --> 00:01:10.033
+I think many people under
+appreciate how powerful RLHF is.
+
+23
+00:01:10.033 --> 00:01:11.162
+It's certainly imperfect.
+
+24
+00:01:11.162 --> 00:01:12.975
+LLMs do generate problematic outputs.
+
+25
+00:01:12.975 --> 00:01:15.919
+But it feels like with
+the progress of technology,
+
+26
+00:01:15.919 --> 00:01:20.315
+researchers are consistently making
+them more, I guess, the HS, right?
+
+27
+00:01:20.315 --> 00:01:21.714
+Honest, hopeful and harmless.
+
+28
+00:01:21.714 --> 00:01:23.366
+>> Yes, absolutely.
+
+29
+00:01:23.366 --> 00:01:25.834
+And I'm going to be joined this week,
+by the way,
+
+30
+00:01:25.834 --> 00:01:29.538
+by an applied scientist from Amazon
+who will explain a little bit behind
+
+31
+00:01:29.538 --> 00:01:33.322
+the algorithms being used in
+reinforcement learning for this purpose.
+
+32
+00:01:33.322 --> 00:01:34.608
+So I'm looking forward to that.
+
+33
+00:01:34.608 --> 00:01:35.762
+This is Ek, right?
+
+34
+00:01:35.762 --> 00:01:38.946
+Who's going to join us?
+
+35
+00:01:38.946 --> 00:01:40.874
+Definitely, we also invited Dr.
+
+36
+00:01:40.874 --> 00:01:44.934
+Nashley Sepus, who's going to talk
+with us about responsible AI as well.
+
+37
+00:01:44.934 --> 00:01:46.046
+>> That's right.
+
+38
+00:01:46.046 --> 00:01:49.299
+Nashley is going to join us,
+and I will have a discussion
+
+39
+00:01:49.299 --> 00:01:54.091
+with her around the topic of responsible
+AI, which is very important as well.
+
+40
+00:01:54.091 --> 00:01:58.152
+>> And I'm really glad that you
+were spending so much time on this.
+
+41
+00:01:58.152 --> 00:02:01.753
+AI risk is something that a lot of
+people are rightfully thinking about.
+
+42
+00:02:01.753 --> 00:02:06.077
+And I think the seriousness with which
+Sophie, all major AI teams that I know of
+
+43
+00:02:06.077 --> 00:02:10.746
+are taking this and the resources effort
+deaf of thought, we're far from perfect.
+
+44
+00:02:10.746 --> 00:02:15.019
+But Sophie feels like the community is
+working very hard to get better at this
+
+45
+00:02:15.019 --> 00:02:15.769
+every year.
+
+46
+00:02:15.769 --> 00:02:22.038
+And then in addition to responsible AI and
+tuning the models using RLHF,
+
+47
+00:02:22.038 --> 00:02:28.942
+the other technique that I'm excited
+about is using OMS as a reasoning engine.
+
+48
+00:02:28.942 --> 00:02:32.636
+And giving them the power to make their
+own subroutine calls to maybe do a web
+
+49
+00:02:32.636 --> 00:02:34.171
+search or take other actions.
+
+50
+00:02:34.171 --> 00:02:37.570
+>> Definitely and
+we'll get into that inside this lesson.
+
+51
+00:02:37.570 --> 00:02:41.965
+And we'll talk about some techniques
+that allow you to get around some of
+
+52
+00:02:41.965 --> 00:02:46.434
+the limitations that we see with large
+language models by allowing them to
+
+53
+00:02:46.434 --> 00:02:49.626
+reason take action through
+techniques like react.
+
+54
+00:02:49.626 --> 00:02:54.311
+We'll also talk about Rag, which allows
+you to also access external sources
+
+55
+00:02:54.311 --> 00:02:58.216
+of information so you can access
+domain specific information.
+
+56
+00:02:58.216 --> 00:03:02.252
+We see a lot of customers that want
+to be able to incorporate information
+
+57
+00:03:02.252 --> 00:03:06.234
+from proprietary data sources into
+their generative applications.
+
+58
+00:03:06.234 --> 00:03:08.866
+So we talk a little bit about
+some of those techniques and
+
+59
+00:03:08.866 --> 00:03:10.495
+methods that allow you to do that.
+
+60
+00:03:10.495 --> 00:03:13.934
+>> One thing about the giant large
+language models is they're so
+
+61
+00:03:13.934 --> 00:03:15.462
+good at memorizing facts.
+
+62
+00:03:15.462 --> 00:03:17.107
+You're learning facts off the Internet.
+
+63
+00:03:17.107 --> 00:03:20.559
+Sometimes people use them as a repository
+of facts to get answers to their
+
+64
+00:03:20.559 --> 00:03:21.188
+questions.
+
+65
+00:03:21.188 --> 00:03:24.415
+But I think there's a different and
+maybe I think,
+
+66
+00:03:24.415 --> 00:03:29.218
+more helpful way to think of the OMS,
+which is if it's a reasoning engine and
+
+67
+00:03:29.218 --> 00:03:33.065
+you give it APIs to go get its
+own facts because it's an okay.
+
+68
+00:03:33.065 --> 00:03:37.408
+But not the best database of facts,
+but it's a very good reasoning engine.
+
+69
+00:03:37.408 --> 00:03:40.459
+And that, I think,
+is a real power of these models.
+
+70
+00:03:40.459 --> 00:03:43.418
+>> Definitely a lot more cost effective,
+right.
+
+71
+00:03:43.418 --> 00:03:47.927
+Use the database for that information,
+and then your generative AI for that,
+
+72
+00:03:47.927 --> 00:03:49.238
+what it's meant for.
+
+73
+00:03:49.238 --> 00:03:50.543
+>> That's actually a great point.
+
+74
+00:03:50.543 --> 00:03:54.259
+>> [LAUGH]
+>> And so with that, this final week
+
+75
+00:03:54.259 --> 00:03:59.163
+has so much exciting stuff,
+I am confident you'll enjoy it.
+
+76
+00:03:59.163 --> 00:04:05.170
+And so let's go on to the next video where
+Antir will start to deep dive into RLHF.

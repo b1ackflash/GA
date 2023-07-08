@@ -1,0 +1,515 @@
+WEBVTT
+
+1
+00:00:00.410 --> 00:00:04.906
+Last week, you were introduced to
+the generative AI project lifecycle.
+
+2
+00:00:04.906 --> 00:00:08.842
+You explored example use cases for
+large language models and
+
+3
+00:00:08.842 --> 00:00:13.156
+discussed the kinds of tasks that
+were capable of carrying out.
+
+4
+00:00:13.156 --> 00:00:17.387
+In this lesson, you'll learn about
+methods that you can use to improve
+
+5
+00:00:17.387 --> 00:00:21.650
+the performance of an existing model for
+your specific use case.
+
+6
+00:00:21.650 --> 00:00:26.547
+You'll also learn about important
+metrics that can be used to evaluate
+
+7
+00:00:26.547 --> 00:00:29.405
+the performance of your finetuned LLM and
+
+8
+00:00:29.405 --> 00:00:33.980
+quantify its improvement over
+the base model you started with.
+
+9
+00:00:33.980 --> 00:00:39.734
+Let's start by discussing how to fine
+tune an LLM with instruction prompts.
+
+10
+00:00:39.734 --> 00:00:43.761
+Earlier in the course,
+you saw that some models are capable of
+
+11
+00:00:43.761 --> 00:00:47.169
+identifying instructions
+contained in a prompt and
+
+12
+00:00:47.169 --> 00:00:51.197
+correctly carrying out zero
+shot inference, while others,
+
+13
+00:00:51.197 --> 00:00:56.804
+such as smaller LLMs, may fail to carry
+out the task, like the example shown here.
+
+14
+00:00:56.804 --> 00:01:02.436
+You also saw that including one or more
+examples of what you want the model to do,
+
+15
+00:01:02.436 --> 00:01:05.295
+known as one shot or few shot inference,
+
+16
+00:01:05.295 --> 00:01:11.214
+can be enough to help the model identify
+the task and generate a good completion.
+
+17
+00:01:11.214 --> 00:01:14.670
+However, this strategy has
+a couple of drawbacks.
+
+18
+00:01:14.670 --> 00:01:18.585
+First, for smaller models,
+it doesn't always work,
+
+19
+00:01:18.585 --> 00:01:21.906
+even when five or
+six examples are included.
+
+20
+00:01:21.906 --> 00:01:26.365
+Second, any examples you include in
+your prompt take up valuable space
+
+21
+00:01:26.365 --> 00:01:27.851
+in the context window,
+
+22
+00:01:27.851 --> 00:01:32.752
+reducing the amount of room you have
+to include other useful information.
+
+23
+00:01:32.752 --> 00:01:37.210
+Luckily, another solution exists,
+you can take advantage of
+
+24
+00:01:37.210 --> 00:01:42.290
+a process known as fine-tuning
+to further train a base model.
+
+25
+00:01:42.290 --> 00:01:46.889
+In contrast to pre-training,
+where you train the LLM using vast
+
+26
+00:01:46.889 --> 00:01:51.825
+amounts of unstructured textual
+data via selfsupervised learning,
+
+27
+00:01:51.825 --> 00:01:56.508
+fine-tuning is a supervised learning
+process where you use a data
+
+28
+00:01:56.508 --> 00:02:00.686
+set of labeled examples to
+update the weights of the LLM.
+
+29
+00:02:00.686 --> 00:02:04.254
+The labeled examples
+are prompt completion pairs,
+
+30
+00:02:04.254 --> 00:02:09.039
+the fine-tuning process extends
+the training of the model to improve
+
+31
+00:02:09.039 --> 00:02:14.010
+its ability to generate good
+completions for a specific task.
+
+32
+00:02:14.010 --> 00:02:17.408
+One strategy,
+known as instruction fine tuning,
+
+33
+00:02:17.408 --> 00:02:22.950
+is particularly good at improving a
+model's performance on a variety of tasks.
+
+34
+00:02:22.950 --> 00:02:25.873
+Let's take a closer
+look at how this works,
+
+35
+00:02:25.873 --> 00:02:30.142
+instruction fine-tuning trains
+the model using examples that
+
+36
+00:02:30.142 --> 00:02:34.538
+demonstrate how it should respond
+to a specific instruction.
+
+37
+00:02:34.538 --> 00:02:39.170
+Here are a couple of example
+prompts to demonstrate this idea.
+
+38
+00:02:39.170 --> 00:02:44.047
+The instruction in both examples
+is classify this review,
+
+39
+00:02:44.047 --> 00:02:48.922
+and the desired completion is
+a text string that starts with
+
+40
+00:02:48.922 --> 00:02:53.518
+sentiment followed by either positive or
+negative.
+
+41
+00:02:53.518 --> 00:02:58.773
+The data set you use for training includes
+many pairs of prompt completion examples
+
+42
+00:02:58.773 --> 00:03:03.858
+for the task you're interested in,
+each of which includes an instruction.
+
+43
+00:03:03.858 --> 00:03:07.939
+For example, if you want to fine
+tune your model to improve its
+
+44
+00:03:07.939 --> 00:03:12.805
+summarization ability, you'd build
+up a data set of examples that begin
+
+45
+00:03:12.805 --> 00:03:18.190
+with the instruction summarize,
+the following text or a similar phrase.
+
+46
+00:03:18.190 --> 00:03:22.108
+And if you are improving
+the model's translation skills,
+
+47
+00:03:22.108 --> 00:03:27.059
+your examples would include instructions
+like translate this sentence.
+
+48
+00:03:27.059 --> 00:03:31.791
+These prompt completion examples
+allow the model to learn to generate
+
+49
+00:03:31.791 --> 00:03:35.750
+responses that follow
+the given instructions.
+
+50
+00:03:35.750 --> 00:03:37.635
+Instruction fine-tuning,
+
+51
+00:03:37.635 --> 00:03:42.686
+where all of the model's weights
+are updated is known as full fine-tuning.
+
+52
+00:03:42.686 --> 00:03:48.410
+The process results in a new version
+of the model with updated weights.
+
+53
+00:03:48.410 --> 00:03:54.001
+It is important to note that just like
+pre-training, full fine tuning requires
+
+54
+00:03:54.001 --> 00:03:59.095
+enough memory and compute budget to
+store and process all the gradients,
+
+55
+00:03:59.095 --> 00:04:04.464
+optimizers and other components that
+are being updated during training.
+
+56
+00:04:04.464 --> 00:04:07.560
+So you can benefit from
+the memory optimization and
+
+57
+00:04:07.560 --> 00:04:12.210
+parallel computing strategies
+that you learned about last week.
+
+58
+00:04:12.210 --> 00:04:18.370
+So how do you actually go about
+instruction, fine-tuning and LLM?
+
+59
+00:04:18.370 --> 00:04:22.950
+The first step is to
+prepare your training data.
+
+60
+00:04:22.950 --> 00:04:27.093
+There are many publicly available
+datasets that have been used to
+
+61
+00:04:27.093 --> 00:04:30.182
+train earlier generations
+of language models,
+
+62
+00:04:30.182 --> 00:04:34.630
+although most of them are not
+formatted as instructions.
+
+63
+00:04:34.630 --> 00:04:40.206
+Luckily, developers have assembled prompt
+template libraries that can be used
+
+64
+00:04:40.206 --> 00:04:45.618
+to take existing datasets, for example,
+the large data set of Amazon product
+
+65
+00:04:45.618 --> 00:04:50.870
+reviews and turn them into instruction
+prompt datasets for fine-tuning.
+
+66
+00:04:50.870 --> 00:04:55.728
+Prompt template libraries include many
+templates for different tasks and
+
+67
+00:04:55.728 --> 00:04:57.202
+different data sets.
+
+68
+00:04:57.202 --> 00:05:01.929
+Here are three prompts that
+are designed to work with the Amazon
+
+69
+00:05:01.929 --> 00:05:06.299
+reviews dataset and
+that can be used to fine tune models for
+
+70
+00:05:06.299 --> 00:05:11.546
+classification, text generation and
+text summarization tasks.
+
+71
+00:05:11.546 --> 00:05:17.975
+You can see that in each case you pass the
+original review, here called review_body,
+
+72
+00:05:17.975 --> 00:05:23.171
+to the template, where it gets inserted
+into the text that starts with
+
+73
+00:05:23.171 --> 00:05:28.987
+an instruction like predict the associated
+rating, generate a star review,
+
+74
+00:05:28.987 --> 00:05:34.810
+or give a short sentence describing
+the following product review.
+
+75
+00:05:34.810 --> 00:05:39.582
+The result is a prompt that now
+contains both an instruction and
+
+76
+00:05:39.582 --> 00:05:42.080
+the example from the data set.
+
+77
+00:05:42.080 --> 00:05:47.214
+Once you have your instruction data
+set ready, as with standard supervised
+
+78
+00:05:47.214 --> 00:05:52.666
+learning, you divide the data set into
+training validation and test splits.
+
+79
+00:05:52.666 --> 00:05:57.364
+During fine tuning, you select prompts
+from your training data set and
+
+80
+00:05:57.364 --> 00:06:01.370
+pass them to the LLM,
+which then generates completions.
+
+81
+00:06:01.370 --> 00:06:04.189
+Next, you compare the LLM completion with
+
+82
+00:06:04.189 --> 00:06:07.400
+the response specified
+in the training data.
+
+83
+00:06:07.400 --> 00:06:10.841
+You can see here that the model
+didn't do a great job,
+
+84
+00:06:10.841 --> 00:06:15.822
+it classified the review as neutral,
+which is a bit of an understatement.
+
+85
+00:06:15.822 --> 00:06:18.914
+The review is clearly very positive.
+
+86
+00:06:18.914 --> 00:06:24.690
+Remember that the output of an LLM is
+a probability distribution across tokens.
+
+87
+00:06:24.690 --> 00:06:28.534
+So you can compare the distribution
+of the completion and
+
+88
+00:06:28.534 --> 00:06:33.419
+that of the training label and
+use the standard crossentropy function to
+
+89
+00:06:33.419 --> 00:06:37.117
+calculate loss between
+the two token distributions.
+
+90
+00:06:37.117 --> 00:06:40.068
+And then use the calculated loss to update
+
+91
+00:06:40.068 --> 00:06:43.702
+your model weights in
+standard backpropagation.
+
+92
+00:06:43.702 --> 00:06:49.702
+You'll do this for many batches of prompt
+completion pairs and over several epochs,
+
+93
+00:06:49.702 --> 00:06:54.970
+update the weights so that the model's
+performance on the task improves.
+
+94
+00:06:54.970 --> 00:06:59.981
+As in standard supervised learning,
+you can define separate evaluation
+
+95
+00:06:59.981 --> 00:07:05.480
+steps to measure your LLM performance
+using the holdout validation data set.
+
+96
+00:07:05.480 --> 00:07:08.516
+This will give you
+the validation accuracy, and
+
+97
+00:07:08.516 --> 00:07:13.479
+after you've completed your fine tuning,
+you can perform a final performance
+
+98
+00:07:13.479 --> 00:07:16.460
+evaluation using
+the holdout test data set.
+
+99
+00:07:16.460 --> 00:07:19.930
+This will give you the test accuracy.
+
+100
+00:07:19.930 --> 00:07:24.570
+The fine-tuning process results in
+a new version of the base model,
+
+101
+00:07:24.570 --> 00:07:30.019
+often called an instruct model that is
+better at the tasks you are interested in.
+
+102
+00:07:30.019 --> 00:07:32.849
+Fine-tuning with instruction prompts is
+
+103
+00:07:32.849 --> 00:07:36.235
+the most common way to
+fine-tune LLMs these days.
+
+104
+00:07:36.235 --> 00:07:40.556
+From this point on, when you hear or
+see the term fine-tuning,
+
+105
+00:07:40.556 --> 00:07:44.730
+you can assume that it always
+means instruction fine tuning.

@@ -1,0 +1,659 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.040
+Throughout this course, you have
+learned about fundamental concepts and
+
+2
+00:00:05.040 --> 00:00:09.520
+applied techniques across
+the generative AI Project Lifecycle.
+
+3
+00:00:09.520 --> 00:00:13.868
+LLM powered applications
+are still in their infancy, and
+
+4
+00:00:13.868 --> 00:00:17.330
+researchers are announcing
+new techniques or
+
+5
+00:00:17.330 --> 00:00:22.670
+strategies to improve performance and
+reliability almost every day.
+
+6
+00:00:22.670 --> 00:00:28.544
+This course can only include what is known
+or understood at the time of launch,
+
+7
+00:00:28.544 --> 00:00:33.440
+but we are confident this field
+will continue to evolve quickly.
+
+8
+00:00:33.440 --> 00:00:37.212
+Let's highlight a few
+areas of active research.
+
+9
+00:00:37.212 --> 00:00:41.655
+With the growth of AI comes
+the recognition that we must all
+
+10
+00:00:41.655 --> 00:00:43.294
+use it responsibly.
+
+11
+00:00:43.294 --> 00:00:50.224
+I've invited my AWS colleague, Dr. Nashlie
+Sephus, to discuss responsible AI with me,
+
+12
+00:00:50.224 --> 00:00:55.900
+specifically in the context of generative
+AI with large language models.
+
+13
+00:00:55.900 --> 00:01:01.431
+Dr. Nashlie Sephus is a principal
+technology evangelist for
+
+14
+00:01:01.431 --> 00:01:03.034
+Amazon AI at AWS.
+
+15
+00:01:03.034 --> 00:01:08.883
+In this role, she focuses on fairness and
+accuracy, as well as identifying and
+
+16
+00:01:08.883 --> 00:01:13.358
+mitigating potential biases
+in Artificial Intelligence.
+
+17
+00:01:13.358 --> 00:01:19.592
+She formally led the Amazon Visual Search
+team as an applied scientist in Atlanta.
+
+18
+00:01:19.592 --> 00:01:23.342
+Fun fact that team launched
+the Visual Search for
+
+19
+00:01:23.342 --> 00:01:26.822
+placement parts on
+the Amazon shopping app.
+
+20
+00:01:26.822 --> 00:01:31.125
+Nashlie, thanks so much for joining
+me today to discuss responsible AI.
+
+21
+00:01:31.125 --> 00:01:32.890
+>> Thank you so much for having me.
+
+22
+00:01:32.890 --> 00:01:37.606
+>> Given what you see in the field right
+now, what are some of the new risks and
+
+23
+00:01:37.606 --> 00:01:39.662
+challenges of responsible AI,
+
+24
+00:01:39.662 --> 00:01:44.473
+specifically in the context of generative
+AI with large language models?
+
+25
+00:01:44.473 --> 00:01:47.623
+>> That's a great question because
+there are lots of challenges.
+
+26
+00:01:47.623 --> 00:01:49.755
+Let's focus on three.
+
+27
+00:01:49.755 --> 00:01:54.737
+One is toxicity,
+another are the hallucinations, and
+
+28
+00:01:54.737 --> 00:01:58.770
+a third is the intellectual
+property issue.
+
+29
+00:01:58.770 --> 00:02:02.785
+>> All right, let's maybe start with
+the first one you mentioned, toxicity.
+
+30
+00:02:02.785 --> 00:02:06.341
+Can you describe the challenge
+in a little bit more detail?
+
+31
+00:02:06.341 --> 00:02:11.990
+And do you have any advice how
+practitioners, how can I mitigate it?
+
+32
+00:02:11.990 --> 00:02:18.270
+>> Sure, so toxicity at its core,
+meaning toxic, implies certain language or
+
+33
+00:02:18.270 --> 00:02:24.167
+content that can be harmful or
+discriminatory towards certain groups,
+
+34
+00:02:24.167 --> 00:02:29.404
+especially towards marginalized groups or
+protected groups.
+
+35
+00:02:29.404 --> 00:02:33.958
+And so one thing that we can do
+is start with the training data.
+
+36
+00:02:33.958 --> 00:02:36.640
+As you know,
+that is the basis of every AI.
+
+37
+00:02:36.640 --> 00:02:39.305
+So you can start with
+curating the training data.
+
+38
+00:02:39.305 --> 00:02:42.857
+You can also train guardrail
+models to detect and
+
+39
+00:02:42.857 --> 00:02:46.848
+filter out any unwanted
+content in the training data.
+
+40
+00:02:46.848 --> 00:02:50.310
+We also think about how
+much human annotation is
+
+41
+00:02:50.310 --> 00:02:55.252
+involved when it comes to training
+data and training annotations.
+
+42
+00:02:55.252 --> 00:02:59.099
+We want to make sure we provide enough
+guidance to those annotators and
+
+43
+00:02:59.099 --> 00:03:02.882
+also have a very diverse group of
+annotators that we're educating so
+
+44
+00:03:02.882 --> 00:03:07.334
+that they can understand how to pull out
+certain data or how to mark certain data.
+
+45
+00:03:07.334 --> 00:03:12.122
+>> Makes sense and I think this is
+a great point you just made that having
+
+46
+00:03:12.122 --> 00:03:16.408
+diversity among the human
+annotators is really important.
+
+47
+00:03:16.408 --> 00:03:19.771
+Now, what about hallucinations?
+
+48
+00:03:19.771 --> 00:03:23.897
+>> So, Hallucinations, we think about
+things that are simply not true,
+
+49
+00:03:23.897 --> 00:03:27.836
+or maybe something that seems like
+it could be true, but it isn't.
+
+50
+00:03:27.836 --> 00:03:29.522
+It has no basis to it.
+
+51
+00:03:29.522 --> 00:03:34.340
+Well, this is exactly what it means in
+this case with generative AI, due to
+
+52
+00:03:34.340 --> 00:03:39.781
+the nature of how we train large language
+models or just neural networks in general.
+
+53
+00:03:39.781 --> 00:03:43.942
+A lot of times we don't know what
+the model is actually learning and so
+
+54
+00:03:43.942 --> 00:03:48.636
+sometimes what the model will try to do
+is fill gaps where it has missing data.
+
+55
+00:03:48.636 --> 00:03:53.581
+And oftentimes this leads to false
+statements or the hallucinations.
+
+56
+00:03:53.581 --> 00:03:58.135
+And so one thing that we can do, we can
+educate the users that this is the reality
+
+57
+00:03:58.135 --> 00:04:00.690
+of this technology and
+add any disclaimer so
+
+58
+00:04:00.690 --> 00:04:04.779
+they can know that this is something
+you should be able to look out for.
+
+59
+00:04:04.779 --> 00:04:09.147
+Also, you can augment large language
+models with independent and
+
+60
+00:04:09.147 --> 00:04:14.764
+verified sources so you can double check
+against the data that you're getting back.
+
+61
+00:04:14.764 --> 00:04:17.946
+You also want to make sure
+that you develop methods for
+
+62
+00:04:17.946 --> 00:04:22.190
+attributing generated output to
+particular pieces of training data so
+
+63
+00:04:22.190 --> 00:04:25.884
+that we can always trace back
+to where we got the information.
+
+64
+00:04:25.884 --> 00:04:30.874
+And last but not least, we always want to
+make sure we define what the intended use
+
+65
+00:04:30.874 --> 00:04:34.090
+case is for
+versus what the unintended use case is.
+
+66
+00:04:34.090 --> 00:04:38.829
+Because again, due that these
+things can happen hallucinations,
+
+67
+00:04:38.829 --> 00:04:41.819
+we want to make sure that
+the user is aware and
+
+68
+00:04:41.819 --> 00:04:45.078
+transparent about how
+these things operate.
+
+69
+00:04:45.078 --> 00:04:45.944
+>> All right, got it.
+
+70
+00:04:45.944 --> 00:04:50.435
+And I think education is really key here.
+
+71
+00:04:50.435 --> 00:04:54.008
+The third challenge you mentioned
+was intellectual property.
+
+72
+00:04:54.008 --> 00:04:55.862
+What are your thoughts here?
+
+73
+00:04:55.862 --> 00:04:59.950
+>> So this is one that is going to
+definitely have to be addressed
+
+74
+00:04:59.950 --> 00:05:03.959
+because it basically means where
+people are using data that
+
+75
+00:05:03.959 --> 00:05:07.342
+is returned back from these
+models in terms of AI.
+
+76
+00:05:07.342 --> 00:05:11.124
+And it can be plagiarizing
+someone's previous work, or
+
+77
+00:05:11.124 --> 00:05:16.576
+you can have copyright issues for pieces
+of work and content that already exists.
+
+78
+00:05:16.576 --> 00:05:21.060
+And so this is likely to be addressed
+over time by a mixture of not just
+
+79
+00:05:21.060 --> 00:05:26.187
+the technologies, but also with
+policymakers and other legal mechanisms.
+
+80
+00:05:26.187 --> 00:05:28.772
+Also, we want to incorporate a system of
+
+81
+00:05:28.772 --> 00:05:31.965
+governance to make sure
+that every stakeholder is
+
+82
+00:05:31.965 --> 00:05:36.688
+doing what they need to do to prevent
+this from happening in the near term.
+
+83
+00:05:36.688 --> 00:05:42.018
+There's a new concept of machine
+unlearning in which protected content or
+
+84
+00:05:42.018 --> 00:05:46.429
+its effects on generative AI
+outputs are reduced or removed.
+
+85
+00:05:46.429 --> 00:05:51.076
+So this is just one approach that is
+very primitive in research today.
+
+86
+00:05:51.076 --> 00:05:55.948
+We can also do filtering or
+blocking approaches that compare generated
+
+87
+00:05:55.948 --> 00:06:00.252
+content to protected content and
+training data and suppress or
+
+88
+00:06:00.252 --> 00:06:04.732
+replace it if it's too similar
+before presenting it to the user.
+
+89
+00:06:04.732 --> 00:06:05.531
+>> Got it.
+
+90
+00:06:05.531 --> 00:06:09.258
+Now, bringing it all together
+from a project perspective,
+
+91
+00:06:09.258 --> 00:06:11.824
+what advice can you give practitioners?
+
+92
+00:06:11.824 --> 00:06:16.143
+How can I responsibly, build and
+use generative AI models?
+
+93
+00:06:16.143 --> 00:06:17.822
+>> I'm glad you asked.
+
+94
+00:06:17.822 --> 00:06:20.827
+Defining use cases is very important.
+
+95
+00:06:20.827 --> 00:06:24.009
+The more specific,
+the more narrow the better.
+
+96
+00:06:24.009 --> 00:06:28.256
+One example where we actually
+use gentive AI to test and
+
+97
+00:06:28.256 --> 00:06:33.808
+evaluate the robustness of a system
+is when it comes to face ID systems.
+
+98
+00:06:33.808 --> 00:06:38.956
+We actually use journeys of AI to
+create different versions of a face.
+
+99
+00:06:38.956 --> 00:06:44.019
+For example, if I'm trying to test
+a system that uses my face to unlock my
+
+100
+00:06:44.019 --> 00:06:49.331
+phone, I want to make sure I test it
+with different versions of my face, with
+
+101
+00:06:49.331 --> 00:06:55.141
+long hair, with short hair, with glasses
+on, with makeup on, with no makeup on.
+
+102
+00:06:55.141 --> 00:06:58.447
+And we can use gentle
+AI to do this at scale.
+
+103
+00:06:58.447 --> 00:07:02.777
+And so this is an example of how we
+use that to test the robustness.
+
+104
+00:07:02.777 --> 00:07:06.657
+Also, we want to make sure we access
+the risk because each use case has its own
+
+105
+00:07:06.657 --> 00:07:07.406
+set of risks.
+
+106
+00:07:07.406 --> 00:07:09.729
+Some may be better or worse.
+
+107
+00:07:09.729 --> 00:07:16.380
+Also, evaluating the performance is truly
+a function of the data and the system.
+
+108
+00:07:16.380 --> 00:07:21.390
+You may have the same system, but
+when tested with different types of data,
+
+109
+00:07:21.390 --> 00:07:24.850
+may perform very well or
+may perform very terribly.
+
+110
+00:07:24.850 --> 00:07:28.380
+Also, we want to make sure we
+iterate over the AI lifecycle.
+
+111
+00:07:28.380 --> 00:07:30.002
+It's never a one and done.
+
+112
+00:07:30.002 --> 00:07:35.035
+Creating AI is a continuous Iterative
+cycle where we want to implement
+
+113
+00:07:35.035 --> 00:07:40.154
+responsibility at the concept stage
+as well as the deployment stage and
+
+114
+00:07:40.154 --> 00:07:42.899
+monitoring that feedback over time.
+
+115
+00:07:42.899 --> 00:07:47.019
+And last but not least, we want to
+issue governance policies throughout
+
+116
+00:07:47.019 --> 00:07:51.567
+the lifecycle and accountability
+measures for every stakeholder involved.
+
+117
+00:07:51.567 --> 00:07:54.387
+>> This is really helpful Nashlie and
+I also like
+
+118
+00:07:54.387 --> 00:07:59.358
+the point you made about generative AI
+potentially being part of the solution,
+
+119
+00:07:59.358 --> 00:08:01.750
+helping to create more diverse data.
+
+120
+00:08:01.750 --> 00:08:06.847
+Now before we wrap, and I know there's so
+much going on right now in this field,
+
+121
+00:08:06.847 --> 00:08:11.335
+but what are some of the topics that
+the research community is actively
+
+122
+00:08:11.335 --> 00:08:14.250
+working on right now
+that you find exciting?
+
+123
+00:08:14.250 --> 00:08:15.880
+>> I think a few.
+
+124
+00:08:15.880 --> 00:08:21.330
+There are lots, which is why, again,
+this field is unraveling every day.
+
+125
+00:08:21.330 --> 00:08:23.172
+There's water marking and
+
+126
+00:08:23.172 --> 00:08:27.416
+fingerprinting which are ways to
+include almost like a stamp or
+
+127
+00:08:27.416 --> 00:08:32.317
+a signature in a piece of content or
+data so that we can always trace back.
+
+128
+00:08:32.317 --> 00:08:37.355
+I think also creating models that
+help determine if content was
+
+129
+00:08:37.355 --> 00:08:42.117
+created with gentle AI is also
+a budding field of research.
+
+130
+00:08:42.117 --> 00:08:45.455
+And so again, it's a very exciting time.
+
+131
+00:08:45.455 --> 00:08:49.263
+I think the future of AI is accessible,
+it's inclusive, and
+
+132
+00:08:49.263 --> 00:08:52.278
+I'm excited to see
+innovation that's to come.
+
+133
+00:08:52.278 --> 00:08:52.926
+>> Me too.
+
+134
+00:08:52.926 --> 00:08:54.319
+Thanks so much Nashlie.
+
+135
+00:08:54.319 --> 00:08:56.441
+Thanks for sharing your thoughts and
+
+136
+00:08:56.441 --> 00:09:00.007
+practical advice on this
+important topic of responsible AI.
+
+137
+00:09:00.007 --> 00:09:01.220
+>> Thanks again for having me.

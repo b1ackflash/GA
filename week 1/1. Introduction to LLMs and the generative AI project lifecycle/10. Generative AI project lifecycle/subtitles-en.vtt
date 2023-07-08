@@ -1,0 +1,544 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.055
+Throughout the rest
+of this course,
+
+2
+00:00:02.055 --> 00:00:04.410
+you're going to learn the
+techniques required to
+
+3
+00:00:04.410 --> 00:00:07.800
+develop and deploy an
+LLM powered application.
+
+4
+00:00:07.800 --> 00:00:10.065
+In this video,
+you'll walk through
+
+5
+00:00:10.065 --> 00:00:12.510
+a generative AI
+project life cycle
+
+6
+00:00:12.510 --> 00:00:15.255
+that can help guide
+you through this work.
+
+7
+00:00:15.255 --> 00:00:18.750
+This framework maps out
+the tasks required to take
+
+8
+00:00:18.750 --> 00:00:21.990
+your project from
+conception to launch.
+
+9
+00:00:21.990 --> 00:00:23.415
+By the end of this course,
+
+10
+00:00:23.415 --> 00:00:25.590
+you should have some
+good intuition about
+
+11
+00:00:25.590 --> 00:00:28.410
+the important decisions
+that you'll have to make,
+
+12
+00:00:28.410 --> 00:00:31.065
+the potential difficulties
+you'll encounter,
+
+13
+00:00:31.065 --> 00:00:33.420
+and the infrastructure
+that you'll need to
+
+14
+00:00:33.420 --> 00:00:35.775
+develop and deploy
+your application.
+
+15
+00:00:35.775 --> 00:00:38.790
+Here is a diagram of
+the overall life cycle.
+
+16
+00:00:38.790 --> 00:00:41.815
+We're going to talk
+through it stage by stage.
+
+17
+00:00:41.815 --> 00:00:45.260
+The most important step in
+any project is to define
+
+18
+00:00:45.260 --> 00:00:49.405
+the scope as accurately
+and narrowly as you can.
+
+19
+00:00:49.405 --> 00:00:51.755
+As you've seen in
+this course so far,
+
+20
+00:00:51.755 --> 00:00:55.160
+LLMs are capable of
+carrying out many tasks,
+
+21
+00:00:55.160 --> 00:00:57.560
+but their abilities
+depend strongly on
+
+22
+00:00:57.560 --> 00:01:00.230
+the size and architecture
+of the model.
+
+23
+00:01:00.230 --> 00:01:02.720
+You should think about
+what function the LLM
+
+24
+00:01:02.720 --> 00:01:05.570
+will have in your
+specific application.
+
+25
+00:01:05.570 --> 00:01:07.085
+Do you need the
+model to be able to
+
+26
+00:01:07.085 --> 00:01:09.035
+carry out many different tasks,
+
+27
+00:01:09.035 --> 00:01:11.645
+including long-form
+text generation
+
+28
+00:01:11.645 --> 00:01:14.170
+or with a high degree
+of capability,
+
+29
+00:01:14.170 --> 00:01:17.960
+or is the task much more
+specific like named entity
+
+30
+00:01:17.960 --> 00:01:19.700
+recognition so that your model
+
+31
+00:01:19.700 --> 00:01:21.995
+only needs to be
+good at one thing.
+
+32
+00:01:21.995 --> 00:01:24.110
+As you'll see in the
+rest of the course,
+
+33
+00:01:24.110 --> 00:01:26.090
+getting really specific about
+
+34
+00:01:26.090 --> 00:01:28.055
+what you need your model to do
+
+35
+00:01:28.055 --> 00:01:30.200
+can save you time and perhaps
+
+36
+00:01:30.200 --> 00:01:32.585
+more importantly, compute cost.
+
+37
+00:01:32.585 --> 00:01:34.460
+Once you're happy,
+and you've scoped
+
+38
+00:01:34.460 --> 00:01:37.325
+your model requirements
+enough to begin development.
+
+39
+00:01:37.325 --> 00:01:39.275
+Your first decision will be
+
+40
+00:01:39.275 --> 00:01:41.000
+whether to train your own model
+
+41
+00:01:41.000 --> 00:01:45.095
+from scratch or work with
+an existing base model.
+
+42
+00:01:45.095 --> 00:01:48.305
+In general, you'll start
+with an existing model,
+
+43
+00:01:48.305 --> 00:01:50.975
+although there are some
+cases where you may find it
+
+44
+00:01:50.975 --> 00:01:53.570
+necessary to train a
+model from scratch.
+
+45
+00:01:53.570 --> 00:01:55.460
+You'll learn more about
+the considerations
+
+46
+00:01:55.460 --> 00:01:57.725
+behind this decision
+later this week,
+
+47
+00:01:57.725 --> 00:02:00.290
+as well as some rules
+of thumb to help you
+
+48
+00:02:00.290 --> 00:02:03.280
+estimate the feasibility of
+training your own model.
+
+49
+00:02:03.280 --> 00:02:04.695
+With your model in hand,
+
+50
+00:02:04.695 --> 00:02:07.940
+the next step is to assess
+its performance and
+
+51
+00:02:07.940 --> 00:02:09.665
+carry out additional training
+
+52
+00:02:09.665 --> 00:02:11.585
+if needed for your application.
+
+53
+00:02:11.585 --> 00:02:13.460
+As you saw earlier this week,
+
+54
+00:02:13.460 --> 00:02:15.470
+prompt engineering
+can sometimes be
+
+55
+00:02:15.470 --> 00:02:17.630
+enough to get your
+model to perform well,
+
+56
+00:02:17.630 --> 00:02:21.155
+so you'll likely start by
+trying in-context learning,
+
+57
+00:02:21.155 --> 00:02:25.310
+using examples suited to
+your task and use case.
+
+58
+00:02:25.310 --> 00:02:27.095
+There are still cases, however,
+
+59
+00:02:27.095 --> 00:02:29.930
+where the model may not
+perform as well as you need,
+
+60
+00:02:29.930 --> 00:02:33.020
+even with one or a
+few short inference,
+
+61
+00:02:33.020 --> 00:02:34.340
+and in that case,
+
+62
+00:02:34.340 --> 00:02:37.100
+you can try fine-tuning
+your model.
+
+63
+00:02:37.100 --> 00:02:39.470
+This supervised learning process
+
+64
+00:02:39.470 --> 00:02:42.230
+will be covered in
+detail in Week 2,
+
+65
+00:02:42.230 --> 00:02:44.300
+and you'll get a chance to try
+
+66
+00:02:44.300 --> 00:02:48.215
+fine tuning a model
+yourself in the Week 2 lab.
+
+67
+00:02:48.215 --> 00:02:50.315
+As models become more capable,
+
+68
+00:02:50.315 --> 00:02:52.445
+it's becoming
+increasingly important
+
+69
+00:02:52.445 --> 00:02:54.110
+to ensure that they behave
+
+70
+00:02:54.110 --> 00:02:56.195
+well and in a way that is
+
+71
+00:02:56.195 --> 00:02:59.290
+aligned with human
+preferences in deployment.
+
+72
+00:02:59.290 --> 00:03:01.340
+In Week 3, you'll learn about
+
+73
+00:03:01.340 --> 00:03:03.920
+an additional fine-tuning
+technique called
+
+74
+00:03:03.920 --> 00:03:07.190
+reinforcement learning
+with human feedback,
+
+75
+00:03:07.190 --> 00:03:10.685
+which can help to make sure
+that your model behaves well.
+
+76
+00:03:10.685 --> 00:03:12.920
+An important aspect of all of
+
+77
+00:03:12.920 --> 00:03:15.710
+these techniques is evaluation.
+
+78
+00:03:15.710 --> 00:03:17.210
+Next week, you will explore
+
+79
+00:03:17.210 --> 00:03:19.910
+some metrics and benchmarks
+that can be used to
+
+80
+00:03:19.910 --> 00:03:22.715
+determine how well your
+model is performing
+
+81
+00:03:22.715 --> 00:03:26.435
+or how well aligned it
+is to your preferences.
+
+82
+00:03:26.435 --> 00:03:29.960
+Note that this adapt
+and aligned stage
+
+83
+00:03:29.960 --> 00:03:33.395
+of app development can
+be highly iterative.
+
+84
+00:03:33.395 --> 00:03:35.510
+You may start by trying
+
+85
+00:03:35.510 --> 00:03:38.570
+prompt engineering and
+evaluating the outputs,
+
+86
+00:03:38.570 --> 00:03:42.605
+then using fine tuning to
+improve performance and then
+
+87
+00:03:42.605 --> 00:03:45.350
+revisiting and evaluating
+prompt engineering
+
+88
+00:03:45.350 --> 00:03:48.590
+one more time to get the
+performance that you need.
+
+89
+00:03:48.590 --> 00:03:51.230
+Finally, when you've got
+a model that is meeting
+
+90
+00:03:51.230 --> 00:03:53.825
+your performance needs
+and is well aligned,
+
+91
+00:03:53.825 --> 00:03:55.925
+you can deploy it into
+your infrastructure
+
+92
+00:03:55.925 --> 00:03:58.425
+and integrate it with
+your application.
+
+93
+00:03:58.425 --> 00:04:00.910
+At this stage, an
+important step is
+
+94
+00:04:00.910 --> 00:04:03.295
+to optimize your
+model for deployment.
+
+95
+00:04:03.295 --> 00:04:06.010
+This can ensure that you're
+making the best use of
+
+96
+00:04:06.010 --> 00:04:08.140
+your compute resources
+and providing
+
+97
+00:04:08.140 --> 00:04:09.670
+the best possible experience
+
+98
+00:04:09.670 --> 00:04:11.425
+for the users of
+your application.
+
+99
+00:04:11.425 --> 00:04:14.710
+The last but very important
+step is to consider
+
+100
+00:04:14.710 --> 00:04:16.780
+any additional
+infrastructure that
+
+101
+00:04:16.780 --> 00:04:19.495
+your application will
+require to work well.
+
+102
+00:04:19.495 --> 00:04:21.820
+There are some fundamental
+limitations of
+
+103
+00:04:21.820 --> 00:04:24.220
+LLMs that can be
+difficult to overcome
+
+104
+00:04:24.220 --> 00:04:26.650
+through training alone
+like their tendency
+
+105
+00:04:26.650 --> 00:04:29.425
+to invent information when
+they don't know an answer,
+
+106
+00:04:29.425 --> 00:04:31.720
+or their limited
+ability to carry out
+
+107
+00:04:31.720 --> 00:04:34.210
+complex reasoning
+and mathematics.
+
+108
+00:04:34.210 --> 00:04:36.145
+In the last part of this course,
+
+109
+00:04:36.145 --> 00:04:38.470
+you'll learn some powerful
+techniques that you
+
+110
+00:04:38.470 --> 00:04:41.145
+can use to overcome
+these limitations.
+
+111
+00:04:41.145 --> 00:04:43.400
+I know there's a lot
+to think about here,
+
+112
+00:04:43.400 --> 00:04:47.210
+but don't worry about
+taking it all in right now.
+
+113
+00:04:47.210 --> 00:04:50.480
+You'll see this visual
+over and over again during
+
+114
+00:04:50.480 --> 00:04:55.140
+the course as you explore
+the details of each stage

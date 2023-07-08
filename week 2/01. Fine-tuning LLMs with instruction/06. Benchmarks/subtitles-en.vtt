@@ -1,0 +1,504 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.460
+As you saw in the last video,
+
+2
+00:00:02.460 --> 00:00:04.320
+LLMs are complex,
+
+3
+00:00:04.320 --> 00:00:06.150
+and simple evaluation metrics
+
+4
+00:00:06.150 --> 00:00:08.490
+like the rouge and blur scores,
+
+5
+00:00:08.490 --> 00:00:09.900
+can only tell you so
+
+6
+00:00:09.900 --> 00:00:12.705
+much about the capabilities
+of your model.
+
+7
+00:00:12.705 --> 00:00:16.590
+In order to measure and compare
+LLMs more holistically,
+
+8
+00:00:16.590 --> 00:00:19.290
+you can make use of
+pre-existing datasets,
+
+9
+00:00:19.290 --> 00:00:22.440
+and associated benchmarks
+that have been established by
+
+10
+00:00:22.440 --> 00:00:26.220
+LLM researchers specifically
+for this purpose.
+
+11
+00:00:26.220 --> 00:00:29.610
+Selecting the right
+evaluation dataset is vital,
+
+12
+00:00:29.610 --> 00:00:32.865
+so that you can accurately
+assess an LLM's performance,
+
+13
+00:00:32.865 --> 00:00:35.665
+and understand its
+true capabilities.
+
+14
+00:00:35.665 --> 00:00:38.300
+You'll find it useful
+to select datasets
+
+15
+00:00:38.300 --> 00:00:40.670
+that isolate specific
+model skills,
+
+16
+00:00:40.670 --> 00:00:43.310
+like reasoning or
+common sense knowledge,
+
+17
+00:00:43.310 --> 00:00:46.040
+and those that focus
+on potential risks,
+
+18
+00:00:46.040 --> 00:00:49.315
+such as disinformation or
+copyright infringement.
+
+19
+00:00:49.315 --> 00:00:51.320
+An important issue
+that you should
+
+20
+00:00:51.320 --> 00:00:53.000
+consider is whether the model
+
+21
+00:00:53.000 --> 00:00:56.645
+has seen your evaluation
+data during training.
+
+22
+00:00:56.645 --> 00:00:59.300
+You'll get a more
+accurate and useful sense
+
+23
+00:00:59.300 --> 00:01:01.010
+of the model's capabilities by
+
+24
+00:01:01.010 --> 00:01:02.960
+evaluating its performance on
+
+25
+00:01:02.960 --> 00:01:05.600
+data that it hasn't seen before.
+
+26
+00:01:05.600 --> 00:01:09.005
+Benchmarks, such as
+GLUE, SuperGLUE,
+
+27
+00:01:09.005 --> 00:01:12.890
+or Helm, cover a wide range
+of tasks and scenarios.
+
+28
+00:01:12.890 --> 00:01:15.500
+They do this by
+designing or collecting
+
+29
+00:01:15.500 --> 00:01:19.780
+datasets that test specific
+aspects of an LLM.
+
+30
+00:01:19.780 --> 00:01:23.820
+GLUE, or General Language
+Understanding Evaluation,
+
+31
+00:01:23.820 --> 00:01:26.565
+was introduced in 2018.
+
+32
+00:01:26.565 --> 00:01:29.690
+GLUE is a collection of
+natural language tasks,
+
+33
+00:01:29.690 --> 00:01:33.580
+such as sentiment analysis
+and question-answering.
+
+34
+00:01:33.580 --> 00:01:36.530
+GLUE was created to
+encourage the development of
+
+35
+00:01:36.530 --> 00:01:39.965
+models that can generalize
+across multiple tasks,
+
+36
+00:01:39.965 --> 00:01:41.960
+and you can use the benchmark to
+
+37
+00:01:41.960 --> 00:01:44.710
+measure and compare
+the model performance.
+
+38
+00:01:44.710 --> 00:01:46.620
+As a successor to GLUE,
+
+39
+00:01:46.620 --> 00:01:49.570
+SuperGLUE was
+introduced in 2019,
+
+40
+00:01:49.570 --> 00:01:52.630
+to address limitations
+in its predecessor.
+
+41
+00:01:52.630 --> 00:01:55.310
+It consists of a
+series of tasks,
+
+42
+00:01:55.310 --> 00:01:57.830
+some of which are not
+included in GLUE,
+
+43
+00:01:57.830 --> 00:02:00.470
+and some of which are
+more challenging versions
+
+44
+00:02:00.470 --> 00:02:02.125
+of the same tasks.
+
+45
+00:02:02.125 --> 00:02:04.890
+SuperGLUE includes tasks such as
+
+46
+00:02:04.890 --> 00:02:08.905
+multi-sentence reasoning,
+and reading comprehension.
+
+47
+00:02:08.905 --> 00:02:12.620
+Both the GLUE and
+SuperGLUE benchmarks have
+
+48
+00:02:12.620 --> 00:02:14.420
+leaderboards that can be used to
+
+49
+00:02:14.420 --> 00:02:17.270
+compare and contrast
+evaluated models.
+
+50
+00:02:17.270 --> 00:02:18.740
+The results page is
+
+51
+00:02:18.740 --> 00:02:22.795
+another great resource for
+tracking the progress of LLMs.
+
+52
+00:02:22.795 --> 00:02:24.815
+As models get larger,
+
+53
+00:02:24.815 --> 00:02:28.220
+their performance against
+benchmarks such as SuperGLUE
+
+54
+00:02:28.220 --> 00:02:32.000
+start to match human
+ability on specific tasks.
+
+55
+00:02:32.000 --> 00:02:35.165
+That's to say that models
+are able to perform as
+
+56
+00:02:35.165 --> 00:02:38.345
+well as humans on the
+benchmarks tests,
+
+57
+00:02:38.345 --> 00:02:40.910
+but subjectively we can
+see that they're not
+
+58
+00:02:40.910 --> 00:02:44.840
+performing at human level
+at tasks in general.
+
+59
+00:02:44.840 --> 00:02:47.570
+There is essentially
+an arms race between
+
+60
+00:02:47.570 --> 00:02:49.850
+the emergent properties of LLMs,
+
+61
+00:02:49.850 --> 00:02:52.615
+and the benchmarks that
+aim to measure them.
+
+62
+00:02:52.615 --> 00:02:54.050
+Here are a couple of
+
+63
+00:02:54.050 --> 00:02:57.740
+recent benchmarks that
+are pushing LLMs further.
+
+64
+00:02:57.740 --> 00:03:01.145
+Massive Multitask
+Language Understanding,
+
+65
+00:03:01.145 --> 00:03:06.610
+or MMLU, is designed
+specifically for modern LLMs.
+
+66
+00:03:06.610 --> 00:03:09.065
+To perform well
+models must possess
+
+67
+00:03:09.065 --> 00:03:13.675
+extensive world knowledge
+and problem-solving ability.
+
+68
+00:03:13.675 --> 00:03:17.180
+Models are tested on
+elementary mathematics,
+
+69
+00:03:17.180 --> 00:03:19.940
+US history, computer science,
+
+70
+00:03:19.940 --> 00:03:21.830
+law, and more.
+
+71
+00:03:21.830 --> 00:03:24.485
+In other words,
+tasks that extend
+
+72
+00:03:24.485 --> 00:03:28.315
+way beyond basic
+language understanding.
+
+73
+00:03:28.315 --> 00:03:33.340
+BIG-bench currently
+consists of 204 tasks,
+
+74
+00:03:33.340 --> 00:03:37.325
+ranging through linguistics,
+childhood development,
+
+75
+00:03:37.325 --> 00:03:41.570
+math, common sense
+reasoning, biology,
+
+76
+00:03:41.570 --> 00:03:46.765
+physics, social bias, software
+development and more.
+
+77
+00:03:46.765 --> 00:03:49.515
+BIG-bench comes in
+three different sizes,
+
+78
+00:03:49.515 --> 00:03:51.320
+and part of the
+reason for this is to
+
+79
+00:03:51.320 --> 00:03:53.270
+keep costs achievable,
+
+80
+00:03:53.270 --> 00:03:55.760
+as running these
+large benchmarks can
+
+81
+00:03:55.760 --> 00:03:58.495
+incur large inference costs.
+
+82
+00:03:58.495 --> 00:04:01.355
+A final benchmark you
+should know about is
+
+83
+00:04:01.355 --> 00:04:06.310
+the Holistic Evaluation of
+Language Models, or HELM.
+
+84
+00:04:06.310 --> 00:04:08.480
+The HELM framework aims to
+
+85
+00:04:08.480 --> 00:04:10.700
+improve the
+transparency of models,
+
+86
+00:04:10.700 --> 00:04:12.890
+and to offer guidance
+on which models
+
+87
+00:04:12.890 --> 00:04:15.400
+perform well for specific tasks.
+
+88
+00:04:15.400 --> 00:04:18.130
+HELM takes a
+multimetric approach,
+
+89
+00:04:18.130 --> 00:04:22.250
+measuring seven metrics
+across 16 core scenarios,
+
+90
+00:04:22.250 --> 00:04:24.290
+ensuring that trade-offs between
+
+91
+00:04:24.290 --> 00:04:27.050
+models and metrics
+are clearly exposed.
+
+92
+00:04:27.050 --> 00:04:30.065
+One important feature of
+HELM is that it assesses
+
+93
+00:04:30.065 --> 00:04:33.110
+on metrics beyond basic
+accuracy measures,
+
+94
+00:04:33.110 --> 00:04:35.710
+like precision of the F1 score.
+
+95
+00:04:35.710 --> 00:04:38.120
+The benchmark also
+includes metrics
+
+96
+00:04:38.120 --> 00:04:40.565
+for fairness, bias,
+and toxicity,
+
+97
+00:04:40.565 --> 00:04:43.595
+which are becoming increasingly
+important to assess as
+
+98
+00:04:43.595 --> 00:04:45.590
+LLMs become more capable of
+
+99
+00:04:45.590 --> 00:04:47.795
+human-like language generation,
+
+100
+00:04:47.795 --> 00:04:52.310
+and in turn of exhibiting
+potentially harmful behavior.
+
+101
+00:04:52.310 --> 00:04:54.680
+HELM is a living benchmark
+
+102
+00:04:54.680 --> 00:04:56.660
+that aims to continuously evolve
+
+103
+00:04:56.660 --> 00:05:01.025
+with the addition of new
+scenarios, metrics, and models.
+
+104
+00:05:01.025 --> 00:05:03.410
+You can take a look at
+the results page to
+
+105
+00:05:03.410 --> 00:05:05.915
+browse the LLMs that
+have been evaluated,
+
+106
+00:05:05.915 --> 00:05:07.460
+and review scores that are
+
+107
+00:05:07.460 --> 00:05:10.470
+pertinent to your
+project's needs.

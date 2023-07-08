@@ -1,0 +1,308 @@
+WEBVTT
+
+1
+00:00:02.120 --> 00:00:05.490
+Welcome back. Let's come back to
+
+2
+00:00:05.490 --> 00:00:08.505
+the Generative AI
+project life cycle.
+
+3
+00:00:08.505 --> 00:00:10.560
+Last week, you looked
+
+4
+00:00:10.560 --> 00:00:13.515
+closely at a technique
+called fine-tuning.
+
+5
+00:00:13.515 --> 00:00:15.270
+The goal of fine-tuning with
+
+6
+00:00:15.270 --> 00:00:18.165
+instructions, including
+path methods,
+
+7
+00:00:18.165 --> 00:00:19.590
+is to further train
+
+8
+00:00:19.590 --> 00:00:22.125
+your models so that
+they better understand
+
+9
+00:00:22.125 --> 00:00:23.940
+human like prompts and
+
+10
+00:00:23.940 --> 00:00:26.625
+generate more
+human-like responses.
+
+11
+00:00:26.625 --> 00:00:29.310
+This can improve a
+model's performance
+
+12
+00:00:29.310 --> 00:00:31.080
+substantially over
+
+13
+00:00:31.080 --> 00:00:33.795
+the original pre-trained
+based version,
+
+14
+00:00:33.795 --> 00:00:37.125
+and lead to more natural
+sounding language.
+
+15
+00:00:37.125 --> 00:00:39.815
+However, natural sounding
+
+16
+00:00:39.815 --> 00:00:42.995
+human language brings a
+new set of challenges.
+
+17
+00:00:42.995 --> 00:00:45.710
+By now, you've probably
+seen plenty of
+
+18
+00:00:45.710 --> 00:00:50.510
+headlines about large language
+models behaving badly.
+
+19
+00:00:50.510 --> 00:00:52.985
+Issues include models using
+
+20
+00:00:52.985 --> 00:00:55.580
+toxic language in
+their completions,
+
+21
+00:00:55.580 --> 00:00:59.750
+replying in combative
+and aggressive voices,
+
+22
+00:00:59.750 --> 00:01:01.970
+and providing
+detailed information
+
+23
+00:01:01.970 --> 00:01:04.130
+about dangerous topics.
+
+24
+00:01:04.130 --> 00:01:08.150
+These problems exist because
+large models are trained on
+
+25
+00:01:08.150 --> 00:01:10.340
+vast amounts of texts data from
+
+26
+00:01:10.340 --> 00:01:13.400
+the Internet where such
+language appears frequently.
+
+27
+00:01:13.400 --> 00:01:17.135
+Here are some examples of
+models behaving badly.
+
+28
+00:01:17.135 --> 00:01:20.730
+Let's assume you want your
+LLM to tell you knock, knock,
+
+29
+00:01:20.730 --> 00:01:24.990
+joke, and the models
+responses just clap, clap.
+
+30
+00:01:24.990 --> 00:01:27.075
+While funny in its own way,
+
+31
+00:01:27.075 --> 00:01:29.840
+it's not really what
+you were looking for.
+
+32
+00:01:29.840 --> 00:01:32.360
+The completion here is not
+
+33
+00:01:32.360 --> 00:01:35.980
+a helpful answer
+for the given task.
+
+34
+00:01:35.980 --> 00:01:38.915
+Similarly, the LLM might give
+
+35
+00:01:38.915 --> 00:01:42.110
+misleading or simply
+incorrect answers.
+
+36
+00:01:42.110 --> 00:01:45.320
+If you ask the LLM about
+the disproven Ps of
+
+37
+00:01:45.320 --> 00:01:49.115
+health advice like coughing
+to stop a heart attack,
+
+38
+00:01:49.115 --> 00:01:51.745
+the model should
+refute this story.
+
+39
+00:01:51.745 --> 00:01:54.230
+Instead, the model might give
+
+40
+00:01:54.230 --> 00:01:57.635
+a confident and totally
+incorrect response,
+
+41
+00:01:57.635 --> 00:01:59.600
+definitely not the
+truthful and honest
+
+42
+00:01:59.600 --> 00:02:01.955
+answer a person is seeking.
+
+43
+00:02:01.955 --> 00:02:06.220
+Also, the LLM shouldn't
+create harmful completions,
+
+44
+00:02:06.220 --> 00:02:09.220
+such as being offensive,
+discriminatory,
+
+45
+00:02:09.220 --> 00:02:12.505
+or eliciting criminal
+behavior, as shown here,
+
+46
+00:02:12.505 --> 00:02:14.770
+when you ask the
+model how to hack
+
+47
+00:02:14.770 --> 00:02:16.330
+your neighbor's WiFi and it
+
+48
+00:02:16.330 --> 00:02:18.680
+answers with a valid strategy.
+
+49
+00:02:18.680 --> 00:02:20.620
+Ideally, it would provide
+
+50
+00:02:20.620 --> 00:02:23.635
+an answer that does
+not lead to harm.
+
+51
+00:02:23.635 --> 00:02:27.820
+These important human values,
+helpfulness, honesty,
+
+52
+00:02:27.820 --> 00:02:33.460
+and harmlessness are sometimes
+collectively called HHH,
+
+53
+00:02:33.460 --> 00:02:36.280
+and are a set of
+principles that guide
+
+54
+00:02:36.280 --> 00:02:39.595
+developers in the
+responsible use of AI.
+
+55
+00:02:39.595 --> 00:02:42.280
+Additional fine-tuning
+with human feedback
+
+56
+00:02:42.280 --> 00:02:43.840
+helps to better align
+
+57
+00:02:43.840 --> 00:02:46.385
+models with human preferences
+
+58
+00:02:46.385 --> 00:02:49.070
+and to increase the helpfulness,
+
+59
+00:02:49.070 --> 00:02:52.775
+honesty, and harmlessness
+of the completions.
+
+60
+00:02:52.775 --> 00:02:55.040
+This further training can also
+
+61
+00:02:55.040 --> 00:02:57.140
+help to decrease the toxicity,
+
+62
+00:02:57.140 --> 00:02:59.600
+often models
+responses and reduce
+
+63
+00:02:59.600 --> 00:03:02.495
+the generation of
+incorrect information.
+
+64
+00:03:02.495 --> 00:03:05.030
+In this lesson, you'll
+learn how to align
+
+65
+00:03:05.030 --> 00:03:07.550
+models using feedback
+from humans.
+
+66
+00:03:07.550 --> 00:03:10.710
+Join me in the next
+video to get started.

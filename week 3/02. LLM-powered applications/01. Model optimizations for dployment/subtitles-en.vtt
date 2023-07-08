@@ -1,0 +1,591 @@
+WEBVTT
+
+1
+00:00:02.514 --> 00:00:05.665
+Now that you've explored
+the work required to adapt and
+
+2
+00:00:05.665 --> 00:00:10.624
+align large language models to your tasks,
+let's talk about the things you'll have to
+
+3
+00:00:10.624 --> 00:00:13.725
+consider to integrate your
+model into applications.
+
+4
+00:00:13.725 --> 00:00:17.227
+There are a number of important
+questions to ask at this stage.
+
+5
+00:00:17.227 --> 00:00:21.650
+The first set is related to how your
+LLM will function in deployment.
+
+6
+00:00:21.650 --> 00:00:25.273
+So how fast do you need your
+model to generate completions?
+
+7
+00:00:25.273 --> 00:00:27.976
+What compute budget do you have available?
+
+8
+00:00:27.976 --> 00:00:31.363
+And are you willing to trade
+off model performance for
+
+9
+00:00:31.363 --> 00:00:34.230
+improved inference speed or lower storage?
+
+10
+00:00:34.230 --> 00:00:38.020
+The second set of questions is
+tied to additional resources
+
+11
+00:00:38.020 --> 00:00:39.701
+that your model may need.
+
+12
+00:00:39.701 --> 00:00:43.888
+Do you intend for your model to interact
+with external data or other applications?
+
+13
+00:00:43.888 --> 00:00:47.522
+And if so,
+how will you connect to those resources?
+
+14
+00:00:47.522 --> 00:00:51.514
+Lastly, there's the question of
+how your model will be consumed.
+
+15
+00:00:51.514 --> 00:00:53.962
+What will the intended application or
+
+16
+00:00:53.962 --> 00:00:58.250
+API interface that your model will
+be consumed through look like?
+
+17
+00:00:58.250 --> 00:01:02.578
+Let's start by exploring a few methods
+that can be used to optimize your model
+
+18
+00:01:02.578 --> 00:01:04.650
+before deploying it for inference.
+
+19
+00:01:04.650 --> 00:01:09.119
+While we could dedicate several lessons
+to this topic, the aim of this section
+
+20
+00:01:09.119 --> 00:01:13.736
+is to offer you an introduction to the
+most important optimization techniques.
+
+21
+00:01:13.736 --> 00:01:18.661
+Large language models present inference
+challenges in terms of computing and
+
+22
+00:01:18.661 --> 00:01:24.116
+storage requirements, as well as ensuring
+low latency for consuming applications.
+
+23
+00:01:24.116 --> 00:01:28.988
+These challenges persist whether you're
+deploying on premises or to the cloud, and
+
+24
+00:01:28.988 --> 00:01:32.451
+become even more of an issue
+when deploying to edge devices.
+
+25
+00:01:32.451 --> 00:01:36.451
+One of the primary ways to
+improve application performance
+
+26
+00:01:36.451 --> 00:01:38.613
+is to reduce the size of the LLM.
+
+27
+00:01:38.613 --> 00:01:43.865
+This can allow for quicker loading of the
+model, which reduces inference latency.
+
+28
+00:01:43.865 --> 00:01:48.428
+However, the challenge is to reduce the
+size of the model while still maintaining
+
+29
+00:01:48.428 --> 00:01:49.628
+model performance.
+
+30
+00:01:49.628 --> 00:01:53.380
+Some techniques work better than
+others for generative models, and
+
+31
+00:01:53.380 --> 00:01:56.495
+there are tradeoffs between accuracy and
+performance.
+
+32
+00:01:56.495 --> 00:01:59.805
+You'll learn about three
+techniques in this section.
+
+33
+00:01:59.805 --> 00:02:03.236
+Distillation uses a larger model,
+the teacher model,
+
+34
+00:02:03.236 --> 00:02:06.088
+to train a smaller model,
+the student model.
+
+35
+00:02:06.088 --> 00:02:10.496
+You then use the smaller model for
+inference to lower your storage and
+
+36
+00:02:10.496 --> 00:02:11.637
+compute budget.
+
+37
+00:02:11.637 --> 00:02:16.215
+Similar to quantization aware training,
+post training quantization
+
+38
+00:02:16.215 --> 00:02:20.716
+transforms a model's weights to
+a lower precision representation,
+
+39
+00:02:20.716 --> 00:02:24.393
+such as a 16- bit floating point or
+eight bit integer.
+
+40
+00:02:24.393 --> 00:02:27.045
+As you learned in week one of the course,
+
+41
+00:02:27.045 --> 00:02:30.325
+this reduces the memory
+footprint of your model.
+
+42
+00:02:30.325 --> 00:02:34.194
+The third technique, Model Pruning,
+removes redundant model
+
+43
+00:02:34.194 --> 00:02:38.220
+parameters that contribute little
+to the model's performance.
+
+44
+00:02:38.220 --> 00:02:42.078
+Let's talk through each of
+these options in more detail.
+
+45
+00:02:42.078 --> 00:02:45.421
+Model Distillation is
+a technique that focuses on
+
+46
+00:02:45.421 --> 00:02:49.569
+having a larger teacher model
+train a smaller student model.
+
+47
+00:02:49.569 --> 00:02:54.940
+The student model learns to statistically
+mimic the behavior of the teacher model,
+
+48
+00:02:54.940 --> 00:03:00.248
+either just in the final prediction layer
+or in the model's hidden layers as well.
+
+49
+00:03:00.248 --> 00:03:03.512
+You'll focus on the first option here.
+
+50
+00:03:03.512 --> 00:03:07.772
+You start with your fine tune
+LLM as your teacher model and
+
+51
+00:03:07.772 --> 00:03:11.162
+create a smaller LLM for
+your student model.
+
+52
+00:03:11.162 --> 00:03:16.012
+You freeze the teacher model's weights and
+use it to generate completions for
+
+53
+00:03:16.012 --> 00:03:17.344
+your training data.
+
+54
+00:03:17.344 --> 00:03:20.424
+At the same time,
+you generate completions for
+
+55
+00:03:20.424 --> 00:03:23.356
+the training data using
+your student model.
+
+56
+00:03:23.356 --> 00:03:28.235
+The knowledge distillation between
+teacher and student model is achieved
+
+57
+00:03:28.235 --> 00:03:32.274
+by minimizing a loss function
+called the distillation loss.
+
+58
+00:03:32.274 --> 00:03:37.063
+To calculate this loss, distillation
+uses the probability distribution over
+
+59
+00:03:37.063 --> 00:03:40.927
+tokens that is produced by
+the teacher model's softmax layer.
+
+60
+00:03:40.927 --> 00:03:44.832
+Now, the teacher model is already
+fine tuned on the training data.
+
+61
+00:03:44.832 --> 00:03:50.028
+So the probability distribution likely
+closely matches the ground truth data and
+
+62
+00:03:50.028 --> 00:03:52.522
+won't have much variation in tokens.
+
+63
+00:03:52.522 --> 00:03:56.188
+That's why Distillation
+applies a little trick adding
+
+64
+00:03:56.188 --> 00:03:59.549
+a temperature parameter
+to the softmax function.
+
+65
+00:03:59.549 --> 00:04:03.562
+As you learned in lesson one,
+a higher temperature increases
+
+66
+00:04:03.562 --> 00:04:07.046
+the creativity of the language
+the model generates.
+
+67
+00:04:07.046 --> 00:04:10.087
+With a temperature
+parameter greater than one,
+
+68
+00:04:10.087 --> 00:04:14.768
+the probability distribution becomes
+broader and less strongly peaked.
+
+69
+00:04:14.768 --> 00:04:19.342
+This softer distribution provides
+you with a set of tokens that
+
+70
+00:04:19.342 --> 00:04:22.284
+are similar to the ground truth tokens.
+
+71
+00:04:22.284 --> 00:04:27.712
+In the context of Distillation, the
+teacher model's output is often referred
+
+72
+00:04:27.712 --> 00:04:32.990
+to as soft labels and the student
+model's predictions as soft predictions.
+
+73
+00:04:32.990 --> 00:04:37.700
+In parallel, you train the student model
+to generate the correct predictions
+
+74
+00:04:37.700 --> 00:04:40.279
+based on your ground truth training data.
+
+75
+00:04:40.279 --> 00:04:43.775
+Here, you don't vary
+the temperature setting and
+
+76
+00:04:43.775 --> 00:04:46.871
+instead use the standard softmax function.
+
+77
+00:04:46.871 --> 00:04:51.602
+Distillation refers to the student model
+outputs as the hard predictions and
+
+78
+00:04:51.602 --> 00:04:52.482
+hard labels.
+
+79
+00:04:52.482 --> 00:04:56.653
+The loss between these
+two is the student loss.
+
+80
+00:04:56.653 --> 00:05:01.546
+The combined distillation and student
+losses are used to update the weights
+
+81
+00:05:01.546 --> 00:05:04.385
+of the student model via back propagation.
+
+82
+00:05:04.385 --> 00:05:09.283
+The key benefit of distillation methods
+is that the smaller student model
+
+83
+00:05:09.283 --> 00:05:13.950
+can be used for inference in deployment
+instead of the teacher model.
+
+84
+00:05:13.950 --> 00:05:18.399
+In practice, distillation is not as
+effective for generative decoder models.
+
+85
+00:05:18.399 --> 00:05:21.843
+It's typically more effective for
+encoder only models,
+
+86
+00:05:21.843 --> 00:05:25.365
+such as Burt that have a lot
+of representation redundancy.
+
+87
+00:05:25.365 --> 00:05:28.225
+Note that with Distillation,
+you're training a second,
+
+88
+00:05:28.225 --> 00:05:30.175
+smaller model to use during inference.
+
+89
+00:05:30.175 --> 00:05:34.519
+You aren't reducing the model size
+of the initial LLM in any way.
+
+90
+00:05:34.519 --> 00:05:38.880
+Let's have a look at the next model
+optimization technique that actually
+
+91
+00:05:38.880 --> 00:05:40.651
+reduces the size of your LLM.
+
+92
+00:05:40.651 --> 00:05:44.133
+You were introduced to the second method,
+quantization,
+
+93
+00:05:44.133 --> 00:05:46.718
+back in week one in
+the context of training.
+
+94
+00:05:46.718 --> 00:05:51.396
+Specifically Quantization Aware Training,
+or QAT for short.
+
+95
+00:05:51.396 --> 00:05:56.611
+However, after a model is trained, you
+can perform post training quantization,
+
+96
+00:05:56.611 --> 00:05:59.601
+or PTQ for short to optimize it for
+deployment.
+
+97
+00:05:59.601 --> 00:06:04.916
+PTQ transforms a model's weights to
+a lower precision representation,
+
+98
+00:06:04.916 --> 00:06:08.868
+such as 16-bit floating point or
+8-bit integer.
+
+99
+00:06:08.868 --> 00:06:11.935
+To reduce the model size and
+memory footprint,
+
+100
+00:06:11.935 --> 00:06:16.920
+as well as the compute resources needed
+for model serving, quantization can
+
+101
+00:06:16.920 --> 00:06:21.997
+be applied to just the model weights or
+to both weights and activation layers.
+
+102
+00:06:21.997 --> 00:06:26.464
+In general, quantization approaches
+that include the activations can
+
+103
+00:06:26.464 --> 00:06:29.183
+have a higher impact on model performance.
+
+104
+00:06:29.183 --> 00:06:33.745
+Quantization also requires an extra
+calibration step to statistically
+
+105
+00:06:33.745 --> 00:06:37.643
+capture the dynamic range of
+the original parameter values.
+
+106
+00:06:37.643 --> 00:06:42.434
+As with other methods, there are tradeoffs
+because sometimes quantization
+
+107
+00:06:42.434 --> 00:06:46.866
+results in a small percentage
+reduction in model evaluation metrics.
+
+108
+00:06:46.866 --> 00:06:52.391
+However, that reduction can often be worth
+the cost savings and performance gains.
+
+109
+00:06:52.391 --> 00:06:55.872
+The last model optimization
+technique is pruning.
+
+110
+00:06:55.872 --> 00:07:00.765
+At a high level, the goal is to reduce
+model size for inference by eliminating
+
+111
+00:07:00.765 --> 00:07:05.297
+weights that are not contributing
+much to overall model performance.
+
+112
+00:07:05.297 --> 00:07:09.707
+These are the weights with values
+very close to or equal to zero.
+
+113
+00:07:09.707 --> 00:07:14.045
+Note that some pruning methods require
+full retraining of the model, while
+
+114
+00:07:14.045 --> 00:07:18.734
+others fall into the category of parameter
+efficient fine tuning, such as LoRA.
+
+115
+00:07:18.734 --> 00:07:23.042
+There are also methods that
+focus on post-training Pruning.
+
+116
+00:07:23.042 --> 00:07:28.047
+In theory, this reduces the size of
+the model and improves performance.
+
+117
+00:07:28.047 --> 00:07:32.440
+In practice, however, there may
+not be much impact on the size and
+
+118
+00:07:32.440 --> 00:07:37.630
+performance if only a small percentage
+of the model weights are close to zero.
+
+119
+00:07:37.630 --> 00:07:42.348
+Quantization, Distillation and
+Pruning all aim to reduce model size to
+
+120
+00:07:42.348 --> 00:07:47.313
+improve model performance during
+inference without impacting accuracy.
+
+121
+00:07:47.313 --> 00:07:51.105
+Optimizing your model for deployment
+will help ensure that your application
+
+122
+00:07:51.105 --> 00:07:55.140
+functions well and provides your users
+with the best possible experience sense.

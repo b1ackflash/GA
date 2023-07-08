@@ -1,0 +1,546 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.240
+At this point, you've seen a
+high-level overview of some
+
+2
+00:00:03.240 --> 00:00:04.545
+of the major components
+
+3
+00:00:04.545 --> 00:00:06.570
+inside the transformer
+architecture.
+
+4
+00:00:06.570 --> 00:00:08.100
+But you still haven't seen how
+
+5
+00:00:08.100 --> 00:00:11.865
+the overall prediction process
+works from end to end.
+
+6
+00:00:11.865 --> 00:00:14.775
+Let's walk through
+a simple example.
+
+7
+00:00:14.775 --> 00:00:16.755
+In this example, you'll look at
+
+8
+00:00:16.755 --> 00:00:20.565
+a translation task or a
+sequence-to-sequence task,
+
+9
+00:00:20.565 --> 00:00:23.475
+which incidentally was
+the original objective
+
+10
+00:00:23.475 --> 00:00:26.340
+of the transformer
+architecture designers.
+
+11
+00:00:26.340 --> 00:00:29.340
+You'll use a transformer
+model to translate
+
+12
+00:00:29.340 --> 00:00:35.160
+the French phrase
+[FOREIGN] into English.
+
+13
+00:00:35.160 --> 00:00:38.760
+First, you'll tokenize
+the input words using
+
+14
+00:00:38.760 --> 00:00:42.145
+this same tokenizer that was
+used to train the network.
+
+15
+00:00:42.145 --> 00:00:44.180
+These tokens are then added into
+
+16
+00:00:44.180 --> 00:00:47.645
+the input on the encoder
+side of the network,
+
+17
+00:00:47.645 --> 00:00:49.835
+passed through the
+embedding layer,
+
+18
+00:00:49.835 --> 00:00:53.660
+and then fed into the
+multi-headed attention layers.
+
+19
+00:00:53.660 --> 00:00:55.640
+The outputs of the multi-headed
+
+20
+00:00:55.640 --> 00:00:57.290
+attention layers are fed through
+
+21
+00:00:57.290 --> 00:01:01.370
+a feed-forward network to
+the output of the encoder.
+
+22
+00:01:01.370 --> 00:01:04.880
+At this point, the data
+that leaves the encoder is
+
+23
+00:01:04.880 --> 00:01:06.590
+a deep representation of
+
+24
+00:01:06.590 --> 00:01:10.220
+the structure and meaning
+of the input sequence.
+
+25
+00:01:10.220 --> 00:01:14.030
+This representation is
+inserted into the middle of
+
+26
+00:01:14.030 --> 00:01:15.740
+the decoder to influence
+
+27
+00:01:15.740 --> 00:01:18.605
+the decoder's
+self-attention mechanisms.
+
+28
+00:01:18.605 --> 00:01:21.875
+Next, a start of sequence token
+
+29
+00:01:21.875 --> 00:01:25.150
+is added to the input
+of the decoder.
+
+30
+00:01:25.150 --> 00:01:28.640
+This triggers the decoder
+to predict the next token,
+
+31
+00:01:28.640 --> 00:01:30.320
+which it does based on
+
+32
+00:01:30.320 --> 00:01:32.420
+the contextual
+understanding that it's
+
+33
+00:01:32.420 --> 00:01:35.020
+being provided from the encoder.
+
+34
+00:01:35.020 --> 00:01:38.330
+The output of the decoder's
+self-attention layers
+
+35
+00:01:38.330 --> 00:01:39.815
+gets passed through
+
+36
+00:01:39.815 --> 00:01:42.530
+the decoder feed-forward
+network and
+
+37
+00:01:42.530 --> 00:01:45.755
+through a final
+softmax output layer.
+
+38
+00:01:45.755 --> 00:01:49.150
+At this point, we
+have our first token.
+
+39
+00:01:49.150 --> 00:01:51.080
+You'll continue this loop,
+
+40
+00:01:51.080 --> 00:01:53.330
+passing the output token back to
+
+41
+00:01:53.330 --> 00:01:56.975
+the input to trigger the
+generation of the next token,
+
+42
+00:01:56.975 --> 00:02:00.850
+until the model predicts
+an end-of-sequence token.
+
+43
+00:02:00.850 --> 00:02:03.770
+At this point, the final
+sequence of tokens
+
+44
+00:02:03.770 --> 00:02:06.680
+can be detokenized into words,
+
+45
+00:02:06.680 --> 00:02:08.720
+and you have your output.
+
+46
+00:02:08.720 --> 00:02:12.315
+In this case, I love
+machine learning.
+
+47
+00:02:12.315 --> 00:02:15.290
+There are multiple ways in
+which you can use the output
+
+48
+00:02:15.290 --> 00:02:18.140
+from the softmax layer to
+predict the next token.
+
+49
+00:02:18.140 --> 00:02:19.790
+These can influence
+
+50
+00:02:19.790 --> 00:02:23.075
+how creative you are
+generated text is.
+
+51
+00:02:23.075 --> 00:02:26.900
+You will look at these in
+more detail later this week.
+
+52
+00:02:26.900 --> 00:02:29.795
+Let's summarize what
+you've seen so far.
+
+53
+00:02:29.795 --> 00:02:33.035
+The complete transformer
+architecture consists
+
+54
+00:02:33.035 --> 00:02:36.250
+of an encoder and
+decoder components.
+
+55
+00:02:36.250 --> 00:02:39.680
+The encoder encodes
+input sequences into
+
+56
+00:02:39.680 --> 00:02:41.420
+a deep representation of
+
+57
+00:02:41.420 --> 00:02:44.540
+the structure and
+meaning of the input.
+
+58
+00:02:44.540 --> 00:02:48.470
+The decoder, working from
+input token triggers,
+
+59
+00:02:48.470 --> 00:02:51.725
+uses the encoder's
+contextual understanding
+
+60
+00:02:51.725 --> 00:02:53.780
+to generate new tokens.
+
+61
+00:02:53.780 --> 00:02:55.790
+It does this in a loop
+
+62
+00:02:55.790 --> 00:02:58.510
+until some stop condition
+has been reached.
+
+63
+00:02:58.510 --> 00:03:01.850
+While the translation example
+you explored here used
+
+64
+00:03:01.850 --> 00:03:05.540
+both the encoder and decoder
+parts of the transformer,
+
+65
+00:03:05.540 --> 00:03:07.820
+you can split these
+components apart
+
+66
+00:03:07.820 --> 00:03:10.435
+for variations of
+the architecture.
+
+67
+00:03:10.435 --> 00:03:12.990
+Encoder-only models also
+
+68
+00:03:12.990 --> 00:03:15.350
+work as sequence-to-sequence
+models,
+
+69
+00:03:15.350 --> 00:03:17.525
+but without further
+modification,
+
+70
+00:03:17.525 --> 00:03:19.130
+the input sequence and
+
+71
+00:03:19.130 --> 00:03:21.985
+the output sequence
+or the same length.
+
+72
+00:03:21.985 --> 00:03:24.660
+Their use is less
+common these days,
+
+73
+00:03:24.660 --> 00:03:27.350
+but by adding additional
+layers to the architecture,
+
+74
+00:03:27.350 --> 00:03:30.680
+you can train encoder-only
+models to perform
+
+75
+00:03:30.680 --> 00:03:34.675
+classification tasks such
+as sentiment analysis,
+
+76
+00:03:34.675 --> 00:03:38.730
+but is an example of
+an encoder-only model.
+
+77
+00:03:38.730 --> 00:03:41.820
+Encoder-decoder models,
+as you've seen,
+
+78
+00:03:41.820 --> 00:03:42.960
+perform well on
+
+79
+00:03:42.960 --> 00:03:46.190
+sequence-to-sequence tasks
+such as translation,
+
+80
+00:03:46.190 --> 00:03:48.230
+where the input sequence and
+
+81
+00:03:48.230 --> 00:03:51.475
+the output sequence can
+be different lengths.
+
+82
+00:03:51.475 --> 00:03:54.530
+You can also scale and
+train this type of model
+
+83
+00:03:54.530 --> 00:03:57.505
+to perform general
+text generation tasks.
+
+84
+00:03:57.505 --> 00:04:00.410
+Examples of
+encoder-decoder models
+
+85
+00:04:00.410 --> 00:04:04.835
+include BART as opposed
+to BERT and T5,
+
+86
+00:04:04.835 --> 00:04:08.290
+the model that you'll use
+in the labs in this course.
+
+87
+00:04:08.290 --> 00:04:11.040
+Finally, decoder-only models
+
+88
+00:04:11.040 --> 00:04:13.410
+are some of the most
+commonly used today.
+
+89
+00:04:13.410 --> 00:04:15.560
+Again, as they have scaled,
+
+90
+00:04:15.560 --> 00:04:17.780
+their capabilities have grown.
+
+91
+00:04:17.780 --> 00:04:21.445
+These models can now
+generalize to most tasks.
+
+92
+00:04:21.445 --> 00:04:24.200
+Popular decoder-only
+models include
+
+93
+00:04:24.200 --> 00:04:26.300
+the GPT family of models,
+
+94
+00:04:26.300 --> 00:04:31.235
+BLOOM, Jurassic,
+LLaMA, and many more.
+
+95
+00:04:31.235 --> 00:04:34.070
+You'll learn more about
+these different varieties of
+
+96
+00:04:34.070 --> 00:04:38.245
+transformers and how they
+are trained later this week.
+
+97
+00:04:38.245 --> 00:04:40.365
+That was quite a lot.
+
+98
+00:04:40.365 --> 00:04:42.260
+The main goal of
+this overview of
+
+99
+00:04:42.260 --> 00:04:45.650
+transformer models is to give
+you enough background to
+
+100
+00:04:45.650 --> 00:04:47.420
+understand the
+differences between
+
+101
+00:04:47.420 --> 00:04:49.430
+the various models being used
+
+102
+00:04:49.430 --> 00:04:51.320
+out in the world and to be able
+
+103
+00:04:51.320 --> 00:04:53.645
+to read model documentation.
+
+104
+00:04:53.645 --> 00:04:56.720
+I want to emphasize that
+you don't need to worry
+
+105
+00:04:56.720 --> 00:04:59.600
+about remembering all the
+details you've seen here,
+
+106
+00:04:59.600 --> 00:05:00.860
+as you can come back to
+
+107
+00:05:00.860 --> 00:05:03.560
+this explanation as
+often as you need.
+
+108
+00:05:03.560 --> 00:05:06.260
+Remember that you'll
+be interacting with
+
+109
+00:05:06.260 --> 00:05:09.350
+transformer models
+through natural language,
+
+110
+00:05:09.350 --> 00:05:13.550
+creating prompts using
+written words, not code.
+
+111
+00:05:13.550 --> 00:05:15.890
+You don't need to
+understand all of
+
+112
+00:05:15.890 --> 00:05:19.315
+the details of the underlying
+architecture to do this.
+
+113
+00:05:19.315 --> 00:05:21.875
+This is called
+prompt engineering,
+
+114
+00:05:21.875 --> 00:05:23.570
+and that's what you'll explore
+
+115
+00:05:23.570 --> 00:05:25.820
+in the next part of this course.
+
+116
+00:05:25.820 --> 00:05:29.940
+Let's move on to the
+next video to learn more

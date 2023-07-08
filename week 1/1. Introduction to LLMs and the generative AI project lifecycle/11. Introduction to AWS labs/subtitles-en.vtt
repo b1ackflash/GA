@@ -1,0 +1,375 @@
+WEBVTT
+
+1
+00:00:00.498 --> 00:00:04.673
+So you've seen a lot of material so
+far in the course, and the best way for
+
+2
+00:00:04.673 --> 00:00:08.439
+you to solidify these concepts in
+your mind is to get hands-on and
+
+3
+00:00:08.439 --> 00:00:10.101
+try some code for yourself.
+
+4
+00:00:10.101 --> 00:00:12.755
+As Andrew mentioned,
+at the start of this week,
+
+5
+00:00:12.755 --> 00:00:16.925
+my colleague Chris Fragley led the
+development of the labs for this course.
+
+6
+00:00:16.925 --> 00:00:21.615
+Each week features a lab exercise that
+lets you try out the key concepts from
+
+7
+00:00:21.615 --> 00:00:22.440
+the videos.
+
+8
+00:00:22.440 --> 00:00:26.281
+Chris is going to help you get started
+by showing you the lab environment.
+
+9
+00:00:26.281 --> 00:00:29.917
+Then he'll walk you through the activity
+that you'll complete this week.
+
+10
+00:00:29.917 --> 00:00:31.855
+Hey, Chris.
+
+11
+00:00:31.855 --> 00:00:33.429
+>> Hey, thanks, Mike.
+
+12
+00:00:33.429 --> 00:00:37.166
+And now let's take a look at
+the lab environments in lab 1.
+
+13
+00:00:37.166 --> 00:00:40.383
+Before actually getting into the lab,
+let me explain the system,
+
+14
+00:00:40.383 --> 00:00:44.246
+the environment that we're going to be
+using here, which is called Vocareum.
+
+15
+00:00:44.246 --> 00:00:48.878
+And so here we will actually
+launch your own AWS account
+
+16
+00:00:48.878 --> 00:00:53.208
+that will give you access
+to Amazon SageMaker, and
+
+17
+00:00:53.208 --> 00:00:58.560
+therefore you can run these
+notebooks without any cost to you.
+
+18
+00:00:58.560 --> 00:01:03.616
+So some things to note when you get
+into the Vocareum lab environment,
+
+19
+00:01:03.616 --> 00:01:07.828
+you want to click Start Lab,
+that's the very first thing.
+
+20
+00:01:07.828 --> 00:01:11.438
+You'll see that up here in the upper left,
+
+21
+00:01:11.438 --> 00:01:15.866
+you'll see the AWS goes from
+red to yellow to green.
+
+22
+00:01:15.866 --> 00:01:20.968
+So green is good, green means we can
+click on this and then get into the lab.
+
+23
+00:01:20.968 --> 00:01:22.771
+So just a couple of quick things here.
+
+24
+00:01:22.771 --> 00:01:26.175
+You will have 2 hours
+to complete each lab,
+
+25
+00:01:26.175 --> 00:01:30.959
+you don't need to click any sort
+of end lab when you're done,
+
+26
+00:01:30.959 --> 00:01:36.941
+you just close the browser and then move
+on to the next lab or video as you wish.
+
+27
+00:01:36.941 --> 00:01:39.786
+And there are some instructions here, but
+
+28
+00:01:39.786 --> 00:01:43.665
+I'm going to actually walk
+through this with you right now.
+
+29
+00:01:43.665 --> 00:01:48.061
+So what we want to do is
+click on the AWS that will
+
+30
+00:01:48.061 --> 00:01:51.897
+actually launch into the AWS console.
+
+31
+00:01:51.897 --> 00:01:58.267
+Now, if you are already logged into an AWS
+console, you will need to click logout,
+
+32
+00:01:58.267 --> 00:02:03.274
+and then click back here once again
+on that same green AWS button.
+
+33
+00:02:03.274 --> 00:02:05.820
+I'm going to zoom in a little bit here,
+
+34
+00:02:05.820 --> 00:02:10.063
+the fastest way to really get to
+Sage Maker is to type it into here,
+
+35
+00:02:10.063 --> 00:02:13.476
+into the search fields and
+then click on SageMaker.
+
+36
+00:02:13.476 --> 00:02:17.342
+What we're trying to do is
+get to the SageMaker studio,
+
+37
+00:02:17.342 --> 00:02:22.787
+which is a Jupyter based IDE that we'll
+be doing all of our notebooks in today.
+
+38
+00:02:22.787 --> 00:02:27.671
+Click on the Open Studio over there, so
+real quick, I clicked on Studio here,
+
+39
+00:02:27.671 --> 00:02:29.902
+then I clicked on Open Studio here.
+
+40
+00:02:29.902 --> 00:02:34.182
+All of this has been pre-provisioned for
+you, so you don't have to do anything.
+
+41
+00:02:34.182 --> 00:02:37.214
+That'll get you right into
+the Jupyter notebook, let me zoom in.
+
+42
+00:02:37.214 --> 00:02:39.727
+Dark mode is enabled by default,
+
+43
+00:02:39.727 --> 00:02:44.138
+you can switch off of dark mode
+onto light mode if you wish.
+
+44
+00:02:44.138 --> 00:02:49.247
+You can click Theme and
+then switch to JupyterLab Light mode by
+
+45
+00:02:49.247 --> 00:02:55.843
+default it's the SageMaker UI Dark mode
+that is a form of black here that we see.
+
+46
+00:02:55.843 --> 00:02:59.936
+Now the first step is
+to click Open Launcher,
+
+47
+00:02:59.936 --> 00:03:04.999
+we actually want to go to the System
+terminal because the first
+
+48
+00:03:04.999 --> 00:03:10.513
+thing that we want to do is to
+copy the labs from our S3 bucket.
+
+49
+00:03:10.513 --> 00:03:15.424
+So object storage that's in the cloud,
+this is a public bucket
+
+50
+00:03:15.424 --> 00:03:19.966
+that contains all of the notebooks and
+all of the images and
+
+51
+00:03:19.966 --> 00:03:24.714
+all of the data sets that are needed for
+this particular lab.
+
+52
+00:03:24.714 --> 00:03:26.960
+So now that I'm in the terminal,
+
+53
+00:03:26.960 --> 00:03:30.259
+I'm actually going to go
+back to my instructions.
+
+54
+00:03:30.259 --> 00:03:35.753
+So we've done all of this, Step 1, click
+Studio, Step 2, click the Open Studio.
+
+55
+00:03:35.753 --> 00:03:41.421
+There is another way to get into Studio,
+sometimes learners do stumble upon this.
+
+56
+00:03:41.421 --> 00:03:45.425
+If you do see this screen somehow,
+if you're poking around,
+
+57
+00:03:45.425 --> 00:03:50.045
+just know that you can click on Launch and
+you would click on Studio, and
+
+58
+00:03:50.045 --> 00:03:53.603
+that'll open up Studio Notebooks
+in the same manner.
+
+59
+00:03:53.603 --> 00:03:56.629
+And then from that point,
+all of these instructions are the same,
+
+60
+00:03:56.629 --> 00:03:59.128
+clicking Open Launcher,
+clicking System terminal.
+
+61
+00:03:59.128 --> 00:04:02.280
+Now this is the code that I need to copy,
+
+62
+00:04:02.280 --> 00:04:08.314
+make sure that you get everything up
+to that last slash right there, okay?
+
+63
+00:04:08.314 --> 00:04:11.091
+I'm going to go back into JupyterLab and
+
+64
+00:04:11.091 --> 00:04:14.484
+I'm just going to paste this right here,
+okay?
+
+65
+00:04:14.484 --> 00:04:16.954
+Next step will be to
+click on the folder and
+
+66
+00:04:16.954 --> 00:04:19.857
+we should see the notebook
+that was downloaded.
+
+67
+00:04:19.857 --> 00:04:24.823
+So because I'm zoomed in so far here,
+I have to scroll this over here,
+
+68
+00:04:24.823 --> 00:04:26.687
+and this is the first lab.
+
+69
+00:04:28.641 --> 00:04:32.657
+Now, so like I said, all of the compute
+has been provisioned for us,
+
+70
+00:04:32.657 --> 00:04:35.650
+we should just be able to
+start running these labs.
+
+71
+00:04:35.650 --> 00:04:40.610
+Now, if you're not familiar with Jupyter
+notebooks, just know that you can do
+
+72
+00:04:40.610 --> 00:04:44.843
+either Shift+Enter to get,
+from notebook to, from cell to cell.
+
+73
+00:04:44.843 --> 00:04:48.486
+Or if you are feeling
+maybe you're in a hurry,
+
+74
+00:04:48.486 --> 00:04:52.138
+you could do Restart Kernel and
+Run All Cells.
+
+75
+00:04:52.138 --> 00:04:56.251
+And that will actually run all of
+the cells with just one click.
+
+76
+00:04:56.251 --> 00:05:01.023
+For these labs, I would encourage you
+to run step by step, so do Shift+Enter,
+
+77
+00:05:01.023 --> 00:05:03.028
+Shift+Enter, Shift+Enter.
+
+78
+00:05:03.028 --> 00:05:07.260
+So this is all just markdown right here
+saying what this lab is going to do.

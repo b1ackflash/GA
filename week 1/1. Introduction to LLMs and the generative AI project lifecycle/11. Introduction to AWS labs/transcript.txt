@@ -1,0 +1,63 @@
+So you've seen a lot of material so
+far in the course, and the best way for you to solidify these concepts in
+your mind is to get hands-on and try some code for yourself. As Andrew mentioned,
+at the start of this week, my colleague Chris Fragley led the
+development of the labs for this course. Each week features a lab exercise that
+lets you try out the key concepts from the videos. Chris is going to help you get started
+by showing you the lab environment. Then he'll walk you through the activity
+that you'll complete this week. Hey, Chris. >> Hey, thanks, Mike. And now let's take a look at
+the lab environments in lab 1. Before actually getting into the lab,
+let me explain the system, the environment that we're going to be
+using here, which is called Vocareum. And so here we will actually
+launch your own AWS account that will give you access
+to Amazon SageMaker, and therefore you can run these
+notebooks without any cost to you. So some things to note when you get
+into the Vocareum lab environment, you want to click Start Lab,
+that's the very first thing. You'll see that up here in the upper left, you'll see the AWS goes from
+red to yellow to green. So green is good, green means we can
+click on this and then get into the lab. So just a couple of quick things here. You will have 2 hours
+to complete each lab, you don't need to click any sort
+of end lab when you're done, you just close the browser and then move
+on to the next lab or video as you wish. And there are some instructions here, but I'm going to actually walk
+through this with you right now. So what we want to do is
+click on the AWS that will actually launch into the AWS console. Now, if you are already logged into an AWS
+console, you will need to click logout, and then click back here once again
+on that same green AWS button. I'm going to zoom in a little bit here, the fastest way to really get to
+Sage Maker is to type it into here, into the search fields and
+then click on SageMaker. What we're trying to do is
+get to the SageMaker studio, which is a Jupyter based IDE that we'll
+be doing all of our notebooks in today. Click on the Open Studio over there, so
+real quick, I clicked on Studio here, then I clicked on Open Studio here. All of this has been pre-provisioned for
+you, so you don't have to do anything. That'll get you right into
+the Jupyter notebook, let me zoom in. Dark mode is enabled by default, you can switch off of dark mode
+onto light mode if you wish. You can click Theme and
+then switch to JupyterLab Light mode by default it's the SageMaker UI Dark mode
+that is a form of black here that we see. Now the first step is
+to click Open Launcher, we actually want to go to the System
+terminal because the first thing that we want to do is to
+copy the labs from our S3 bucket. So object storage that's in the cloud,
+this is a public bucket that contains all of the notebooks and
+all of the images and all of the data sets that are needed for
+this particular lab. So now that I'm in the terminal, I'm actually going to go
+back to my instructions. So we've done all of this, Step 1, click
+Studio, Step 2, click the Open Studio. There is another way to get into Studio,
+sometimes learners do stumble upon this. If you do see this screen somehow,
+if you're poking around, just know that you can click on Launch and
+you would click on Studio, and that'll open up Studio Notebooks
+in the same manner. And then from that point,
+all of these instructions are the same, clicking Open Launcher,
+clicking System terminal. Now this is the code that I need to copy, make sure that you get everything up
+to that last slash right there, okay? I'm going to go back into JupyterLab and I'm just going to paste this right here,
+okay? Next step will be to
+click on the folder and we should see the notebook
+that was downloaded. So because I'm zoomed in so far here,
+I have to scroll this over here, and this is the first lab. Now, so like I said, all of the compute
+has been provisioned for us, we should just be able to
+start running these labs. Now, if you're not familiar with Jupyter
+notebooks, just know that you can do either Shift+Enter to get,
+from notebook to, from cell to cell. Or if you are feeling
+maybe you're in a hurry, you could do Restart Kernel and
+Run All Cells. And that will actually run all of
+the cells with just one click. For these labs, I would encourage you
+to run step by step, so do Shift+Enter, Shift+Enter, Shift+Enter. So this is all just markdown right here
+saying what this lab is going to do.

@@ -1,0 +1,856 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.610
+Building large
+language models using
+
+2
+00:00:02.610 --> 00:00:05.010
+the transformer
+architecture dramatically
+
+3
+00:00:05.010 --> 00:00:06.450
+improved the performance of
+
+4
+00:00:06.450 --> 00:00:08.220
+natural language tasks over
+
+5
+00:00:08.220 --> 00:00:10.470
+the earlier generation of RNNs,
+
+6
+00:00:10.470 --> 00:00:13.950
+and led to an explosion in
+regenerative capability.
+
+7
+00:00:13.950 --> 00:00:16.185
+The power of the
+transformer architecture
+
+8
+00:00:16.185 --> 00:00:17.880
+lies in its ability to
+
+9
+00:00:17.880 --> 00:00:20.070
+learn the relevance and context
+
+10
+00:00:20.070 --> 00:00:22.590
+of all of the words
+in a sentence.
+
+11
+00:00:22.590 --> 00:00:24.765
+Not just as you see here,
+
+12
+00:00:24.765 --> 00:00:27.480
+to each word next
+to its neighbor,
+
+13
+00:00:27.480 --> 00:00:30.915
+but to every other
+word in a sentence.
+
+14
+00:00:30.915 --> 00:00:33.060
+To apply attention weights to
+
+15
+00:00:33.060 --> 00:00:34.650
+those relationships so that
+
+16
+00:00:34.650 --> 00:00:36.375
+the model learns the relevance
+
+17
+00:00:36.375 --> 00:00:38.175
+of each word to
+
+18
+00:00:38.175 --> 00:00:41.680
+each other words no matter
+where they are in the input.
+
+19
+00:00:41.680 --> 00:00:43.790
+This gives the
+algorithm the ability
+
+20
+00:00:43.790 --> 00:00:45.935
+to learn who has the book,
+
+21
+00:00:45.935 --> 00:00:47.585
+who could have the book,
+
+22
+00:00:47.585 --> 00:00:49.400
+and if it's even relevant
+
+23
+00:00:49.400 --> 00:00:51.635
+to the wider context
+of the document.
+
+24
+00:00:51.635 --> 00:00:54.545
+These attention weights
+are learned during
+
+25
+00:00:54.545 --> 00:00:56.210
+LLM training and you'll
+
+26
+00:00:56.210 --> 00:00:58.400
+learn more about this
+later this week.
+
+27
+00:00:58.400 --> 00:01:00.380
+This diagram is called an
+
+28
+00:01:00.380 --> 00:01:02.690
+attention map and
+can be useful to
+
+29
+00:01:02.690 --> 00:01:04.895
+illustrate the attention
+weights between
+
+30
+00:01:04.895 --> 00:01:07.685
+each word and every other word.
+
+31
+00:01:07.685 --> 00:01:09.695
+Here in this stylized example,
+
+32
+00:01:09.695 --> 00:01:11.690
+you can see that the word book
+
+33
+00:01:11.690 --> 00:01:13.940
+is strongly connected with or
+
+34
+00:01:13.940 --> 00:01:16.730
+paying attention to
+the word teacher
+
+35
+00:01:16.730 --> 00:01:18.665
+and the word student.
+
+36
+00:01:18.665 --> 00:01:21.140
+This is called
+self-attention and
+
+37
+00:01:21.140 --> 00:01:23.600
+the ability to learn
+a tension in this way
+
+38
+00:01:23.600 --> 00:01:26.450
+across the whole
+input significantly
+
+39
+00:01:26.450 --> 00:01:29.750
+approves the model's
+ability to encode language.
+
+40
+00:01:29.750 --> 00:01:31.220
+Now that you've seen one of
+
+41
+00:01:31.220 --> 00:01:33.980
+the key attributes of the
+transformer architecture,
+
+42
+00:01:33.980 --> 00:01:36.350
+self-attention, let's cover at
+
+43
+00:01:36.350 --> 00:01:38.855
+a high level how
+the model works.
+
+44
+00:01:38.855 --> 00:01:40.895
+Here's a simplified diagram of
+
+45
+00:01:40.895 --> 00:01:43.010
+the transformer architecture
+so that you can
+
+46
+00:01:43.010 --> 00:01:44.930
+focus at a high level on
+
+47
+00:01:44.930 --> 00:01:47.435
+where these processes
+are taking place.
+
+48
+00:01:47.435 --> 00:01:49.400
+The transformer architecture is
+
+49
+00:01:49.400 --> 00:01:52.025
+split into two distinct parts,
+
+50
+00:01:52.025 --> 00:01:55.115
+the encoder and the decoder.
+
+51
+00:01:55.115 --> 00:01:57.830
+These components work in
+conjunction with each
+
+52
+00:01:57.830 --> 00:02:01.085
+other and they share a
+number of similarities.
+
+53
+00:02:01.085 --> 00:02:04.310
+Also, note here, the
+diagram you see is
+
+54
+00:02:04.310 --> 00:02:06.680
+derived from the
+original attention
+
+55
+00:02:06.680 --> 00:02:08.195
+is all you need paper.
+
+56
+00:02:08.195 --> 00:02:10.820
+Notice how the inputs
+to the model are at
+
+57
+00:02:10.820 --> 00:02:13.805
+the bottom and the
+outputs are at the top,
+
+58
+00:02:13.805 --> 00:02:15.440
+where possible we'll try to
+
+59
+00:02:15.440 --> 00:02:17.815
+remain faithful to this
+throughout the course.
+
+60
+00:02:17.815 --> 00:02:19.940
+Now, machine-learning models are
+
+61
+00:02:19.940 --> 00:02:22.430
+just big statistical calculators
+
+62
+00:02:22.430 --> 00:02:25.205
+and they work with
+numbers, not words.
+
+63
+00:02:25.205 --> 00:02:28.070
+So before passing texts
+into the model to process,
+
+64
+00:02:28.070 --> 00:02:30.950
+you must first
+tokenize the words.
+
+65
+00:02:30.950 --> 00:02:34.175
+Simply put, this converts
+the words into numbers,
+
+66
+00:02:34.175 --> 00:02:37.370
+with each number
+representing a position in
+
+67
+00:02:37.370 --> 00:02:40.355
+a dictionary of all
+the possible words
+
+68
+00:02:40.355 --> 00:02:41.980
+that the model can work with.
+
+69
+00:02:41.980 --> 00:02:45.080
+You can choose from multiple
+tokenization methods.
+
+70
+00:02:45.080 --> 00:02:48.860
+For example, token IDs
+matching two complete words,
+
+71
+00:02:48.860 --> 00:02:50.810
+or using token IDs to
+
+72
+00:02:50.810 --> 00:02:53.750
+represent parts of words.
+As you can see here.
+
+73
+00:02:53.750 --> 00:02:55.880
+What's important is
+that once you've
+
+74
+00:02:55.880 --> 00:02:58.205
+selected a tokenizer
+to train the model,
+
+75
+00:02:58.205 --> 00:03:02.075
+you must use the same tokenizer
+when you generate text.
+
+76
+00:03:02.075 --> 00:03:04.775
+Now that your input is
+represented as numbers,
+
+77
+00:03:04.775 --> 00:03:07.340
+you can pass it to
+the embedding layer.
+
+78
+00:03:07.340 --> 00:03:11.060
+This layer is a trainable
+vector embedding space,
+
+79
+00:03:11.060 --> 00:03:13.265
+a high-dimensional space where
+
+80
+00:03:13.265 --> 00:03:15.365
+each token is represented as
+
+81
+00:03:15.365 --> 00:03:17.300
+a vector and occupies
+
+82
+00:03:17.300 --> 00:03:19.925
+a unique location
+within that space.
+
+83
+00:03:19.925 --> 00:03:22.070
+Each token ID in the vocabulary
+
+84
+00:03:22.070 --> 00:03:24.800
+is matched to a
+multi-dimensional vector,
+
+85
+00:03:24.800 --> 00:03:29.120
+and the intuition is that
+these vectors learn to encode
+
+86
+00:03:29.120 --> 00:03:31.340
+the meaning and context of
+
+87
+00:03:31.340 --> 00:03:34.625
+individual tokens in
+the input sequence.
+
+88
+00:03:34.625 --> 00:03:37.160
+Embedding vector spaces
+have been used in
+
+89
+00:03:37.160 --> 00:03:39.680
+natural language
+processing for some time,
+
+90
+00:03:39.680 --> 00:03:42.290
+previous generation
+language algorithms
+
+91
+00:03:42.290 --> 00:03:45.445
+like Word2vec use this concept.
+
+92
+00:03:45.445 --> 00:03:47.750
+Don't worry if you're
+not familiar with this.
+
+93
+00:03:47.750 --> 00:03:49.880
+You'll see examples of this
+throughout the course,
+
+94
+00:03:49.880 --> 00:03:51.635
+and there are some links to
+
+95
+00:03:51.635 --> 00:03:54.485
+additional resources in
+the reading exercises
+
+96
+00:03:54.485 --> 00:03:55.775
+at the end of this week.
+
+97
+00:03:55.775 --> 00:03:57.935
+Looking back at the
+sample sequence,
+
+98
+00:03:57.935 --> 00:04:00.635
+you can see that in
+this simple case,
+
+99
+00:04:00.635 --> 00:04:03.965
+each word has been
+matched to a token ID,
+
+100
+00:04:03.965 --> 00:04:07.310
+and each token is
+mapped into a vector.
+
+101
+00:04:07.310 --> 00:04:09.545
+In the original
+transformer paper,
+
+102
+00:04:09.545 --> 00:04:12.905
+the vector size
+was actually 512,
+
+103
+00:04:12.905 --> 00:04:15.830
+so much bigger than we
+can fit onto this image.
+
+104
+00:04:15.830 --> 00:04:18.050
+For simplicity, if you imagine
+
+105
+00:04:18.050 --> 00:04:20.330
+a vector size of just three,
+
+106
+00:04:20.330 --> 00:04:22.160
+you could plot the words into
+
+107
+00:04:22.160 --> 00:04:24.410
+a three-dimensional space and
+
+108
+00:04:24.410 --> 00:04:27.410
+see the relationships
+between those words.
+
+109
+00:04:27.410 --> 00:04:30.440
+You can see now how you
+can relate words that are
+
+110
+00:04:30.440 --> 00:04:34.120
+located close to each other
+in the embedding space,
+
+111
+00:04:34.120 --> 00:04:36.140
+and how you can
+calculate the distance
+
+112
+00:04:36.140 --> 00:04:38.210
+between the words as an angle,
+
+113
+00:04:38.210 --> 00:04:40.070
+which gives the
+model the ability
+
+114
+00:04:40.070 --> 00:04:43.160
+to mathematically
+understand language.
+
+115
+00:04:43.160 --> 00:04:45.140
+As you add the
+token vectors into
+
+116
+00:04:45.140 --> 00:04:47.830
+the base of the encoder
+or the decoder,
+
+117
+00:04:47.830 --> 00:04:50.975
+you also add
+positional encoding.
+
+118
+00:04:50.975 --> 00:04:55.090
+The model processes each of
+the input tokens in parallel.
+
+119
+00:04:55.090 --> 00:04:57.440
+So by adding the
+positional encoding,
+
+120
+00:04:57.440 --> 00:04:59.360
+you preserve the information
+
+121
+00:04:59.360 --> 00:05:01.430
+about the word order and don't
+
+122
+00:05:01.430 --> 00:05:02.780
+lose the relevance of
+
+123
+00:05:02.780 --> 00:05:05.795
+the position of the
+word in the sentence.
+
+124
+00:05:05.795 --> 00:05:08.360
+Once you've summed
+the input tokens
+
+125
+00:05:08.360 --> 00:05:09.905
+and the positional encodings,
+
+126
+00:05:09.905 --> 00:05:12.020
+you pass the resulting vectors
+
+127
+00:05:12.020 --> 00:05:14.080
+to the self-attention layer.
+
+128
+00:05:14.080 --> 00:05:15.950
+Here, the model analyzes
+
+129
+00:05:15.950 --> 00:05:18.065
+the relationships
+between the tokens
+
+130
+00:05:18.065 --> 00:05:19.615
+in your input sequence.
+
+131
+00:05:19.615 --> 00:05:20.735
+As you saw earlier,
+
+132
+00:05:20.735 --> 00:05:24.200
+this allows the model to
+attend to different parts of
+
+133
+00:05:24.200 --> 00:05:26.600
+the input sequence
+to better capture
+
+134
+00:05:26.600 --> 00:05:29.780
+the contextual dependencies
+between the words.
+
+135
+00:05:29.780 --> 00:05:31.805
+The self-attention
+weights that are learned
+
+136
+00:05:31.805 --> 00:05:33.920
+during training and
+stored in these layers
+
+137
+00:05:33.920 --> 00:05:36.890
+reflect the importance
+of each word in
+
+138
+00:05:36.890 --> 00:05:41.470
+that input sequence to all
+other words in the sequence.
+
+139
+00:05:41.470 --> 00:05:43.905
+But this does not
+happen just once,
+
+140
+00:05:43.905 --> 00:05:45.920
+the transformer
+architecture actually
+
+141
+00:05:45.920 --> 00:05:48.435
+has multi-headed self-attention.
+
+142
+00:05:48.435 --> 00:05:50.760
+This means that multiple sets
+
+143
+00:05:50.760 --> 00:05:52.550
+of self-attention weights or
+
+144
+00:05:52.550 --> 00:05:54.470
+heads are learned in
+
+145
+00:05:54.470 --> 00:05:57.180
+parallel independently
+of each other.
+
+146
+00:05:57.180 --> 00:05:59.480
+The number of attention
+heads included in
+
+147
+00:05:59.480 --> 00:06:01.955
+the attention layer varies
+from model to model,
+
+148
+00:06:01.955 --> 00:06:06.370
+but numbers in the range
+of 12-100 are common.
+
+149
+00:06:06.370 --> 00:06:08.120
+The intuition here is that
+
+150
+00:06:08.120 --> 00:06:09.920
+each self-attention head will
+
+151
+00:06:09.920 --> 00:06:12.455
+learn a different
+aspect of language.
+
+152
+00:06:12.455 --> 00:06:14.540
+For example, one head may see
+
+153
+00:06:14.540 --> 00:06:15.740
+the relationship between
+
+154
+00:06:15.740 --> 00:06:17.975
+the people entities
+in our sentence.
+
+155
+00:06:17.975 --> 00:06:19.805
+Whilst another head may focus
+
+156
+00:06:19.805 --> 00:06:21.800
+on the activity of the sentence.
+
+157
+00:06:21.800 --> 00:06:24.230
+Whilst yet another
+head may focus on
+
+158
+00:06:24.230 --> 00:06:27.580
+some other properties such
+as if the words rhyme.
+
+159
+00:06:27.580 --> 00:06:30.890
+It's important to note that
+you don't dictate ahead of
+
+160
+00:06:30.890 --> 00:06:32.750
+time what aspects of
+
+161
+00:06:32.750 --> 00:06:35.110
+language the attention
+heads will learn.
+
+162
+00:06:35.110 --> 00:06:38.030
+The weights of each
+head are randomly
+
+163
+00:06:38.030 --> 00:06:41.720
+initialized and given sufficient
+training data and time,
+
+164
+00:06:41.720 --> 00:06:45.145
+each will learn different
+aspects of language.
+
+165
+00:06:45.145 --> 00:06:48.305
+While some attention maps
+are easy to interpret,
+
+166
+00:06:48.305 --> 00:06:52.205
+like the examples discussed
+here, others may not be.
+
+167
+00:06:52.205 --> 00:06:54.140
+Now that all of the
+attention weights have
+
+168
+00:06:54.140 --> 00:06:56.120
+been applied to your input data,
+
+169
+00:06:56.120 --> 00:06:58.115
+the output is processed through
+
+170
+00:06:58.115 --> 00:07:00.770
+a fully-connected
+feed-forward network.
+
+171
+00:07:00.770 --> 00:07:03.080
+The output of this layer is
+
+172
+00:07:03.080 --> 00:07:05.210
+a vector of logits
+proportional to
+
+173
+00:07:05.210 --> 00:07:07.490
+the probability
+score for each and
+
+174
+00:07:07.490 --> 00:07:10.475
+every token in the
+tokenizer dictionary.
+
+175
+00:07:10.475 --> 00:07:14.765
+You can then pass these logits
+to a final softmax layer,
+
+176
+00:07:14.765 --> 00:07:16.430
+where they are normalized into
+
+177
+00:07:16.430 --> 00:07:19.085
+a probability score
+for each word.
+
+178
+00:07:19.085 --> 00:07:21.935
+This output includes
+a probability
+
+179
+00:07:21.935 --> 00:07:25.115
+for every single word
+in the vocabulary,
+
+180
+00:07:25.115 --> 00:07:28.265
+so there's likely to be
+thousands of scores here.
+
+181
+00:07:28.265 --> 00:07:32.635
+One single token will have a
+score higher than the rest.
+
+182
+00:07:32.635 --> 00:07:35.600
+This is the most likely
+predicted token.
+
+183
+00:07:35.600 --> 00:07:37.580
+But as you'll see
+later in the course,
+
+184
+00:07:37.580 --> 00:07:40.880
+there are a number of methods
+that you can use to vary
+
+185
+00:07:40.880 --> 00:07:45.750
+the final selection from this
+vector of probabilities.

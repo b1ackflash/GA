@@ -1,0 +1,54 @@
+Welcome back. Last week you learned about
+instruction tuning for large language models as well as peft. This week we'll dive into RLHF, reinforcement learning
+from human feedback. One of those techniques that you may
+have heard about in the news, maybe, but how does it actually work? We'll take a deep dive into that
+as well as the second, I think, very exciting topic on how to use
+LLMs as a reasoning engine and let it cause our own of
+routines to create an agent. They can take actions. >> So RLHF is really exciting. It helps to align the model
+with human values. So, for example,
+LLMs might have a challenge in that it's creating sometimes harmful content or
+like a toxic tone or voice. And by aligning the model
+with human feedback and using reinforcement
+learning as an algorithm. You can help to align the model to
+reduce that and to align towards, less harmful content and
+much more helpful content as well. >> Sometimes people feel like
+LLMs train on this horrible, some horrible internet data feel so
+dangerous. I think many people under
+appreciate how powerful RLHF is. It's certainly imperfect. LLMs do generate problematic outputs. But it feels like with
+the progress of technology, researchers are consistently making
+them more, I guess, the HS, right? Honest, hopeful and harmless. >> Yes, absolutely. And I'm going to be joined this week,
+by the way, by an applied scientist from Amazon
+who will explain a little bit behind the algorithms being used in
+reinforcement learning for this purpose. So I'm looking forward to that. This is Ek, right? Who's going to join us? Definitely, we also invited Dr. Nashley Sepus, who's going to talk
+with us about responsible AI as well. >> That's right. Nashley is going to join us,
+and I will have a discussion with her around the topic of responsible
+AI, which is very important as well. >> And I'm really glad that you
+were spending so much time on this. AI risk is something that a lot of
+people are rightfully thinking about. And I think the seriousness with which
+Sophie, all major AI teams that I know of are taking this and the resources effort
+deaf of thought, we're far from perfect. But Sophie feels like the community is
+working very hard to get better at this every year. And then in addition to responsible AI and
+tuning the models using RLHF, the other technique that I'm excited
+about is using OMS as a reasoning engine. And giving them the power to make their
+own subroutine calls to maybe do a web search or take other actions. >> Definitely and
+we'll get into that inside this lesson. And we'll talk about some techniques
+that allow you to get around some of the limitations that we see with large
+language models by allowing them to reason take action through
+techniques like react. We'll also talk about Rag, which allows
+you to also access external sources of information so you can access
+domain specific information. We see a lot of customers that want
+to be able to incorporate information from proprietary data sources into
+their generative applications. So we talk a little bit about
+some of those techniques and methods that allow you to do that. >> One thing about the giant large
+language models is they're so good at memorizing facts. You're learning facts off the Internet. Sometimes people use them as a repository
+of facts to get answers to their questions. But I think there's a different and
+maybe I think, more helpful way to think of the OMS,
+which is if it's a reasoning engine and you give it APIs to go get its
+own facts because it's an okay. But not the best database of facts,
+but it's a very good reasoning engine. And that, I think,
+is a real power of these models. >> Definitely a lot more cost effective,
+right. Use the database for that information,
+and then your generative AI for that, what it's meant for. >> That's actually a great point. >> [LAUGH]
+>> And so with that, this final week has so much exciting stuff,
+I am confident you'll enjoy it. And so let's go on to the next video where
+Antir will start to deep dive into RLHF.

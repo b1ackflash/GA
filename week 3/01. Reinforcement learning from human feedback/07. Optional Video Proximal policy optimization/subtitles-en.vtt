@@ -1,0 +1,1190 @@
+WEBVTT
+
+1
+00:00:02.120 --> 00:00:05.490
+Dr. Ehsan Kamalinejad,
+
+2
+00:00:05.490 --> 00:00:07.335
+who usually goes by EK,
+
+3
+00:00:07.335 --> 00:00:10.210
+is a machine learning
+applied scientist.
+
+4
+00:00:10.210 --> 00:00:12.655
+He's currently elite scientists
+
+5
+00:00:12.655 --> 00:00:16.090
+working on NLP
+developments at Amazon.
+
+6
+00:00:16.090 --> 00:00:19.540
+Previously, he
+co-founded Visual One,
+
+7
+00:00:19.540 --> 00:00:22.930
+a Y Combinator start-up
+in computer vision.
+
+8
+00:00:22.930 --> 00:00:24.640
+Before that, he was
+
+9
+00:00:24.640 --> 00:00:27.580
+a tech lead machine
+learning engineer at Apple,
+
+10
+00:00:27.580 --> 00:00:30.505
+working on projects
+such as memories.
+
+11
+00:00:30.505 --> 00:00:33.610
+EK is also an
+Associate Professor of
+
+12
+00:00:33.610 --> 00:00:37.760
+Mathematics at California
+State University, East Bay.
+
+13
+00:00:37.760 --> 00:00:40.570
+EK, thanks for
+joining me today to
+
+14
+00:00:40.570 --> 00:00:44.110
+discuss the PPO reinforcement
+learning algorithm.
+
+15
+00:00:44.110 --> 00:00:45.865
+Thanks for having me.
+
+16
+00:00:45.865 --> 00:00:49.070
+What does PPO stand
+for and what do
+
+17
+00:00:49.070 --> 00:00:50.450
+those terms mean in
+
+18
+00:00:50.450 --> 00:00:52.645
+the context of
+reinforcement learning?
+
+19
+00:00:52.645 --> 00:00:57.250
+PPO stands for Proximal
+Policy Optimization,
+
+20
+00:00:57.250 --> 00:00:59.540
+which is a powerful
+algorithm for
+
+21
+00:00:59.540 --> 00:01:02.135
+solving reinforcement
+learning problems.
+
+22
+00:01:02.135 --> 00:01:03.770
+As the name suggests,
+
+23
+00:01:03.770 --> 00:01:06.005
+PPO optimizes a policy,
+
+24
+00:01:06.005 --> 00:01:07.745
+in this case the LLM,
+
+25
+00:01:07.745 --> 00:01:10.910
+to be more aligned with
+human preferences.
+
+26
+00:01:10.910 --> 00:01:16.010
+Over many iterations, PPO
+makes updates to the LLM.
+
+27
+00:01:16.010 --> 00:01:19.895
+The updates are small and
+within a bounded region,
+
+28
+00:01:19.895 --> 00:01:22.955
+resulting in an updated LLM
+
+29
+00:01:22.955 --> 00:01:25.360
+that is close to the
+previous version,
+
+30
+00:01:25.360 --> 00:01:29.260
+hence the name Proximal
+Policy Optimization.
+
+31
+00:01:29.260 --> 00:01:31.010
+Keeping the changes within
+
+32
+00:01:31.010 --> 00:01:35.215
+this small region result
+in a more stable learning.
+
+33
+00:01:35.215 --> 00:01:37.220
+The goal is to update
+
+34
+00:01:37.220 --> 00:01:40.565
+the policy so that the
+reward is maximized.
+
+35
+00:01:40.565 --> 00:01:43.070
+Can you discuss
+how this works in
+
+36
+00:01:43.070 --> 00:01:45.580
+the specific context of
+large language models?
+
+37
+00:01:45.580 --> 00:01:47.580
+Yes, happy to.
+
+38
+00:01:47.580 --> 00:01:51.750
+You start PPO with your
+initial instruct LLM,
+
+39
+00:01:51.750 --> 00:01:53.775
+then at a high level,
+
+40
+00:01:53.775 --> 00:01:58.560
+each cycle of PPO
+goes over two phases.
+
+41
+00:01:58.560 --> 00:02:01.035
+In Phase I, the LLM,
+
+42
+00:02:01.035 --> 00:02:04.460
+is used to carry out a
+number of experiments,
+
+43
+00:02:04.460 --> 00:02:07.270
+completing the given prompts.
+
+44
+00:02:07.270 --> 00:02:10.100
+These experiments
+allow you to update
+
+45
+00:02:10.100 --> 00:02:14.195
+the LLM against the
+reward model in Phase II.
+
+46
+00:02:14.195 --> 00:02:16.670
+Remember that the reward model
+
+47
+00:02:16.670 --> 00:02:19.340
+captures the human preferences.
+
+48
+00:02:19.340 --> 00:02:23.330
+For example, the reward
+can define how helpful,
+
+49
+00:02:23.330 --> 00:02:26.690
+harmless, and honest
+the responses are.
+
+50
+00:02:26.690 --> 00:02:29.750
+The expected reward
+of a completion is
+
+51
+00:02:29.750 --> 00:02:34.820
+an important quantity used
+in the PPO objective.
+
+52
+00:02:34.820 --> 00:02:37.295
+We estimate this
+quantity through
+
+53
+00:02:37.295 --> 00:02:42.005
+a separate head of the LLM
+called the value function.
+
+54
+00:02:42.005 --> 00:02:44.180
+Let's have a closer look at
+
+55
+00:02:44.180 --> 00:02:47.450
+the value function
+and the value loss.
+
+56
+00:02:47.450 --> 00:02:50.900
+Assume a number of
+prompts are given.
+
+57
+00:02:50.900 --> 00:02:55.810
+First, you generate the LLM
+responses to the prompts,
+
+58
+00:02:55.810 --> 00:02:58.790
+then you calculate
+the reward for
+
+59
+00:02:58.790 --> 00:03:02.675
+the prompt completions
+using the reward model.
+
+60
+00:03:02.675 --> 00:03:05.930
+For example, the first
+prompt completion shown
+
+61
+00:03:05.930 --> 00:03:10.865
+here might receive
+a reward of 1.87.
+
+62
+00:03:10.865 --> 00:03:17.360
+The next one might receive a
+reward of -1.24, and so on.
+
+63
+00:03:17.360 --> 00:03:20.000
+You have a set of
+prompt completions
+
+64
+00:03:20.000 --> 00:03:22.400
+and their corresponding rewards.
+
+65
+00:03:22.400 --> 00:03:25.220
+The value function estimates
+
+66
+00:03:25.220 --> 00:03:27.665
+the expected total reward for a
+
+67
+00:03:27.665 --> 00:03:31.415
+given State S. In other words,
+
+68
+00:03:31.415 --> 00:03:35.870
+as the LLM generates each
+token of a completion,
+
+69
+00:03:35.870 --> 00:03:37.490
+you want to estimate
+
+70
+00:03:37.490 --> 00:03:39.545
+the total future reward
+
+71
+00:03:39.545 --> 00:03:43.085
+based on the current
+sequence of tokens.
+
+72
+00:03:43.085 --> 00:03:47.300
+You can think of this as
+a baseline to evaluate
+
+73
+00:03:47.300 --> 00:03:49.610
+the quality of completions
+
+74
+00:03:49.610 --> 00:03:52.525
+against your alignment criteria.
+
+75
+00:03:52.525 --> 00:03:56.405
+Let's say that at this
+step of completion,
+
+76
+00:03:56.405 --> 00:04:02.505
+the estimated future
+total reward is 0.34.
+
+77
+00:04:02.505 --> 00:04:05.965
+With the next generated token,
+
+78
+00:04:05.965 --> 00:04:11.875
+the estimated future total
+reward increases to 1.23.
+
+79
+00:04:11.875 --> 00:04:16.930
+The goal is to minimize
+the value loss that is
+
+80
+00:04:16.930 --> 00:04:18.655
+the difference between
+
+81
+00:04:18.655 --> 00:04:23.020
+the actual future total
+reward in this example,
+
+82
+00:04:23.020 --> 00:04:28.375
+1.87, and its approximation
+to the value function,
+
+83
+00:04:28.375 --> 00:04:31.810
+in this example, 1.23.
+
+84
+00:04:31.810 --> 00:04:33.850
+The value loss makes
+
+85
+00:04:33.850 --> 00:04:37.990
+estimates for future
+rewards more accurate.
+
+86
+00:04:37.990 --> 00:04:40.945
+The value function
+is then used in
+
+87
+00:04:40.945 --> 00:04:44.095
+Advantage Estimation in Phase 2,
+
+88
+00:04:44.095 --> 00:04:46.240
+which we will discuss in a bit.
+
+89
+00:04:46.240 --> 00:04:49.900
+This is similar to when you
+start writing a passage,
+
+90
+00:04:49.900 --> 00:04:52.180
+and you have a rough idea of
+
+91
+00:04:52.180 --> 00:04:55.450
+its final form even
+before you write it.
+
+92
+00:04:55.450 --> 00:04:58.390
+[inaudible] you mentioned that
+
+93
+00:04:58.390 --> 00:05:00.460
+the losses and
+rewards determined in
+
+94
+00:05:00.460 --> 00:05:03.460
+Phase 1 are used in Phase 2
+
+95
+00:05:03.460 --> 00:05:07.300
+to update the weights
+resulting in an updated LLM.
+
+96
+00:05:07.300 --> 00:05:10.330
+Can you explain this process
+in a little bit more detail?
+
+97
+00:05:10.330 --> 00:05:13.255
+Sure. In Phase 2,
+
+98
+00:05:13.255 --> 00:05:17.020
+you make a small updates
+to the model and evaluate
+
+99
+00:05:17.020 --> 00:05:19.300
+the impact of those updates on
+
+100
+00:05:19.300 --> 00:05:22.195
+your alignment goal
+for the model.
+
+101
+00:05:22.195 --> 00:05:24.460
+The model weights updates are
+
+102
+00:05:24.460 --> 00:05:27.145
+guided by the prompt completion,
+
+103
+00:05:27.145 --> 00:05:29.035
+losses, and rewards.
+
+104
+00:05:29.035 --> 00:05:33.145
+PPO also ensures to keep
+the model updates within
+
+105
+00:05:33.145 --> 00:05:37.270
+a certain small region
+called the trust region.
+
+106
+00:05:37.270 --> 00:05:42.370
+This is where the proximal
+aspect of PPO comes into play.
+
+107
+00:05:42.370 --> 00:05:45.820
+Ideally, this series
+of small updates
+
+108
+00:05:45.820 --> 00:05:49.420
+will move the model
+towards higher rewards.
+
+109
+00:05:49.420 --> 00:05:51.775
+The PPO policy objective
+
+110
+00:05:51.775 --> 00:05:54.565
+is the main ingredient
+of this method.
+
+111
+00:05:54.565 --> 00:05:57.625
+Remember, the
+objective is to find
+
+112
+00:05:57.625 --> 00:06:01.540
+a policy whose expected
+reward is high.
+
+113
+00:06:01.540 --> 00:06:03.940
+In other words, you're trying to
+
+114
+00:06:03.940 --> 00:06:06.550
+make updates to the
+LLM weights that
+
+115
+00:06:06.550 --> 00:06:09.610
+result in completions
+more aligned with
+
+116
+00:06:09.610 --> 00:06:14.170
+human preferences and so
+receive a higher reward.
+
+117
+00:06:14.170 --> 00:06:17.530
+The policy loss is the
+main objective that
+
+118
+00:06:17.530 --> 00:06:21.715
+the PPO algorithm tries to
+optimize during training.
+
+119
+00:06:21.715 --> 00:06:24.550
+I know the math
+looks complicated,
+
+120
+00:06:24.550 --> 00:06:27.595
+but it's actually
+simpler than it appears.
+
+121
+00:06:27.595 --> 00:06:30.805
+Let's break it
+down step-by-step.
+
+122
+00:06:30.805 --> 00:06:33.010
+First, focus on
+
+123
+00:06:33.010 --> 00:06:35.125
+the most important expression
+
+124
+00:06:35.125 --> 00:06:37.480
+and ignore the rest for now.
+
+125
+00:06:37.480 --> 00:06:45.065
+Pi of A_t given S_t in
+this context of an LLM,
+
+126
+00:06:45.065 --> 00:06:46.935
+is the probability of
+
+127
+00:06:46.935 --> 00:06:52.820
+the next token A_t given
+the current prompt S_t.
+
+128
+00:06:52.820 --> 00:06:57.565
+The action A_t is
+the next token,
+
+129
+00:06:57.565 --> 00:07:00.190
+and the state S_t is the
+
+130
+00:07:00.190 --> 00:07:03.580
+completed prompt
+up to the token t.
+
+131
+00:07:03.580 --> 00:07:07.060
+The denominator is
+the probability of
+
+132
+00:07:07.060 --> 00:07:08.470
+the next token with
+
+133
+00:07:08.470 --> 00:07:12.355
+the initial version of
+the LLM which is frozen.
+
+134
+00:07:12.355 --> 00:07:16.600
+The numerator is the
+probabilities of the next token,
+
+135
+00:07:16.600 --> 00:07:18.520
+through the updated LLM,
+
+136
+00:07:18.520 --> 00:07:21.565
+which we can change
+for the better reward.
+
+137
+00:07:21.565 --> 00:07:25.255
+A-hat_t is called the estimated
+
+138
+00:07:25.255 --> 00:07:29.155
+advantage term of a
+given choice of action.
+
+139
+00:07:29.155 --> 00:07:33.595
+The advantage term estimates
+how much better or worse
+
+140
+00:07:33.595 --> 00:07:36.595
+the current action
+is compared to
+
+141
+00:07:36.595 --> 00:07:40.225
+all possible actions
+at data state.
+
+142
+00:07:40.225 --> 00:07:43.630
+We look at the expected
+future rewards
+
+143
+00:07:43.630 --> 00:07:46.990
+of a completion
+following the new token,
+
+144
+00:07:46.990 --> 00:07:49.930
+and we estimate how advantageous
+
+145
+00:07:49.930 --> 00:07:53.770
+this completion is
+compared to the rest.
+
+146
+00:07:53.770 --> 00:07:57.160
+There is a recursive
+formula to estimate
+
+147
+00:07:57.160 --> 00:07:58.870
+this quantity based on
+
+148
+00:07:58.870 --> 00:08:02.125
+the value function that
+we discussed earlier.
+
+149
+00:08:02.125 --> 00:08:06.560
+Here, we focus on
+intuitive understanding.
+
+150
+00:08:06.560 --> 00:08:11.480
+Here is a visual representation
+of what I just described.
+
+151
+00:08:11.480 --> 00:08:14.060
+You have a prompt S,
+
+152
+00:08:14.060 --> 00:08:17.150
+and you have different
+paths to complete it,
+
+153
+00:08:17.150 --> 00:08:20.525
+illustrated by different
+paths on the figure.
+
+154
+00:08:20.525 --> 00:08:23.150
+The advantage term tells
+
+155
+00:08:23.150 --> 00:08:25.460
+you how better or
+worse the current
+
+156
+00:08:25.460 --> 00:08:30.830
+token A_t is with respect
+to all the possible tokens.
+
+157
+00:08:30.830 --> 00:08:32.465
+In this visualization,
+
+158
+00:08:32.465 --> 00:08:37.025
+the top path which goes
+higher is better completion,
+
+159
+00:08:37.025 --> 00:08:38.840
+receiving a higher reward.
+
+160
+00:08:38.840 --> 00:08:43.310
+The bottom path goes down
+which is a worst completion.
+
+161
+00:08:43.310 --> 00:08:45.410
+So I do have a question EK,
+
+162
+00:08:45.410 --> 00:08:49.430
+why does maximizing this
+term lead to higher rewards?
+
+163
+00:08:49.430 --> 00:08:51.230
+Let's consider the case where
+
+164
+00:08:51.230 --> 00:08:54.800
+the advantage is positive
+for the suggested token.
+
+165
+00:08:54.800 --> 00:08:57.230
+A positive advantage
+means that the
+
+166
+00:08:57.230 --> 00:09:00.485
+suggested token is
+better than the average.
+
+167
+00:09:00.485 --> 00:09:03.500
+Therefore, increasing
+the probability
+
+168
+00:09:03.500 --> 00:09:04.715
+of the current token
+
+169
+00:09:04.715 --> 00:09:09.275
+seems like a good strategy
+that leads to higher rewards.
+
+170
+00:09:09.275 --> 00:09:11.540
+This translates to maximizing
+
+171
+00:09:11.540 --> 00:09:13.535
+the expression we have here.
+
+172
+00:09:13.535 --> 00:09:16.955
+If the suggested token
+is worse than average,
+
+173
+00:09:16.955 --> 00:09:19.760
+the advantage will be negative.
+
+174
+00:09:19.760 --> 00:09:24.395
+Again, maximizing the expression
+will demote the token,
+
+175
+00:09:24.395 --> 00:09:26.705
+which is the correct strategy.
+
+176
+00:09:26.705 --> 00:09:29.900
+So the overall conclusion
+is that maximizing
+
+177
+00:09:29.900 --> 00:09:34.130
+this expression results
+in a better aligned LLM.
+
+178
+00:09:34.130 --> 00:09:38.360
+Great. So let's just maximize
+this expression then.
+
+179
+00:09:38.360 --> 00:09:41.300
+Directly maximizing
+the expression would
+
+180
+00:09:41.300 --> 00:09:44.405
+lead into problems
+because our calculations
+
+181
+00:09:44.405 --> 00:09:46.670
+are reliable under
+the assumption
+
+182
+00:09:46.670 --> 00:09:50.345
+that our advantage
+estimations are valid.
+
+183
+00:09:50.345 --> 00:09:53.930
+The advantage estimates
+are valid only when
+
+184
+00:09:53.930 --> 00:09:57.560
+the old and new policies
+are close to each other.
+
+185
+00:09:57.560 --> 00:10:00.735
+This is where the rest of
+the terms come into play.
+
+186
+00:10:00.735 --> 00:10:05.245
+So stepping back and looking
+at the whole equation again,
+
+187
+00:10:05.245 --> 00:10:07.450
+what happens here is that you
+
+188
+00:10:07.450 --> 00:10:10.300
+pick the smaller
+of the two terms.
+
+189
+00:10:10.300 --> 00:10:12.850
+The one we just discussed
+
+190
+00:10:12.850 --> 00:10:15.705
+and this second
+modified version of it.
+
+191
+00:10:15.705 --> 00:10:20.615
+Notice that this second
+expression defines a region,
+
+192
+00:10:20.615 --> 00:10:23.870
+where two policies
+are near each other.
+
+193
+00:10:23.870 --> 00:10:26.990
+These extra terms
+are guardrails,
+
+194
+00:10:26.990 --> 00:10:31.625
+and simply define a region
+in proximity to the LLM,
+
+195
+00:10:31.625 --> 00:10:34.715
+where our estimates
+have small errors.
+
+196
+00:10:34.715 --> 00:10:37.505
+This is called the trust region.
+
+197
+00:10:37.505 --> 00:10:40.730
+These extra terms ensure that we
+
+198
+00:10:40.730 --> 00:10:44.315
+are unlikely to leave
+the trust region.
+
+199
+00:10:44.315 --> 00:10:46.580
+In summary, optimizing
+
+200
+00:10:46.580 --> 00:10:49.520
+the PPO policy
+objective results in
+
+201
+00:10:49.520 --> 00:10:55.220
+a better LLM without overshooting
+to unreliable regions.
+
+202
+00:10:55.220 --> 00:10:58.340
+Are there any
+additional components?
+
+203
+00:10:58.340 --> 00:11:02.480
+Yes. You also have
+the entropy loss.
+
+204
+00:11:02.480 --> 00:11:04.940
+While the policy loss moves
+
+205
+00:11:04.940 --> 00:11:07.715
+the model towards
+alignment goal,
+
+206
+00:11:07.715 --> 00:11:12.050
+entropy allows the model
+to maintain creativity.
+
+207
+00:11:12.050 --> 00:11:15.065
+If you kept entropy low,
+
+208
+00:11:15.065 --> 00:11:17.510
+you might end up
+always completing
+
+209
+00:11:17.510 --> 00:11:21.080
+the prompt in the same
+way as shown here.
+
+210
+00:11:21.080 --> 00:11:26.195
+Higher entropy guides the
+LLM towards more creativity.
+
+211
+00:11:26.195 --> 00:11:28.880
+This is similar to the
+temperature setting
+
+212
+00:11:28.880 --> 00:11:32.195
+of LLM that you've
+seen in Week 1.
+
+213
+00:11:32.195 --> 00:11:34.745
+The difference is
+that the temperature
+
+214
+00:11:34.745 --> 00:11:38.630
+influences model creativity
+at the inference time,
+
+215
+00:11:38.630 --> 00:11:40.790
+while the entropy influences
+
+216
+00:11:40.790 --> 00:11:43.745
+the model creativity
+during training.
+
+217
+00:11:43.745 --> 00:11:47.330
+Putting all terms together
+as a weighted sum,
+
+218
+00:11:47.330 --> 00:11:49.910
+we get our PPO objective,
+
+219
+00:11:49.910 --> 00:11:52.220
+which updates the model towards
+
+220
+00:11:52.220 --> 00:11:55.160
+human preference in
+a stable manner.
+
+221
+00:11:55.160 --> 00:11:58.235
+This is the overall
+PPO objective.
+
+222
+00:11:58.235 --> 00:12:03.035
+The C1 and C2 coefficients
+are hyperparameters.
+
+223
+00:12:03.035 --> 00:12:05.450
+The PPO objective updates
+
+224
+00:12:05.450 --> 00:12:06.800
+the model weights through
+
+225
+00:12:06.800 --> 00:12:09.965
+back propagation
+over several steps.
+
+226
+00:12:09.965 --> 00:12:12.650
+Once the model
+weights are updated,
+
+227
+00:12:12.650 --> 00:12:15.605
+PPO starts a new cycle.
+
+228
+00:12:15.605 --> 00:12:17.945
+For the next iteration,
+
+229
+00:12:17.945 --> 00:12:21.290
+the LLM is replaced
+with the updated LLM,
+
+230
+00:12:21.290 --> 00:12:24.110
+and a new PPO cycle starts.
+
+231
+00:12:24.110 --> 00:12:26.585
+After many iterations, you
+
+232
+00:12:26.585 --> 00:12:29.570
+arrive at the human-aligned LLM.
+
+233
+00:12:29.570 --> 00:12:33.350
+Now, are there other
+reinforcement learning techniques
+
+234
+00:12:33.350 --> 00:12:35.630
+that are used for RLHF?
+
+235
+00:12:35.630 --> 00:12:38.780
+Yes. For example, Q-learning is
+
+236
+00:12:38.780 --> 00:12:43.535
+an alternate technique for
+fine-tuning LLMs through RL,
+
+237
+00:12:43.535 --> 00:12:47.225
+but PPO is currently the
+most popular method.
+
+238
+00:12:47.225 --> 00:12:50.840
+In my opinion, PPO is
+popular because it has
+
+239
+00:12:50.840 --> 00:12:54.470
+the right balance of
+complexity and performance.
+
+240
+00:12:54.470 --> 00:12:57.410
+That being said, fine-tuning
+the LLMs through
+
+241
+00:12:57.410 --> 00:13:01.895
+human or AI feedback is an
+active area of research.
+
+242
+00:13:01.895 --> 00:13:04.505
+We can expect many
+more developments
+
+243
+00:13:04.505 --> 00:13:07.110
+in this area in the near future.
+
+244
+00:13:07.110 --> 00:13:10.570
+For example, just before we
+were recording this video,
+
+245
+00:13:10.570 --> 00:13:13.495
+researchers at Stanford
+published a paper
+
+246
+00:13:13.495 --> 00:13:15.040
+describing a technique
+
+247
+00:13:15.040 --> 00:13:17.860
+called direct preference
+optimization,
+
+248
+00:13:17.860 --> 00:13:20.820
+which is a simpler
+alternate to RLHF.
+
+249
+00:13:20.820 --> 00:13:24.965
+New methods like this are
+still in active development,
+
+250
+00:13:24.965 --> 00:13:27.140
+and more work has to be done
+
+251
+00:13:27.140 --> 00:13:29.810
+to better understand
+their benefits,
+
+252
+00:13:29.810 --> 00:13:33.665
+but I think this is a very
+exciting area of research.
+
+253
+00:13:33.665 --> 00:13:36.620
+Agree. Thanks so
+much EK for sharing
+
+254
+00:13:36.620 --> 00:13:39.695
+those insights into PPO and
+reinforcement learning.
+
+255
+00:13:39.695 --> 00:13:42.870
+Thanks, Andrea.
+Thanks for having me.

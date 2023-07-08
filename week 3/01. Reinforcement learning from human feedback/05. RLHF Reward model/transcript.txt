@@ -1,0 +1,39 @@
+At this stage, you
+have everything you need to train
+the reward model. While it has taken
+a fair amount of human effort to
+get to this point, by the time you're done
+training the reward model, you won't need to include
+any more humans in the loop. Instead, the reward model will effectively take place
+off the human labeler and automatically choose
+the preferred completion during the oral HF process. This reward model is usually
+also a language model. For example, a bird
+that is trained using supervised
+learning methods on the pairwise comparison
+data that you prepared from the human labelers assessment off the prompts. For a given prompt X, the reward model
+learns to favor the human-preferred completion y_ j, while minimizing the lock sigmoid off the reward
+difference, r_j-r_k. As you saw on the last slide, the human-preferred option is always the first
+one labeled y_j. Once the model has
+been trained on the human rank
+prompt-completion pairs, you can use the reward model
+as a binary classifier to provide a set
+of logics across the positive and
+negative classes. Logics are the
+unnormalized model outputs before applying any
+activation function. Let's say you want to
+detoxify your LLM, and the reward model needs to identify if the completion
+contains hate speech. In this case, the two
+classes would be notate, the positive class that you
+ultimately want to optimize for and hate the negative
+class you want to avoid. The largest value of the
+positive class is what you use as the reward value in LLHF. Just to remind you, if you apply a Softmax function
+to the logits, you will get the probabilities. The example here shows
+a good reward for non-toxic completion
+and the second example shows a bad reward being
+given for toxic completion. I know this lesson has
+covered a lot so far. But at this point, you
+have a powerful tool in this reward model
+for aligning your LLM. The next step is to explore how the reward
+model gets used in the reinforcement
+learning process to train your human-aligned LLM. Join me in the next video
+to see how this works.

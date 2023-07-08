@@ -1,0 +1,72 @@
+Welcome back I'm here with my instructors
+for this week, Mike and Shelby. Last week you learned about transformer
+networks, which is really a key foundation for large language models, as well as
+the Genitive AI project Life Cycle. And this week there's
+lots more to dive into, starting with instruction tuning
+of large language models. And then later how to carry out
+fine-tuning in an efficient way. >> Yes, so
+we take a look at instruction fine-tuning, so when you have your base model,
+the thing that's initially pretrained, it's encoded a lot of really good
+information, usually about the world. So it knows about things, but it doesn't necessarily know how to be able
+to respond to our prompts, our questions. So when we instruct it
+to do a certain task, it doesn't necessarily
+know how to respond. And so instruction fine-tuning helps
+it to be able to change its behavior to be more helpful for us. >> I thought instruction fine-tuning
+was one of those major breakthroughs in the really history of
+large language models. Because by learning off general text
+off the Internet and other sources, you learn to predict the next word. By predicting what's the next word on
+the Internet is not the same as following instructions. I thought it's amazing you can
+take a large language model, train it on hundreds of billions
+of words off the Internet. And then fine-tune it with a much smaller
+data set on following instructions and just learn to do that. >> That's right and one of the things
+you have to watch out for, of course, is catastrophic forgetting and this is something that we
+talk about in the course. So that's where you train the model on
+some extra data in this insane instruct fine-tuning. And then it forgets all of that
+stuff that it had before, or a big chunk of that data
+that it had before. And so there are some techniques
+that we'll talk about in the course to help combat that. Such as doing instruct fine-tuning
+across a really broad range of different instruction types. So it's not just a case of just tuning
+it on just the thing you want it to do. You might have to be a little bit
+broader than that as well, but we talk about it in the course. >> And so it turns out that there are two
+types of fine-tuning that are very worth doing. One is that instruction fine-tuning
+we just talked about, Mike. And then when a specific developer
+is trying to fine-tune it for their own application, for
+a specialized application. One of the problems with fine-tuning
+is you take a giant model and you fine-tune every single
+parameter in that model. You have this big thing to
+store around and deploy, and it's actually very compute and
+memory expansive. So fortunately,
+there are better techniques than that. >> Right, and we talk about parameter
+efficient fine-tuning or PEFT for short, as a set of methods that can allow you to
+mitigate some of those concerns, right? So we have a lot of customers that
+do want to be able to tune for very specific tasks,
+very specific domains. And parameter efficient fine-tuning is
+a great way to still achieve similar performance results on a lot of tasks
+that you can with full fine-tuning. But then actually take advantage of
+techniques that allow you to freeze those original model weights. Or add adaptive layers on top of that with
+a much smaller memory footprint, right? So that you can train for multiple tasks. >> In fact, one of the techniques that
+I know you've used a lot is LoRA. I remember when I read the LoRA paper,
+I thought, this just makes sense, this is going to work. >> Right, we see a lot of
+excitement demand around LoRA because of the performance
+results of using those low rank matrices as opposed
+to full fine-tuning, right? So you're able to get really good
+performance results with minimal compute and memory requirements. >> So what I'm seeing among
+different developers is many developers will often start
+off with prompting, and sometimes that gives you good enough
+performance and that's great. And sometimes prompting hits
+a ceiling in performance and then this type of fine-tuning with LoRA or
+other PEFT technique is really critical for
+unlocking that extra level performance. And then the other thing I'm seeing
+among a lot of OM developers is a discussion debate about
+the cost of using a giant model, which is a lot of benefits versus for your
+application fine-tuning a smaller model. >> Exactly, full fine tuning
+can be cost prohibitive, right? To say the least so the ability to actually be able to
+use techniques like PEFT to put fine-tuning generative AI models kind
+of in the hands of everyday users. That do have those cost constraints and
+they're cost conscious, which is pretty much everyone
+in the real world, right? >> That's right and of course, if you're concerned about where
+your data is going as well. So if it needs to be
+running in your control, then having a model which is of
+an appropriate size is really important. >> And so, once again, tons of
+exciting stuff to dive into this week. Let's go on to the next video where Mike
+will kick things off with instruction fine-tuning.

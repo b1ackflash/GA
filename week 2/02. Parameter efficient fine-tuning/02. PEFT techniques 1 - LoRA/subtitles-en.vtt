@@ -1,0 +1,952 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.195
+Low-rank Adaptation,
+or LoRA for short,
+
+2
+00:00:03.195 --> 00:00:06.060
+is a parameter-efficient
+fine-tuning technique that
+
+3
+00:00:06.060 --> 00:00:09.165
+falls into the
+re-parameterization category.
+
+4
+00:00:09.165 --> 00:00:11.430
+Let's take a look
+at how it works.
+
+5
+00:00:11.430 --> 00:00:12.825
+As a quick reminder,
+
+6
+00:00:12.825 --> 00:00:14.190
+here's the diagram of
+
+7
+00:00:14.190 --> 00:00:15.990
+the transformer
+architecture that
+
+8
+00:00:15.990 --> 00:00:17.835
+you saw earlier in the course.
+
+9
+00:00:17.835 --> 00:00:20.850
+The input prompt is
+turned into tokens,
+
+10
+00:00:20.850 --> 00:00:24.210
+which are then converted to
+embedding vectors and passed
+
+11
+00:00:24.210 --> 00:00:28.090
+into the encoder and/or decoder
+parts of the transformer.
+
+12
+00:00:28.090 --> 00:00:29.870
+In both of these components,
+
+13
+00:00:29.870 --> 00:00:32.065
+there are two kinds
+of neural networks;
+
+14
+00:00:32.065 --> 00:00:35.220
+self-attention and
+feedforward networks.
+
+15
+00:00:35.220 --> 00:00:36.920
+The weights of these networks
+
+16
+00:00:36.920 --> 00:00:38.825
+are learned during pre-training.
+
+17
+00:00:38.825 --> 00:00:41.360
+After the embedding
+vectors are created,
+
+18
+00:00:41.360 --> 00:00:44.420
+they're fed into the
+self-attention layers where
+
+19
+00:00:44.420 --> 00:00:46.130
+a series of weights are applied
+
+20
+00:00:46.130 --> 00:00:48.185
+to calculate the
+attention scores.
+
+21
+00:00:48.185 --> 00:00:49.805
+During full fine-tuning,
+
+22
+00:00:49.805 --> 00:00:52.900
+every parameter in these
+layers is updated.
+
+23
+00:00:52.900 --> 00:00:54.590
+LoRA is a strategy that
+
+24
+00:00:54.590 --> 00:00:56.840
+reduces the number of
+parameters to be trained
+
+25
+00:00:56.840 --> 00:00:59.060
+during fine-tuning by freezing
+
+26
+00:00:59.060 --> 00:01:01.610
+all of the original model
+parameters and then
+
+27
+00:01:01.610 --> 00:01:02.690
+injecting a pair of
+
+28
+00:01:02.690 --> 00:01:04.865
+rank decomposition matrices
+
+29
+00:01:04.865 --> 00:01:06.850
+alongside the original weights.
+
+30
+00:01:06.850 --> 00:01:09.065
+The dimensions of
+the smaller matrices
+
+31
+00:01:09.065 --> 00:01:10.715
+are set so that their product
+
+32
+00:01:10.715 --> 00:01:12.980
+is a matrix with
+the same dimensions
+
+33
+00:01:12.980 --> 00:01:14.920
+as the weights
+they're modifying.
+
+34
+00:01:14.920 --> 00:01:17.000
+You then keep the
+original weights of
+
+35
+00:01:17.000 --> 00:01:18.920
+the LLM frozen and train
+
+36
+00:01:18.920 --> 00:01:20.540
+the smaller matrices using
+
+37
+00:01:20.540 --> 00:01:22.520
+the same supervised
+learning process
+
+38
+00:01:22.520 --> 00:01:24.200
+you saw earlier this week.
+
+39
+00:01:24.200 --> 00:01:27.680
+For inference, the two low-rank
+matrices are multiplied
+
+40
+00:01:27.680 --> 00:01:30.050
+together to create a matrix with
+
+41
+00:01:30.050 --> 00:01:32.750
+the same dimensions as
+the frozen weights.
+
+42
+00:01:32.750 --> 00:01:35.720
+You then add this to the
+original weights and
+
+43
+00:01:35.720 --> 00:01:38.920
+replace them in the model
+with these updated values.
+
+44
+00:01:38.920 --> 00:01:41.225
+You now have a LoRA
+fine-tuned model
+
+45
+00:01:41.225 --> 00:01:43.475
+that can carry out
+your specific task.
+
+46
+00:01:43.475 --> 00:01:44.930
+Because this model has
+
+47
+00:01:44.930 --> 00:01:47.615
+the same number of
+parameters as the original,
+
+48
+00:01:47.615 --> 00:01:51.010
+there is little to no impact
+on inference latency.
+
+49
+00:01:51.010 --> 00:01:53.190
+Researchers have
+found that applying
+
+50
+00:01:53.190 --> 00:01:55.490
+LoRA to just the
+self-attention layers of
+
+51
+00:01:55.490 --> 00:01:57.770
+the model is often enough to
+
+52
+00:01:57.770 --> 00:02:01.255
+fine-tune for a task and
+achieve performance gains.
+
+53
+00:02:01.255 --> 00:02:02.855
+However, in principle,
+
+54
+00:02:02.855 --> 00:02:04.325
+you can also use LoRA on
+
+55
+00:02:04.325 --> 00:02:07.045
+other components like
+the feed-forward layers.
+
+56
+00:02:07.045 --> 00:02:08.930
+But since most of
+the parameters of
+
+57
+00:02:08.930 --> 00:02:11.045
+LLMs are in the
+attention layers,
+
+58
+00:02:11.045 --> 00:02:12.710
+you get the biggest savings in
+
+59
+00:02:12.710 --> 00:02:14.900
+trainable parameters by applying
+
+60
+00:02:14.900 --> 00:02:17.060
+LoRA to these weights matrices.
+
+61
+00:02:17.060 --> 00:02:19.700
+Let's look at a
+practical example using
+
+62
+00:02:19.700 --> 00:02:21.890
+the transformer
+architecture described in
+
+63
+00:02:21.890 --> 00:02:24.625
+the Attention is
+All You Need paper.
+
+64
+00:02:24.625 --> 00:02:27.560
+The paper specifies that
+the transformer weights
+
+65
+00:02:27.560 --> 00:02:31.355
+have dimensions of 512 by 64.
+
+66
+00:02:31.355 --> 00:02:34.325
+This means that
+each weights matrix
+
+67
+00:02:34.325 --> 00:02:39.055
+has 32,768 trainable parameters.
+
+68
+00:02:39.055 --> 00:02:40.440
+If you use LoRA as
+
+69
+00:02:40.440 --> 00:02:43.250
+a fine-tuning method with
+the rank equal to eight,
+
+70
+00:02:43.250 --> 00:02:44.570
+you will instead train
+
+71
+00:02:44.570 --> 00:02:47.660
+two small rank
+decomposition matrices
+
+72
+00:02:47.660 --> 00:02:49.795
+whose small dimension is eight.
+
+73
+00:02:49.795 --> 00:02:54.615
+This means that Matrix A will
+have dimensions of 8 by 64,
+
+74
+00:02:54.615 --> 00:02:58.155
+resulting in 512
+total parameters.
+
+75
+00:02:58.155 --> 00:03:02.040
+Matrix B will have
+dimensions of 512 by 8,
+
+76
+00:03:02.040 --> 00:03:05.445
+or 4,096 trainable parameters.
+
+77
+00:03:05.445 --> 00:03:06.980
+By updating the weights of
+
+78
+00:03:06.980 --> 00:03:08.930
+these new low-rank matrices
+
+79
+00:03:08.930 --> 00:03:10.865
+instead of the original weights,
+
+80
+00:03:10.865 --> 00:03:14.600
+you'll be training 4,608
+parameters instead of
+
+81
+00:03:14.600 --> 00:03:19.765
+32,768 and 86% reduction.
+
+82
+00:03:19.765 --> 00:03:22.070
+Because LoRA allows
+you to significantly
+
+83
+00:03:22.070 --> 00:03:24.305
+reduce the number of
+trainable parameters,
+
+84
+00:03:24.305 --> 00:03:26.210
+you can often perform
+this method of
+
+85
+00:03:26.210 --> 00:03:28.250
+parameter efficient
+fine tuning with
+
+86
+00:03:28.250 --> 00:03:30.380
+a single GPU and avoid
+
+87
+00:03:30.380 --> 00:03:33.160
+the need for a distributed
+cluster of GPUs.
+
+88
+00:03:33.160 --> 00:03:36.375
+Since the rank-decomposition
+matrices are small,
+
+89
+00:03:36.375 --> 00:03:39.740
+you can fine-tune a different
+set for each task and then
+
+90
+00:03:39.740 --> 00:03:41.630
+switch them out
+at inference time
+
+91
+00:03:41.630 --> 00:03:43.295
+by updating the weights.
+
+92
+00:03:43.295 --> 00:03:45.230
+Suppose you train a pair of
+
+93
+00:03:45.230 --> 00:03:47.840
+LoRA matrices for
+a specific task;
+
+94
+00:03:47.840 --> 00:03:49.570
+let's call it Task A.
+
+95
+00:03:49.570 --> 00:03:51.740
+To carry out inference
+on this task,
+
+96
+00:03:51.740 --> 00:03:54.710
+you would multiply these
+matrices together and
+
+97
+00:03:54.710 --> 00:03:56.870
+then add the resulting matrix
+
+98
+00:03:56.870 --> 00:03:58.600
+to the original frozen weights.
+
+99
+00:03:58.600 --> 00:04:02.375
+You then take this new
+summed weights matrix
+
+100
+00:04:02.375 --> 00:04:04.280
+and replace the original weights
+
+101
+00:04:04.280 --> 00:04:06.080
+where they appear in your model.
+
+102
+00:04:06.080 --> 00:04:08.180
+You can then use this model to
+
+103
+00:04:08.180 --> 00:04:10.310
+carry out inference on Task A.
+
+104
+00:04:10.310 --> 00:04:12.230
+If instead, you
+want to carry out
+
+105
+00:04:12.230 --> 00:04:14.765
+a different task, say Task B,
+
+106
+00:04:14.765 --> 00:04:16.970
+you simply take the
+LoRA matrices you
+
+107
+00:04:16.970 --> 00:04:19.670
+trained for this task,
+calculate their product,
+
+108
+00:04:19.670 --> 00:04:21.500
+and then add this matrix to
+
+109
+00:04:21.500 --> 00:04:24.825
+the original weights and
+update the model again.
+
+110
+00:04:24.825 --> 00:04:26.330
+The memory required to store
+
+111
+00:04:26.330 --> 00:04:28.600
+these LoRA matrices
+is very small.
+
+112
+00:04:28.600 --> 00:04:30.540
+So in principle, you can use
+
+113
+00:04:30.540 --> 00:04:32.760
+LoRA to train for many tasks.
+
+114
+00:04:32.760 --> 00:04:35.225
+Switch out the weights
+when you need to use them,
+
+115
+00:04:35.225 --> 00:04:36.860
+and avoid having to store
+
+116
+00:04:36.860 --> 00:04:40.205
+multiple full-size
+versions of the LLM.
+
+117
+00:04:40.205 --> 00:04:42.370
+How good are these models?
+
+118
+00:04:42.370 --> 00:04:44.915
+Let's use the ROUGE
+metric you learned about
+
+119
+00:04:44.915 --> 00:04:47.810
+earlier this week to
+compare the performance of
+
+120
+00:04:47.810 --> 00:04:49.820
+a LoRA fine-tune model to
+
+121
+00:04:49.820 --> 00:04:51.500
+both an original base model
+
+122
+00:04:51.500 --> 00:04:53.845
+and a full fine-tuned version.
+
+123
+00:04:53.845 --> 00:04:55.620
+Let's focus on fine-tuning
+
+124
+00:04:55.620 --> 00:04:58.340
+the FLAN-T5 for
+dialogue summarization,
+
+125
+00:04:58.340 --> 00:05:00.475
+which you explored
+earlier in the week.
+
+126
+00:05:00.475 --> 00:05:01.785
+Just to remind you,
+
+127
+00:05:01.785 --> 00:05:05.360
+the FLAN-T5-base model
+has had an initial set of
+
+128
+00:05:05.360 --> 00:05:07.115
+full fine-tuning carried out
+
+129
+00:05:07.115 --> 00:05:09.840
+using a large
+instruction data set.
+
+130
+00:05:09.840 --> 00:05:12.050
+First, let's set a
+baseline score for
+
+131
+00:05:12.050 --> 00:05:14.390
+the FLAN-T5 base model and
+
+132
+00:05:14.390 --> 00:05:17.045
+the summarization data
+set we discussed earlier.
+
+133
+00:05:17.045 --> 00:05:19.730
+Here are the ROUGE scores
+for the base model where
+
+134
+00:05:19.730 --> 00:05:22.375
+a higher number indicates
+better performance.
+
+135
+00:05:22.375 --> 00:05:24.170
+You should focus on
+the ROUGE 1 score
+
+136
+00:05:24.170 --> 00:05:25.325
+for this discussion,
+
+137
+00:05:25.325 --> 00:05:27.980
+but you could use any of
+these scores for comparison.
+
+138
+00:05:27.980 --> 00:05:30.605
+As you can see, the
+scores are fairly low.
+
+139
+00:05:30.605 --> 00:05:33.260
+Next, look at the scores
+for a model that has had
+
+140
+00:05:33.260 --> 00:05:37.145
+additional full fine-tuning
+on dialogue summarization.
+
+141
+00:05:37.145 --> 00:05:40.295
+Remember, although FLAN-T5
+is a capable model,
+
+142
+00:05:40.295 --> 00:05:41.690
+it can still benefit from
+
+143
+00:05:41.690 --> 00:05:44.495
+additional fine-tuning
+on specific tasks.
+
+144
+00:05:44.495 --> 00:05:45.875
+With full fine-tuning,
+
+145
+00:05:45.875 --> 00:05:47.360
+you update every way in
+
+146
+00:05:47.360 --> 00:05:49.405
+the model during
+supervised learning.
+
+147
+00:05:49.405 --> 00:05:51.140
+You can see that this results in
+
+148
+00:05:51.140 --> 00:05:52.985
+a much higher ROUGE 1 score
+
+149
+00:05:52.985 --> 00:05:57.185
+increasing over the base
+FLAN-T5 model by 0.19.
+
+150
+00:05:57.185 --> 00:06:00.170
+The additional round of
+fine-tuning has greatly improved
+
+151
+00:06:00.170 --> 00:06:03.535
+the performance of the model
+on the summarization task.
+
+152
+00:06:03.535 --> 00:06:05.390
+Now let's take a
+look at the scores
+
+153
+00:06:05.390 --> 00:06:07.400
+for the LoRA fine-tune model.
+
+154
+00:06:07.400 --> 00:06:09.410
+You can see that
+this process also
+
+155
+00:06:09.410 --> 00:06:11.740
+resulted in a big
+boost in performance.
+
+156
+00:06:11.740 --> 00:06:13.640
+The ROUGE 1 score
+has increased from
+
+157
+00:06:13.640 --> 00:06:15.650
+the baseline by 0.17.
+
+158
+00:06:15.650 --> 00:06:17.180
+This is a little lower than
+
+159
+00:06:17.180 --> 00:06:19.360
+full fine-tuning, but not much.
+
+160
+00:06:19.360 --> 00:06:21.030
+However, using LoRA for
+
+161
+00:06:21.030 --> 00:06:23.450
+fine-tuning trained a
+much smaller number of
+
+162
+00:06:23.450 --> 00:06:25.385
+parameters than full fine-tuning
+
+163
+00:06:25.385 --> 00:06:27.890
+using significantly
+less compute,
+
+164
+00:06:27.890 --> 00:06:29.450
+so this small trade-off in
+
+165
+00:06:29.450 --> 00:06:31.405
+performance may
+well be worth it.
+
+166
+00:06:31.405 --> 00:06:33.230
+You might be wondering
+how to choose
+
+167
+00:06:33.230 --> 00:06:35.300
+the rank of the LoRA matrices.
+
+168
+00:06:35.300 --> 00:06:36.950
+This is a good question and
+
+169
+00:06:36.950 --> 00:06:39.100
+still an active
+area of research.
+
+170
+00:06:39.100 --> 00:06:41.195
+In principle, the
+smaller the rank,
+
+171
+00:06:41.195 --> 00:06:43.460
+the smaller the number
+of trainable parameters,
+
+172
+00:06:43.460 --> 00:06:45.635
+and the bigger the
+savings on compute.
+
+173
+00:06:45.635 --> 00:06:47.120
+However, there are some issues
+
+174
+00:06:47.120 --> 00:06:49.580
+related to model
+performance to consider.
+
+175
+00:06:49.580 --> 00:06:51.980
+In the paper that
+first proposed LoRA,
+
+176
+00:06:51.980 --> 00:06:54.035
+researchers at
+Microsoft explored
+
+177
+00:06:54.035 --> 00:06:55.460
+how different choices of
+
+178
+00:06:55.460 --> 00:06:57.485
+rank impacted the
+model performance
+
+179
+00:06:57.485 --> 00:06:59.275
+on language generation tasks.
+
+180
+00:06:59.275 --> 00:07:02.270
+You can see the summary of the
+results in the table here.
+
+181
+00:07:02.270 --> 00:07:04.160
+The table shows the rank of
+
+182
+00:07:04.160 --> 00:07:06.500
+the LoRA matrices in
+the first column,
+
+183
+00:07:06.500 --> 00:07:08.645
+the final loss
+value of the model,
+
+184
+00:07:08.645 --> 00:07:10.655
+and the scores for
+different metrics,
+
+185
+00:07:10.655 --> 00:07:12.370
+including BLEU and ROUGE.
+
+186
+00:07:12.370 --> 00:07:14.210
+The bold values indicate
+
+187
+00:07:14.210 --> 00:07:17.020
+the best scores that were
+achieved for each metric.
+
+188
+00:07:17.020 --> 00:07:19.250
+The authors found a plateau in
+
+189
+00:07:19.250 --> 00:07:22.160
+the loss value for
+ranks greater than 16.
+
+190
+00:07:22.160 --> 00:07:23.660
+In other words, using
+
+191
+00:07:23.660 --> 00:07:27.040
+larger LoRA matrices didn't
+improve performance.
+
+192
+00:07:27.040 --> 00:07:31.610
+The takeaway here is that
+ranks in the range of 4-32 can
+
+193
+00:07:31.610 --> 00:07:33.830
+provide you with a good
+trade-off between reducing
+
+194
+00:07:33.830 --> 00:07:36.760
+trainable parameters and
+preserving performance.
+
+195
+00:07:36.760 --> 00:07:38.600
+Optimizing the choice of rank is
+
+196
+00:07:38.600 --> 00:07:40.640
+an ongoing area of research and
+
+197
+00:07:40.640 --> 00:07:42.260
+best practices may evolve as
+
+198
+00:07:42.260 --> 00:07:45.790
+more practitioners like
+you make use of LoRA.
+
+199
+00:07:45.790 --> 00:07:48.450
+LoRA is a powerful
+fine-tuning method
+
+200
+00:07:48.450 --> 00:07:50.250
+that achieves great performance.
+
+201
+00:07:50.250 --> 00:07:52.040
+The principles behind
+the method are
+
+202
+00:07:52.040 --> 00:07:54.155
+useful not just
+for training LLMs,
+
+203
+00:07:54.155 --> 00:07:56.005
+but for models in other domains.
+
+204
+00:07:56.005 --> 00:07:57.920
+The final path method
+
+205
+00:07:57.920 --> 00:07:59.750
+that you'll explore this
+week doesn't change
+
+206
+00:07:59.750 --> 00:08:01.760
+the LLM at all and instead
+
+207
+00:08:01.760 --> 00:08:04.175
+focuses on training
+your input text.
+
+208
+00:08:04.175 --> 00:08:07.560
+Join me in the next
+video to learn more.

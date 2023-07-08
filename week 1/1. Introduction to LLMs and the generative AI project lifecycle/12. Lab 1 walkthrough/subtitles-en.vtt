@@ -1,0 +1,1514 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.240
+This is Lab 1, and like I said,
+
+2
+00:00:03.240 --> 00:00:05.805
+we are going to grab
+
+3
+00:00:05.805 --> 00:00:08.880
+a data-set of these
+conversations
+
+4
+00:00:08.880 --> 00:00:10.270
+that are happening
+between people.
+
+5
+00:00:10.270 --> 00:00:12.570
+What we plan to do
+is to summarize
+
+6
+00:00:12.570 --> 00:00:15.930
+these dialogues and so
+think of a support dialogue
+
+7
+00:00:15.930 --> 00:00:17.790
+between you and your
+customers maybe
+
+8
+00:00:17.790 --> 00:00:20.010
+the end of the month
+you want to summarize
+
+9
+00:00:20.010 --> 00:00:22.185
+all of the issues that
+
+10
+00:00:22.185 --> 00:00:25.575
+your customer support team
+has dealt with that month.
+
+11
+00:00:25.575 --> 00:00:27.225
+Some other things to note now,
+
+12
+00:00:27.225 --> 00:00:30.560
+I'm zoomed in a
+little bit much here,
+
+13
+00:00:30.560 --> 00:00:32.360
+but you can see that
+we have eight CPUs,
+
+14
+00:00:32.360 --> 00:00:34.115
+we have 32 gigs of RAM.
+
+15
+00:00:34.115 --> 00:00:35.985
+We're using Python three
+
+16
+00:00:35.985 --> 00:00:39.140
+and these are some
+of the pip install.
+
+17
+00:00:39.140 --> 00:00:42.575
+So if I do a Shift Enter here,
+
+18
+00:00:42.575 --> 00:00:45.095
+this is going to start doing
+
+19
+00:00:45.095 --> 00:00:48.205
+the Python library installs
+
+20
+00:00:48.205 --> 00:00:50.705
+and we see that we're
+going to be using PyTorch.
+
+21
+00:00:50.705 --> 00:00:53.885
+We are installing a
+library called Torch data,
+
+22
+00:00:53.885 --> 00:00:56.090
+which helps with the
+data loading and
+
+23
+00:00:56.090 --> 00:01:00.185
+some other aspects for PyTorch
+specific to data-sets.
+
+24
+00:01:00.185 --> 00:01:02.390
+Here we see Transformers.
+
+25
+00:01:02.390 --> 00:01:04.565
+This is a library
+from Hugging Face,
+
+26
+00:01:04.565 --> 00:01:07.085
+a really cool company
+who has built
+
+27
+00:01:07.085 --> 00:01:08.450
+a whole lot of open source
+
+28
+00:01:08.450 --> 00:01:10.790
+tooling for large
+language models.
+
+29
+00:01:10.790 --> 00:01:13.790
+They also had built
+this library,
+
+30
+00:01:13.790 --> 00:01:15.975
+this Python library
+called data-sets,
+
+31
+00:01:15.975 --> 00:01:18.170
+that can load in many of
+
+32
+00:01:18.170 --> 00:01:20.180
+the common public
+data-sets that people
+
+33
+00:01:20.180 --> 00:01:22.460
+use to either train models,
+
+34
+00:01:22.460 --> 00:01:25.870
+fine tune models, or
+just experiment with.
+
+35
+00:01:25.870 --> 00:01:28.070
+If you click Shift Enter there,
+
+36
+00:01:28.070 --> 00:01:29.375
+this will run for a bit.
+
+37
+00:01:29.375 --> 00:01:32.915
+Now keep in mind this does
+take a few minutes to load.
+
+38
+00:01:32.915 --> 00:01:39.920
+This whole notebook will
+depend on these libraries.
+
+39
+00:01:39.920 --> 00:01:42.580
+So make sure that
+these do install.
+
+40
+00:01:42.580 --> 00:01:45.695
+Just ignore these
+errors, these warnings.
+
+41
+00:01:45.695 --> 00:01:48.020
+We always try to do things to
+
+42
+00:01:48.020 --> 00:01:49.070
+mitigate these errors and
+
+43
+00:01:49.070 --> 00:01:50.810
+warnings and they
+always show up,
+
+44
+00:01:50.810 --> 00:01:52.745
+things will still work.
+
+45
+00:01:52.745 --> 00:01:54.680
+Just trust me, these libraries
+
+46
+00:01:54.680 --> 00:01:56.580
+and these notebooks do run.
+
+47
+00:01:56.580 --> 00:01:57.980
+We've pinned all of
+
+48
+00:01:57.980 --> 00:01:59.990
+the Python library versions so
+
+49
+00:01:59.990 --> 00:02:02.705
+that as new versions come out,
+
+50
+00:02:02.705 --> 00:02:05.030
+it will not potentially
+break these notebooks
+
+51
+00:02:05.030 --> 00:02:08.025
+so just keep that in mind.
+
+52
+00:02:08.025 --> 00:02:10.340
+This does say to
+restart the kernel,
+
+53
+00:02:10.340 --> 00:02:11.930
+I don't think you
+have to do that.
+
+54
+00:02:11.930 --> 00:02:13.385
+Let's just keep on going.
+
+55
+00:02:13.385 --> 00:02:16.760
+Now we're going to actually
+do the imports here.
+
+56
+00:02:16.760 --> 00:02:19.680
+This is going to import
+functions called load data-set,
+
+57
+00:02:19.680 --> 00:02:23.630
+this is going to import
+some of the models
+
+58
+00:02:23.630 --> 00:02:26.030
+and tokenizers that are needed
+
+59
+00:02:26.030 --> 00:02:29.185
+to accomplish our lab here.
+
+60
+00:02:29.185 --> 00:02:33.285
+We're going to use this data-set
+called Dialogue sum and
+
+61
+00:02:33.285 --> 00:02:36.905
+this is a public data-set
+that transformers,
+
+62
+00:02:36.905 --> 00:02:39.140
+and specifically the
+data-sets library
+
+63
+00:02:39.140 --> 00:02:42.140
+does expose and does
+give us access to,
+
+64
+00:02:42.140 --> 00:02:44.690
+so all we do is call
+load data-set that was
+
+65
+00:02:44.690 --> 00:02:48.000
+imported up above and we
+pull in this data-set.
+
+66
+00:02:48.000 --> 00:02:49.415
+Now, from here on out,
+
+67
+00:02:49.415 --> 00:02:51.770
+we're going to explore
+some of the data,
+
+68
+00:02:51.770 --> 00:02:55.340
+we're going to actually try to
+
+69
+00:02:55.340 --> 00:03:01.555
+summarize with just the
+flat T5 based model.
+
+70
+00:03:01.555 --> 00:03:04.885
+Before we get there though,
+let me load the data-set.
+
+71
+00:03:04.885 --> 00:03:06.560
+Let's take a look at some of
+
+72
+00:03:06.560 --> 00:03:08.465
+the examples of this data-set.
+
+73
+00:03:08.465 --> 00:03:13.045
+Here's a sample dialogue
+between person 1 and person 2.
+
+74
+00:03:13.045 --> 00:03:16.065
+Person 1 says, what
+time is it, Tom?
+
+75
+00:03:16.065 --> 00:03:18.735
+It looks like person 2
+'s name is Tom actually.
+
+76
+00:03:18.735 --> 00:03:20.670
+Just a minute, it's
+10.00 to 9.00 by
+
+77
+00:03:20.670 --> 00:03:23.555
+my watch and on and on.
+
+78
+00:03:23.555 --> 00:03:25.880
+Here's the baseline
+human summary.
+
+79
+00:03:25.880 --> 00:03:27.770
+This is what a human has
+
+80
+00:03:27.770 --> 00:03:32.130
+labeled this conversation to be,
+
+81
+00:03:32.130 --> 00:03:35.415
+a summary of that conversation.
+
+82
+00:03:35.415 --> 00:03:38.660
+Now we will try to improve
+
+83
+00:03:38.660 --> 00:03:42.185
+upon that summary
+by using our model.
+
+84
+00:03:42.185 --> 00:03:44.855
+Again, no model has
+even been loaded yet.
+
+85
+00:03:44.855 --> 00:03:47.375
+This is purely just
+the actual data.
+
+86
+00:03:47.375 --> 00:03:49.280
+Here's the conversation and
+
+87
+00:03:49.280 --> 00:03:53.330
+then think of this like
+this is the training sample
+
+88
+00:03:53.330 --> 00:03:55.665
+and then this is what a
+human has labeled it and
+
+89
+00:03:55.665 --> 00:03:59.090
+then we will compare
+the human summary,
+
+90
+00:03:59.090 --> 00:04:01.780
+which is what we're considering
+to be the baseline,
+
+91
+00:04:01.780 --> 00:04:03.560
+we will compare that to what
+
+92
+00:04:03.560 --> 00:04:06.275
+the model predicts
+is the summary.
+
+93
+00:04:06.275 --> 00:04:08.945
+The model will actually
+generate a summary.
+
+94
+00:04:08.945 --> 00:04:10.865
+Here's a second example.
+
+95
+00:04:10.865 --> 00:04:12.860
+You can see it's got
+some familiar terms
+
+96
+00:04:12.860 --> 00:04:14.990
+here that a lot of us
+are familiar with,
+
+97
+00:04:14.990 --> 00:04:18.935
+CD ROM painting program
+for your software.
+
+98
+00:04:18.935 --> 00:04:21.745
+Now, here's where we're actually
+going to load the model.
+
+99
+00:04:21.745 --> 00:04:25.755
+FLAN-T5, we spoke
+about in the videos.
+
+100
+00:04:25.755 --> 00:04:29.180
+This is a very nice general
+purpose model that can do
+
+101
+00:04:29.180 --> 00:04:31.100
+a whole lot of tasks
+and today we'll be
+
+102
+00:04:31.100 --> 00:04:33.070
+focused on FLAN-T5's,
+
+103
+00:04:33.070 --> 00:04:35.685
+ability to summarize
+conversations.
+
+104
+00:04:35.685 --> 00:04:37.235
+After loading the model,
+
+105
+00:04:37.235 --> 00:04:38.990
+we have to load the tokenizer.
+
+106
+00:04:38.990 --> 00:04:41.000
+Now, these are all coming
+
+107
+00:04:41.000 --> 00:04:43.520
+from the Hugging Face
+Transformers library.
+
+108
+00:04:43.520 --> 00:04:46.565
+To give you an example, before
+transformers came along,
+
+109
+00:04:46.565 --> 00:04:49.610
+we had to write a lot
+of this code ourselves.
+
+110
+00:04:49.610 --> 00:04:51.335
+Depending on the type of model,
+
+111
+00:04:51.335 --> 00:04:54.320
+there's now many different
+language models and some
+
+112
+00:04:54.320 --> 00:04:55.880
+of them do things
+very differently
+
+113
+00:04:55.880 --> 00:04:57.605
+than some of the other models.
+
+114
+00:04:57.605 --> 00:04:59.225
+There was a lot of
+
+115
+00:04:59.225 --> 00:05:02.540
+bespoke ad hoc libraries
+
+116
+00:05:02.540 --> 00:05:05.525
+out there that were all
+trying to do similar things.
+
+117
+00:05:05.525 --> 00:05:07.730
+Then Hugging Face came
+along and really has
+
+118
+00:05:07.730 --> 00:05:11.750
+a very well optimized
+implementation of all of these.
+
+119
+00:05:11.750 --> 00:05:13.250
+Now, here's the tokenizer.
+
+120
+00:05:13.250 --> 00:05:15.470
+This is what's going
+to be used to convert
+
+121
+00:05:15.470 --> 00:05:18.815
+the raw text from
+our conversation
+
+122
+00:05:18.815 --> 00:05:21.770
+into our vector space
+that can then be
+
+123
+00:05:21.770 --> 00:05:25.040
+processed by our Flan-T5 model.
+
+124
+00:05:25.040 --> 00:05:26.375
+Just to give you an idea,
+
+125
+00:05:26.375 --> 00:05:27.920
+let's just take a
+sample sentence
+
+126
+00:05:27.920 --> 00:05:29.360
+here. What time is it, Tom?
+
+127
+00:05:29.360 --> 00:05:32.195
+The first sentence from
+our conversation up above,
+
+128
+00:05:32.195 --> 00:05:34.175
+we see the encoded sentence
+
+129
+00:05:34.175 --> 00:05:36.395
+is actually these numbers here.
+
+130
+00:05:36.395 --> 00:05:38.705
+Then if you go to decode it,
+
+131
+00:05:38.705 --> 00:05:41.900
+we see that this decodes
+right back to the original.
+
+132
+00:05:41.900 --> 00:05:46.730
+The tokenizer's job is to
+convert raw text into numbers.
+
+133
+00:05:46.730 --> 00:05:48.935
+Those numbers point to
+
+134
+00:05:48.935 --> 00:05:51.500
+a set of vectors
+
+135
+00:05:51.500 --> 00:05:53.585
+or the embeddings as
+they're often called,
+
+136
+00:05:53.585 --> 00:05:55.895
+that are then used in
+
+137
+00:05:55.895 --> 00:05:58.805
+mathematical operations
+like our deep learning,
+
+138
+00:05:58.805 --> 00:06:02.360
+back-propagation,
+our linear algebra,
+
+139
+00:06:02.360 --> 00:06:04.040
+all that fun stuff.
+
+140
+00:06:04.040 --> 00:06:08.420
+Now, let's run this cell here
+and continue to explore.
+
+141
+00:06:08.420 --> 00:06:10.460
+Now, that we've loaded our model
+
+142
+00:06:10.460 --> 00:06:12.425
+and we've loaded our tokenizer,
+
+143
+00:06:12.425 --> 00:06:13.820
+we can run through some of
+
+144
+00:06:13.820 --> 00:06:17.060
+these conversations through
+the Flan-T5 model and
+
+145
+00:06:17.060 --> 00:06:19.790
+see what does this model
+
+146
+00:06:19.790 --> 00:06:23.810
+actually generate as a summary
+for these conversations.
+
+147
+00:06:23.810 --> 00:06:26.705
+Here again, we have
+the conversation.
+
+148
+00:06:26.705 --> 00:06:29.060
+Here again is the
+baseline summary.
+
+149
+00:06:29.060 --> 00:06:33.425
+Then we see without any
+prompt engineering at all,
+
+150
+00:06:33.425 --> 00:06:35.270
+just taking the
+actual conversation,
+
+151
+00:06:35.270 --> 00:06:37.940
+passing it to our Flan-T5 model,
+
+152
+00:06:37.940 --> 00:06:40.850
+it doesn't do a very
+good job summarizing.
+
+153
+00:06:40.850 --> 00:06:42.740
+We see it's 10 to nine.
+
+154
+00:06:42.740 --> 00:06:43.820
+That's not very helpful.
+
+155
+00:06:43.820 --> 00:06:45.170
+There's some more details in
+
+156
+00:06:45.170 --> 00:06:48.230
+this conversation that are
+not coming out at this point.
+
+157
+00:06:48.230 --> 00:06:50.975
+Same with the conversation
+about our CD-ROM,
+
+158
+00:06:50.975 --> 00:06:53.795
+baseline summary as Person
+1 teaches Person 2 how to
+
+159
+00:06:53.795 --> 00:06:57.260
+upgrade the software and
+hardware in Person 2's system.
+
+160
+00:06:57.260 --> 00:06:59.180
+The model generated Person 1
+
+161
+00:06:59.180 --> 00:07:01.305
+is thinking about
+upgrading their computer.
+
+162
+00:07:01.305 --> 00:07:03.580
+Again, lots of details in
+
+163
+00:07:03.580 --> 00:07:05.050
+this original
+conversation that do
+
+164
+00:07:05.050 --> 00:07:06.760
+not come through the summary.
+
+165
+00:07:06.760 --> 00:07:09.045
+Let's see how we can
+improve on this.
+
+166
+00:07:09.045 --> 00:07:13.100
+In the lesson, you learned
+how to use instructions
+
+167
+00:07:13.100 --> 00:07:15.590
+to tell your model what you're
+
+168
+00:07:15.590 --> 00:07:18.575
+trying to do with the data
+that you're passing it.
+
+169
+00:07:18.575 --> 00:07:22.850
+Here's an example. This is
+called in-context learning and
+
+170
+00:07:22.850 --> 00:07:27.905
+specifically zero shots
+inference with an instruction.
+
+171
+00:07:27.905 --> 00:07:29.270
+Here's the instruction,
+
+172
+00:07:29.270 --> 00:07:31.505
+which is summarize the
+following conversation.
+
+173
+00:07:31.505 --> 00:07:33.920
+Here is the actual conversation,
+
+174
+00:07:33.920 --> 00:07:36.320
+and then we are telling
+the model where
+
+175
+00:07:36.320 --> 00:07:38.645
+it should print the summary,
+
+176
+00:07:38.645 --> 00:07:41.120
+which is going to be
+after this word summary.
+
+177
+00:07:41.120 --> 00:07:45.815
+Now this seems very simple
+and let's see how it does.
+
+178
+00:07:45.815 --> 00:07:48.155
+Let's see if things
+do get better.
+
+179
+00:07:48.155 --> 00:07:50.525
+Not much better here.
+
+180
+00:07:50.525 --> 00:07:54.080
+The baseline is still
+Person 1 is in a hurry,
+
+181
+00:07:54.080 --> 00:07:56.225
+Tom tells Person 2
+there's plenty of time.
+
+182
+00:07:56.225 --> 00:08:00.065
+Then the zero shot in context
+learning with a prompt,
+
+183
+00:08:00.065 --> 00:08:02.090
+it just says the train
+is about to leave.
+
+184
+00:08:02.090 --> 00:08:03.650
+Again, not the greatest.
+
+185
+00:08:03.650 --> 00:08:07.805
+And then here is the zero-shot
+for the computer sample.
+
+186
+00:08:07.805 --> 00:08:11.210
+It's still thinking that
+Person 1 is trying to upgrade,
+
+187
+00:08:11.210 --> 00:08:12.710
+so not much better.
+
+188
+00:08:12.710 --> 00:08:14.150
+Let's keep going here.
+
+189
+00:08:14.150 --> 00:08:17.090
+There is a different prompt
+that we can use here,
+
+190
+00:08:17.090 --> 00:08:20.090
+which is where we just
+say dialogue corn.
+
+191
+00:08:20.090 --> 00:08:21.950
+Now these are really up to you.
+
+192
+00:08:21.950 --> 00:08:24.050
+This is the prompt
+engineering side
+
+193
+00:08:24.050 --> 00:08:27.770
+of these large language
+models where we're trying
+
+194
+00:08:27.770 --> 00:08:30.335
+to find the best prompt
+
+195
+00:08:30.335 --> 00:08:33.860
+and in this case just
+zero-shot inference.
+
+196
+00:08:33.860 --> 00:08:36.035
+No fine-tuning of the
+model, no nothing.
+
+197
+00:08:36.035 --> 00:08:39.590
+All we're doing is just finding
+different instructions to
+
+198
+00:08:39.590 --> 00:08:41.810
+pass and seeing
+if the model does
+
+199
+00:08:41.810 --> 00:08:44.285
+any better with slightly
+different phrases.
+
+200
+00:08:44.285 --> 00:08:45.680
+Let's see how this does.
+
+201
+00:08:45.680 --> 00:08:48.275
+Really this is the
+inverse of before where
+
+202
+00:08:48.275 --> 00:08:50.855
+here we're just saying
+here's the dialogue,
+
+203
+00:08:50.855 --> 00:08:52.370
+and then afterward
+we're saying what
+
+204
+00:08:52.370 --> 00:08:54.230
+was going on up
+in that dialogue.
+
+205
+00:08:54.230 --> 00:08:56.255
+Let's see if this
+does anything better.
+
+206
+00:08:56.255 --> 00:08:57.920
+Tom is late for the train,
+
+207
+00:08:57.920 --> 00:08:59.615
+so it's picking that up,
+
+208
+00:08:59.615 --> 00:09:01.265
+but still not great.
+
+209
+00:09:01.265 --> 00:09:03.020
+Here we see Person 1.
+
+210
+00:09:03.020 --> 00:09:04.250
+You could add a
+painting program.
+
+211
+00:09:04.250 --> 00:09:06.320
+Person 2 that would be a bonus.
+
+212
+00:09:06.320 --> 00:09:08.225
+A little bit better.
+
+213
+00:09:08.225 --> 00:09:11.030
+It's not exactly right,
+but it's getting better.
+
+214
+00:09:11.030 --> 00:09:13.940
+It's at least picking
+up some of the nuance.
+
+215
+00:09:13.940 --> 00:09:16.490
+Now, as part of
+in-context learning,
+
+216
+00:09:16.490 --> 00:09:17.630
+you learn there's
+something called
+
+217
+00:09:17.630 --> 00:09:19.280
+one shot and then few shots.
+
+218
+00:09:19.280 --> 00:09:21.380
+Let's get a sample of that here.
+
+219
+00:09:21.380 --> 00:09:24.770
+Let's get hands-on with one
+shot and then few shot.
+
+220
+00:09:24.770 --> 00:09:26.360
+Earlier we were doing zero-shot.
+
+221
+00:09:26.360 --> 00:09:27.740
+That means we're not giving it
+
+222
+00:09:27.740 --> 00:09:31.085
+any samples of prompt
+and then completion,
+
+223
+00:09:31.085 --> 00:09:33.110
+all we're doing is just
+giving it a prompt.
+
+224
+00:09:33.110 --> 00:09:34.760
+We are asking the model to do
+
+225
+00:09:34.760 --> 00:09:37.340
+something and seeing what
+the model generates.
+
+226
+00:09:37.340 --> 00:09:40.100
+With one shot and then few shot,
+
+227
+00:09:40.100 --> 00:09:43.865
+we will actually give it
+samples that are correct,
+
+228
+00:09:43.865 --> 00:09:46.220
+or that use the human baseline.
+
+229
+00:09:46.220 --> 00:09:49.480
+That gives the model
+
+230
+00:09:49.480 --> 00:09:51.745
+a little bit more
+information to work on.
+
+231
+00:09:51.745 --> 00:09:54.580
+Let's see how one
+shot works here.
+
+232
+00:09:54.580 --> 00:09:57.190
+All we're doing is just
+taking a full example,
+
+233
+00:09:57.190 --> 00:10:00.500
+including the summary
+from the human baseline,
+
+234
+00:10:00.500 --> 00:10:03.395
+then giving it a second example,
+
+235
+00:10:03.395 --> 00:10:05.885
+but without the actual summary.
+
+236
+00:10:05.885 --> 00:10:08.270
+That's the dialogue
+that we want the model
+
+237
+00:10:08.270 --> 00:10:10.685
+to summarize. Let's
+see how this looks.
+
+238
+00:10:10.685 --> 00:10:14.690
+One-shot means I'm giving
+it one complete example,
+
+239
+00:10:14.690 --> 00:10:17.675
+including the correct answer
+
+240
+00:10:17.675 --> 00:10:20.900
+as dictated by the human
+here, the human baseline.
+
+241
+00:10:20.900 --> 00:10:22.610
+Then we give it a second example
+
+242
+00:10:22.610 --> 00:10:24.335
+and ask the model
+what's going on.
+
+243
+00:10:24.335 --> 00:10:26.700
+Let's see how we do here.
+
+244
+00:10:27.610 --> 00:10:31.370
+Here we're just going to
+do the upgrade software.
+
+245
+00:10:31.370 --> 00:10:32.780
+Person1 wants to upgrade,
+
+246
+00:10:32.780 --> 00:10:34.910
+Person2 wants to add
+painting program,
+
+247
+00:10:34.910 --> 00:10:37.385
+Person1 wants to add a CD ROM.
+
+248
+00:10:37.385 --> 00:10:41.315
+I think it's a little better
+and let's keep going.
+
+249
+00:10:41.315 --> 00:10:43.775
+There's something called
+few-shot inference as well.
+
+250
+00:10:43.775 --> 00:10:45.830
+Now some of you might
+be asking, well,
+
+251
+00:10:45.830 --> 00:10:48.200
+this seems like cheating because
+we're actually giving it
+
+252
+00:10:48.200 --> 00:10:51.560
+one answer and then asking it.
+
+253
+00:10:51.560 --> 00:10:53.420
+It's not really cheating.
+
+254
+00:10:53.420 --> 00:10:57.620
+It's more of you're helping
+the model help itself.
+
+255
+00:10:57.620 --> 00:11:00.950
+Now in future lessons
+and in future labs,
+
+256
+00:11:00.950 --> 00:11:03.425
+we will actually
+fine tune the model
+
+257
+00:11:03.425 --> 00:11:06.470
+where we can go back to
+the zero-shot inference,
+
+258
+00:11:06.470 --> 00:11:08.240
+which is what you
+would normally think
+
+259
+00:11:08.240 --> 00:11:10.100
+of as a good language model.
+
+260
+00:11:10.100 --> 00:11:11.210
+But here we're just
+
+261
+00:11:11.210 --> 00:11:13.265
+building up some of
+the intuition here.
+
+262
+00:11:13.265 --> 00:11:17.585
+Keep in mind, this is
+a very inexpensive way
+
+263
+00:11:17.585 --> 00:11:20.075
+to try out these models and
+
+264
+00:11:20.075 --> 00:11:23.330
+to even figure out which
+model should you fine tune.
+
+265
+00:11:23.330 --> 00:11:25.850
+We chose Plan T5
+because it works across
+
+266
+00:11:25.850 --> 00:11:28.220
+a large number of tasks.
+
+267
+00:11:28.220 --> 00:11:31.810
+But if you have no
+idea how a model is,
+
+268
+00:11:31.810 --> 00:11:35.620
+if you just get it off of
+some model hub somewhere.
+
+269
+00:11:35.620 --> 00:11:37.075
+These are the first step.
+
+270
+00:11:37.075 --> 00:11:39.040
+Prompt engineering,
+zero-shot, one-shot,
+
+271
+00:11:39.040 --> 00:11:40.540
+few shot is almost always
+
+272
+00:11:40.540 --> 00:11:43.060
+the first step when
+you're trying to
+
+273
+00:11:43.060 --> 00:11:44.995
+learn the language model
+
+274
+00:11:44.995 --> 00:11:48.125
+that you've been
+handed and dataset.
+
+275
+00:11:48.125 --> 00:11:51.815
+Also very datasets specific
+as well, and task-specific.
+
+276
+00:11:51.815 --> 00:11:55.490
+Few shot means that we're
+giving three full examples,
+
+277
+00:11:55.490 --> 00:12:01.370
+including the human
+baseline summary, 1, 2, 3,
+
+278
+00:12:01.370 --> 00:12:04.550
+and then a fourth but
+without the human summary.
+
+279
+00:12:04.550 --> 00:12:06.065
+Yes, even though we have it,
+
+280
+00:12:06.065 --> 00:12:08.690
+we're just exploring
+our model right now.
+
+281
+00:12:08.690 --> 00:12:13.685
+We're saying, tell us what
+that forth dialogue is.
+
+282
+00:12:13.685 --> 00:12:16.970
+That summary. Just ignore
+some of these errors.
+
+283
+00:12:16.970 --> 00:12:20.000
+Some of these sequences
+are a bit larger
+
+284
+00:12:20.000 --> 00:12:23.510
+than the 512 context
+length of the model.
+
+285
+00:12:23.510 --> 00:12:26.585
+Typically, you would
+probably want to filter out
+
+286
+00:12:26.585 --> 00:12:29.990
+any of these inputs that
+are larger than 512.
+
+287
+00:12:29.990 --> 00:12:32.525
+But here it's still
+does a pretty good job.
+
+288
+00:12:32.525 --> 00:12:34.520
+Here we see a case where
+
+289
+00:12:34.520 --> 00:12:37.910
+the few-shot didn't do much
+better than the one shot.
+
+290
+00:12:37.910 --> 00:12:39.560
+This is something
+that you want to pay
+
+291
+00:12:39.560 --> 00:12:41.750
+attention to because
+in practice,
+
+292
+00:12:41.750 --> 00:12:44.870
+people often try to just keep
+adding more and more shots,
+
+293
+00:12:44.870 --> 00:12:46.085
+five shots, six shots.
+
+294
+00:12:46.085 --> 00:12:48.275
+Typically, in my experience,
+
+295
+00:12:48.275 --> 00:12:50.825
+above five or six shots,
+
+296
+00:12:50.825 --> 00:12:53.375
+so full prompt and
+then completions,
+
+297
+00:12:53.375 --> 00:12:55.565
+you really don't gain
+much after that.
+
+298
+00:12:55.565 --> 00:12:57.590
+Either the model can
+do it or it can't do
+
+299
+00:12:57.590 --> 00:12:59.900
+it and going about five or six.
+
+300
+00:12:59.900 --> 00:13:01.325
+Here we see for
+
+301
+00:13:01.325 --> 00:13:03.860
+this particular sample that
+
+302
+00:13:03.860 --> 00:13:06.815
+really one shot was good enough.
+
+303
+00:13:06.815 --> 00:13:09.530
+Now the last part of this
+lab is going to be fun.
+
+304
+00:13:09.530 --> 00:13:12.350
+This is where you can
+actually play with some of
+
+305
+00:13:12.350 --> 00:13:14.300
+these configuration
+parameters that
+
+306
+00:13:14.300 --> 00:13:16.505
+you learn during the lessons.
+
+307
+00:13:16.505 --> 00:13:19.475
+Things like the
+sampling, temperature.
+
+308
+00:13:19.475 --> 00:13:24.245
+You can play with these try
+out and gain your intuition
+
+309
+00:13:24.245 --> 00:13:26.420
+on how these things
+
+310
+00:13:26.420 --> 00:13:30.410
+can impact what's actually
+generated by the model.
+
+311
+00:13:30.410 --> 00:13:32.300
+In some cases, for example,
+
+312
+00:13:32.300 --> 00:13:34.955
+by raising the
+temperature up above,
+
+313
+00:13:34.955 --> 00:13:37.895
+towards one or even
+closer to two,
+
+314
+00:13:37.895 --> 00:13:41.810
+you will get very creative
+type of responses.
+
+315
+00:13:41.810 --> 00:13:44.270
+If you lower it down
+I believe 0.1 is
+
+316
+00:13:44.270 --> 00:13:46.835
+the minimum for the hugging
+face implementation anyway,
+
+317
+00:13:46.835 --> 00:13:49.190
+of this generation
+config class here
+
+318
+00:13:49.190 --> 00:13:51.740
+that's used when you
+actually generate.
+
+319
+00:13:51.740 --> 00:13:54.005
+I can pass generation
+config right here.
+
+320
+00:13:54.005 --> 00:13:56.060
+If you go down to 0.1,
+
+321
+00:13:56.060 --> 00:13:58.190
+that will actually
+make the response more
+
+322
+00:13:58.190 --> 00:14:00.020
+conservative and will oftentimes
+
+323
+00:14:00.020 --> 00:14:01.820
+give you the same
+response over and over.
+
+324
+00:14:01.820 --> 00:14:02.975
+If you go higher,
+
+325
+00:14:02.975 --> 00:14:05.930
+I believe actually
+2.0 is the highest.
+
+326
+00:14:05.930 --> 00:14:07.295
+If you try to 2.0,
+
+327
+00:14:07.295 --> 00:14:11.615
+that will start to give you
+some very wild responses.
+
+328
+00:14:11.615 --> 00:14:13.920
+It's fun. You should try it

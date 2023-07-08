@@ -1,0 +1,666 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.040
+Now that you've explored
+the fundamentals of
+
+2
+00:00:02.040 --> 00:00:04.620
+building applications
+using LLMs,
+
+3
+00:00:04.620 --> 00:00:06.270
+I want to show you
+an AWS service
+
+4
+00:00:06.270 --> 00:00:08.430
+called Amazon
+Sagemaker JumpStart,
+
+5
+00:00:08.430 --> 00:00:10.140
+that can help you
+get into production
+
+6
+00:00:10.140 --> 00:00:12.360
+quickly and operate at scale.
+
+7
+00:00:12.360 --> 00:00:14.430
+Here's the application
+stack that you
+
+8
+00:00:14.430 --> 00:00:16.395
+explored in the previous video.
+
+9
+00:00:16.395 --> 00:00:17.730
+As you saw, building
+
+10
+00:00:17.730 --> 00:00:21.270
+an LLM-powered application
+requires multiple components.
+
+11
+00:00:21.270 --> 00:00:23.780
+Sagemaker JumpStart
+is a model hub,
+
+12
+00:00:23.780 --> 00:00:25.965
+and it allows you
+to quickly deploy
+
+13
+00:00:25.965 --> 00:00:28.725
+foundation models that are
+available within the service,
+
+14
+00:00:28.725 --> 00:00:31.515
+and integrate them into
+your own applications.
+
+15
+00:00:31.515 --> 00:00:33.660
+The JumpStart service
+also provides
+
+16
+00:00:33.660 --> 00:00:36.720
+an easy way to fine-tune
+and deploy models.
+
+17
+00:00:36.720 --> 00:00:38.570
+JumpStart covers many parts of
+
+18
+00:00:38.570 --> 00:00:41.150
+this diagram, including
+the infrastructure,
+
+19
+00:00:41.150 --> 00:00:42.680
+the LLM itself,
+
+20
+00:00:42.680 --> 00:00:44.285
+the tools and frameworks,
+
+21
+00:00:44.285 --> 00:00:47.165
+and even an API to
+invoke the model.
+
+22
+00:00:47.165 --> 00:00:48.980
+In contrast to the models
+
+23
+00:00:48.980 --> 00:00:50.330
+that you worked
+with in the labs,
+
+24
+00:00:50.330 --> 00:00:54.175
+JumpStart models require GPUs
+to fine tune and deploy.
+
+25
+00:00:54.175 --> 00:00:56.645
+And keep in mind, these GPUs
+
+26
+00:00:56.645 --> 00:00:59.030
+are subject to on-demand
+pricing and you
+
+27
+00:00:59.030 --> 00:01:01.295
+should refer to the
+Sagemaker pricing page
+
+28
+00:01:01.295 --> 00:01:03.980
+before selecting the
+compute you want to use.
+
+29
+00:01:03.980 --> 00:01:06.110
+Also, please be sure to delete
+
+30
+00:01:06.110 --> 00:01:08.030
+the Sagemaker model
+endpoints when not in
+
+31
+00:01:08.030 --> 00:01:09.740
+use and follow cost monitoring
+
+32
+00:01:09.740 --> 00:01:12.260
+best practices to optimize cost.
+
+33
+00:01:12.260 --> 00:01:14.540
+Let me show you a quick tour of
+
+34
+00:01:14.540 --> 00:01:18.505
+JumpStart and how to access
+it from your own AWS account.
+
+35
+00:01:18.505 --> 00:01:22.280
+Sagemaker JumpStart is
+accessible from the AWS console,
+
+36
+00:01:22.280 --> 00:01:24.260
+or through Sagemaker studio.
+
+37
+00:01:24.260 --> 00:01:25.715
+For this brief tour,
+
+38
+00:01:25.715 --> 00:01:27.410
+I'll start in studio then choose
+
+39
+00:01:27.410 --> 00:01:29.480
+JumpStart from the main screen.
+
+40
+00:01:29.480 --> 00:01:31.040
+I could optionally choose
+
+41
+00:01:31.040 --> 00:01:32.570
+JumpStart from the
+left-hand menu,
+
+42
+00:01:32.570 --> 00:01:34.145
+and select models, notebooks,
+
+43
+00:01:34.145 --> 00:01:36.670
+and solutions as well.
+
+44
+00:01:36.670 --> 00:01:39.475
+After I click on "JumpStart",
+
+45
+00:01:39.475 --> 00:01:41.990
+you'll see different
+categories that include
+
+46
+00:01:41.990 --> 00:01:46.050
+end-to-end solutions across
+different use cases,
+
+47
+00:01:46.100 --> 00:01:48.860
+as well as a number of
+
+48
+00:01:48.860 --> 00:01:51.200
+foundation models for
+different modalities
+
+49
+00:01:51.200 --> 00:01:52.670
+that you can easily deploy,
+
+50
+00:01:52.670 --> 00:01:54.170
+as well as fine-tune,
+
+51
+00:01:54.170 --> 00:01:57.410
+where yes is indicated under
+the fine-tuning option.
+
+52
+00:01:57.410 --> 00:01:59.360
+Let's look at an
+example you're all
+
+53
+00:01:59.360 --> 00:02:01.280
+familiar with after working
+through the course,
+
+54
+00:02:01.280 --> 00:02:04.290
+which is the Flan-T5 model.
+
+55
+00:02:06.670 --> 00:02:10.190
+You've specifically been
+using the base variant in
+
+56
+00:02:10.190 --> 00:02:11.330
+the course to minimize
+
+57
+00:02:11.330 --> 00:02:13.790
+the resources needed by
+the lab environments.
+
+58
+00:02:13.790 --> 00:02:15.485
+However, as you can see here,
+
+59
+00:02:15.485 --> 00:02:17.390
+you can also utilize
+other variants of
+
+60
+00:02:17.390 --> 00:02:20.510
+Flan-T5 through JumpStart
+depending on your needs.
+
+61
+00:02:20.510 --> 00:02:23.315
+You'll also notice the
+Hugging Face logo here,
+
+62
+00:02:23.315 --> 00:02:24.770
+which means they're
+actually coming
+
+63
+00:02:24.770 --> 00:02:26.330
+directly from Hugging Face.
+
+64
+00:02:26.330 --> 00:02:27.950
+And AWS has worked with
+
+65
+00:02:27.950 --> 00:02:30.290
+Hugging Face to the point
+where you can easily,
+
+66
+00:02:30.290 --> 00:02:32.205
+with just a few clicks, deploy,
+
+67
+00:02:32.205 --> 00:02:33.825
+or fine-tune the model.
+
+68
+00:02:33.825 --> 00:02:36.460
+If I select Flan-T5 Base,
+
+69
+00:02:36.460 --> 00:02:39.085
+you'll see I have a few options.
+
+70
+00:02:39.085 --> 00:02:42.515
+First, I can choose to deploy
+the model by identifying
+
+71
+00:02:42.515 --> 00:02:46.580
+a few key parameters like
+the instance type and size.
+
+72
+00:02:46.580 --> 00:02:48.500
+And this is the
+instance type and size
+
+73
+00:02:48.500 --> 00:02:50.935
+that should be used
+to host the model.
+
+74
+00:02:50.935 --> 00:02:52.220
+And as a reminder,
+
+75
+00:02:52.220 --> 00:02:54.640
+this deploys to a real-time
+persistent endpoint,
+
+76
+00:02:54.640 --> 00:02:56.030
+and the price depends on
+
+77
+00:02:56.030 --> 00:02:57.920
+the hosting instance
+that you select here.
+
+78
+00:02:57.920 --> 00:03:00.050
+And some of these
+can be quite large,
+
+79
+00:03:00.050 --> 00:03:01.610
+so always remember to delete
+
+80
+00:03:01.610 --> 00:03:03.215
+any endpoints that
+are not in use
+
+81
+00:03:03.215 --> 00:03:06.965
+to avoid incurring
+any unnecessary cost.
+
+82
+00:03:06.965 --> 00:03:09.080
+You'll also notice
+you can specify
+
+83
+00:03:09.080 --> 00:03:10.820
+a number of security settings
+
+84
+00:03:10.820 --> 00:03:12.800
+allowing you to implement
+the controls that are
+
+85
+00:03:12.800 --> 00:03:15.515
+acquired for your own
+security requirements.
+
+86
+00:03:15.515 --> 00:03:18.350
+You can then choose
+to hit "Deploy",
+
+87
+00:03:18.350 --> 00:03:20.150
+and this will
+automatically deploy
+
+88
+00:03:20.150 --> 00:03:22.580
+that Flan-T5 Base model to
+
+89
+00:03:22.580 --> 00:03:25.970
+the endpoint using the
+infrastructure that you specify.
+
+90
+00:03:25.970 --> 00:03:27.995
+In the second tab,
+
+91
+00:03:27.995 --> 00:03:30.290
+you'll notice the
+option to train.
+
+92
+00:03:30.290 --> 00:03:32.915
+Because this model
+supports fine-tuning,
+
+93
+00:03:32.915 --> 00:03:36.050
+you can also set up your
+fine-tuning jobs by specifying
+
+94
+00:03:36.050 --> 00:03:40.030
+the location of your training
+and validation data sets,
+
+95
+00:03:40.030 --> 00:03:42.350
+then selecting the size of
+
+96
+00:03:42.350 --> 00:03:44.930
+the compute that you want
+to use for training.
+
+97
+00:03:44.930 --> 00:03:47.090
+And it's just an easy adjustment
+
+98
+00:03:47.090 --> 00:03:49.100
+to the size that compute
+through this drop-down,
+
+99
+00:03:49.100 --> 00:03:50.870
+you can easily
+choose what type of
+
+100
+00:03:50.870 --> 00:03:53.450
+compute you'd want to use
+for your training job.
+
+101
+00:03:53.450 --> 00:03:55.190
+And keep in mind again,
+
+102
+00:03:55.190 --> 00:03:57.020
+you're charged for the
+underlying compute
+
+103
+00:03:57.020 --> 00:03:58.760
+for the time it takes
+to train the model.
+
+104
+00:03:58.760 --> 00:03:59.840
+So we recommend choosing
+
+105
+00:03:59.840 --> 00:04:01.520
+the smallest instance that's
+
+106
+00:04:01.520 --> 00:04:03.965
+required for your specific task.
+
+107
+00:04:03.965 --> 00:04:06.440
+Another feature is the ability
+
+108
+00:04:06.440 --> 00:04:08.480
+to quickly identify and modify
+
+109
+00:04:08.480 --> 00:04:10.250
+the tunable hyperparameters for
+
+110
+00:04:10.250 --> 00:04:13.295
+this specific model
+through these drop-downs.
+
+111
+00:04:13.295 --> 00:04:16.535
+If we go ahead and scroll
+down to the bottom,
+
+112
+00:04:16.535 --> 00:04:20.445
+you'll see a parameter
+type called PEFT,
+
+113
+00:04:20.445 --> 00:04:22.710
+parameter-efficient
+fine-tuning which you
+
+114
+00:04:22.710 --> 00:04:24.850
+learned about in Lesson 6.
+
+115
+00:04:24.850 --> 00:04:26.660
+Here you can select Laura,
+
+116
+00:04:26.660 --> 00:04:28.190
+which you learned about in
+
+117
+00:04:28.190 --> 00:04:30.875
+Lesson 4 through just
+a simple dropdown,
+
+118
+00:04:30.875 --> 00:04:32.510
+making it easier to implement
+
+119
+00:04:32.510 --> 00:04:34.570
+these various techniques
+that you learned.
+
+120
+00:04:34.570 --> 00:04:37.185
+You can then go ahead
+and hit "Train".
+
+121
+00:04:37.185 --> 00:04:38.670
+And that'll kick off
+
+122
+00:04:38.670 --> 00:04:41.430
+a training job to
+fine-tune this pre-trained
+
+123
+00:04:41.430 --> 00:04:43.970
+Flan-T5 model using the input
+
+124
+00:04:43.970 --> 00:04:46.280
+provided for your specific task.
+
+125
+00:04:46.280 --> 00:04:49.220
+Finally, here is another
+option which is to
+
+126
+00:04:49.220 --> 00:04:52.895
+have JumpStart automatically
+generate a notebook for you.
+
+127
+00:04:52.895 --> 00:04:55.130
+Let's say you don't like
+using the drop-down,
+
+128
+00:04:55.130 --> 00:04:57.845
+and preferred to programmatically
+work with these models.
+
+129
+00:04:57.845 --> 00:05:00.470
+This notebook basically
+provides you all the code
+
+130
+00:05:00.470 --> 00:05:01.580
+behind what is happening in
+
+131
+00:05:01.580 --> 00:05:03.710
+the options that we
+previously covered.
+
+132
+00:05:03.710 --> 00:05:06.050
+This is an option if
+you prefer to work with
+
+133
+00:05:06.050 --> 00:05:09.080
+JumpStart at the lowest
+level programmatically.
+
+134
+00:05:09.080 --> 00:05:12.020
+That was just a quick tour
+of JumpStart to illustrate
+
+135
+00:05:12.020 --> 00:05:14.030
+an implementation of a model hub
+
+136
+00:05:14.030 --> 00:05:15.860
+that you learned
+about in the course.
+
+137
+00:05:15.860 --> 00:05:17.480
+In addition to acting as
+
+138
+00:05:17.480 --> 00:05:19.640
+a model hub that includes
+foundation models,
+
+139
+00:05:19.640 --> 00:05:21.470
+JumpStart also provides a lot of
+
+140
+00:05:21.470 --> 00:05:23.405
+resources in terms of blogs,
+
+141
+00:05:23.405 --> 00:05:25.610
+videos, and example
+notebooks as well.
+
+142
+00:05:25.610 --> 00:05:27.620
+I definitely encourage
+you to check it out
+
+143
+00:05:27.620 --> 00:05:30.050
+more by exploring the
+different foundation models,
+
+144
+00:05:30.050 --> 00:05:31.520
+and their variants
+that are available
+
+145
+00:05:31.520 --> 00:05:34.170
+to help you get started quickly.

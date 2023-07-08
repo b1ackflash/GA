@@ -1,0 +1,1162 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.360
+One of the most
+common issues you
+
+2
+00:00:02.360 --> 00:00:04.050
+still counter when you try
+
+3
+00:00:04.050 --> 00:00:07.725
+to train large language models
+is running out of memory.
+
+4
+00:00:07.725 --> 00:00:10.020
+If you've ever tried
+training or even
+
+5
+00:00:10.020 --> 00:00:12.330
+just loading your
+model on Nvidia GPUs,
+
+6
+00:00:12.330 --> 00:00:15.000
+this error message
+might look familiar.
+
+7
+00:00:15.000 --> 00:00:18.930
+CUDA, short for Compute
+Unified Device Architecture,
+
+8
+00:00:18.930 --> 00:00:20.700
+is a collection of libraries and
+
+9
+00:00:20.700 --> 00:00:23.085
+tools developed for Nvidia GPUs.
+
+10
+00:00:23.085 --> 00:00:25.080
+Libraries such as PyTorch and
+
+11
+00:00:25.080 --> 00:00:27.300
+TensorFlow use CUDA to boost
+
+12
+00:00:27.300 --> 00:00:29.580
+performance on metrics
+multiplication
+
+13
+00:00:29.580 --> 00:00:32.550
+and other operations
+common to deep learning.
+
+14
+00:00:32.550 --> 00:00:34.770
+You'll encounter these
+out-of-memory issues
+
+15
+00:00:34.770 --> 00:00:36.990
+because most LLMs are huge,
+
+16
+00:00:36.990 --> 00:00:39.240
+and require a ton of memory to
+
+17
+00:00:39.240 --> 00:00:42.225
+store and train all
+of their parameters.
+
+18
+00:00:42.225 --> 00:00:44.510
+Let's do some quick
+math to develop
+
+19
+00:00:44.510 --> 00:00:46.840
+intuition about the
+scale of the problem.
+
+20
+00:00:46.840 --> 00:00:49.310
+A single parameter is typically
+
+21
+00:00:49.310 --> 00:00:52.205
+represented by a 32-bit float,
+
+22
+00:00:52.205 --> 00:00:55.520
+which is a way computers
+represent real numbers.
+
+23
+00:00:55.520 --> 00:00:57.320
+You'll see more
+details about how
+
+24
+00:00:57.320 --> 00:00:59.675
+numbers gets stored in
+this format shortly.
+
+25
+00:00:59.675 --> 00:01:03.340
+A 32-bit float takes up
+four bytes of memory.
+
+26
+00:01:03.340 --> 00:01:05.880
+So to store one billion
+parameters you'll need
+
+27
+00:01:05.880 --> 00:01:08.540
+four bytes times one
+billion parameters,
+
+28
+00:01:08.540 --> 00:01:13.670
+or four gigabyte of GPU RAM
+at 32-bit full precision.
+
+29
+00:01:13.670 --> 00:01:16.425
+This is a lot of
+memory, and note,
+
+30
+00:01:16.425 --> 00:01:17.570
+if only accounted for
+
+31
+00:01:17.570 --> 00:01:20.375
+the memory to store the
+model weights so far.
+
+32
+00:01:20.375 --> 00:01:22.085
+If you want to train the model,
+
+33
+00:01:22.085 --> 00:01:23.300
+you'll have to plan for
+
+34
+00:01:23.300 --> 00:01:24.830
+additional components that use
+
+35
+00:01:24.830 --> 00:01:26.555
+GPU memory during training.
+
+36
+00:01:26.555 --> 00:01:29.705
+These include two Adam
+optimizer states,
+
+37
+00:01:29.705 --> 00:01:32.840
+gradients, activations,
+
+38
+00:01:32.840 --> 00:01:36.440
+and temporary variables
+needed by your functions.
+
+39
+00:01:36.440 --> 00:01:38.300
+This can easily lead to
+
+40
+00:01:38.300 --> 00:01:41.485
+20 extra bytes of memory
+per model parameter.
+
+41
+00:01:41.485 --> 00:01:43.100
+In fact, to account for
+
+42
+00:01:43.100 --> 00:01:44.960
+all of these overhead
+during training,
+
+43
+00:01:44.960 --> 00:01:48.950
+you'll actually require
+approximately 20 times the amount
+
+44
+00:01:48.950 --> 00:01:52.090
+of GPU RAM that the model
+weights alone take up.
+
+45
+00:01:52.090 --> 00:01:54.285
+To train a one billion
+parameter model
+
+46
+00:01:54.285 --> 00:01:56.325
+at 32-bit full precision,
+
+47
+00:01:56.325 --> 00:01:59.780
+you'll need approximately
+80 gigabyte of GPU RAM.
+
+48
+00:01:59.780 --> 00:02:03.080
+This is definitely too large
+for consumer hardware,
+
+49
+00:02:03.080 --> 00:02:05.915
+and even challenging for
+hardware used in data centers,
+
+50
+00:02:05.915 --> 00:02:08.615
+if you want to train
+with a single processor.
+
+51
+00:02:08.615 --> 00:02:11.210
+Eighty gigabyte is
+the memory capacity
+
+52
+00:02:11.210 --> 00:02:13.795
+of a single Nvidia A100 GPU,
+
+53
+00:02:13.795 --> 00:02:15.400
+a common processor used for
+
+54
+00:02:15.400 --> 00:02:17.605
+machine learning
+tasks in the Cloud.
+
+55
+00:02:17.605 --> 00:02:19.460
+What options do you have to
+
+56
+00:02:19.460 --> 00:02:22.265
+reduce the memory
+required for training?
+
+57
+00:02:22.265 --> 00:02:24.470
+One technique that
+you can use to
+
+58
+00:02:24.470 --> 00:02:27.305
+reduce the memory is
+called quantization.
+
+59
+00:02:27.305 --> 00:02:29.480
+The main idea here is that you
+
+60
+00:02:29.480 --> 00:02:31.970
+reduce the memory required
+to store the weights
+
+61
+00:02:31.970 --> 00:02:34.880
+of your model by reducing
+their precision from
+
+62
+00:02:34.880 --> 00:02:36.875
+32-bit floating point numbers
+
+63
+00:02:36.875 --> 00:02:39.110
+to 16-bit floating
+point numbers,
+
+64
+00:02:39.110 --> 00:02:41.230
+or eight-bit integer numbers.
+
+65
+00:02:41.230 --> 00:02:43.220
+The corresponding data types
+
+66
+00:02:43.220 --> 00:02:44.780
+used in deep learning
+frameworks and
+
+67
+00:02:44.780 --> 00:02:49.075
+libraries are FP32 for
+32-bit full position,
+
+68
+00:02:49.075 --> 00:02:54.590
+FP16, or Bfloat16 for
+16-bit half precision,
+
+69
+00:02:54.590 --> 00:02:57.610
+and int8 eight-bit integers.
+
+70
+00:02:57.610 --> 00:02:59.840
+The range of numbers
+you can represent
+
+71
+00:02:59.840 --> 00:03:01.850
+with FP32 goes from
+
+72
+00:03:01.850 --> 00:03:08.140
+approximately
+3*10^-38 to 3*10^38.
+
+73
+00:03:08.140 --> 00:03:10.850
+By default, model
+weights, activations,
+
+74
+00:03:10.850 --> 00:03:14.225
+and other model parameters
+are stored in FP32.
+
+75
+00:03:14.225 --> 00:03:17.030
+Quantization
+statistically projects
+
+76
+00:03:17.030 --> 00:03:19.715
+the original 32-bit
+floating point numbers
+
+77
+00:03:19.715 --> 00:03:22.070
+into a lower precision space,
+
+78
+00:03:22.070 --> 00:03:25.160
+using scaling factors
+calculated based on
+
+79
+00:03:25.160 --> 00:03:28.610
+the range of the original
+32-bit floating point numbers.
+
+80
+00:03:28.610 --> 00:03:30.230
+Let's look at an example.
+
+81
+00:03:30.230 --> 00:03:32.510
+Suppose you want
+to store a PI to
+
+82
+00:03:32.510 --> 00:03:35.755
+six decimal places in
+different positions.
+
+83
+00:03:35.755 --> 00:03:37.790
+Floating point
+numbers are stored as
+
+84
+00:03:37.790 --> 00:03:40.400
+a series of bits zeros and ones.
+
+85
+00:03:40.400 --> 00:03:42.710
+The 32 bits to store numbers in
+
+86
+00:03:42.710 --> 00:03:45.440
+full precision with FP32 consist
+
+87
+00:03:45.440 --> 00:03:47.330
+of one bit for
+
+88
+00:03:47.330 --> 00:03:50.360
+the sign where zero
+indicates a positive number,
+
+89
+00:03:50.360 --> 00:03:52.235
+and one a negative number.
+
+90
+00:03:52.235 --> 00:03:55.670
+Then eight bits for the
+exponent of the number,
+
+91
+00:03:55.670 --> 00:03:59.150
+and 23 bits representing
+the fraction of the number.
+
+92
+00:03:59.150 --> 00:04:01.310
+The fraction is
+also referred to as
+
+93
+00:04:01.310 --> 00:04:03.575
+the mantissa, or significant.
+
+94
+00:04:03.575 --> 00:04:06.685
+It represents the precision
+bits off the number.
+
+95
+00:04:06.685 --> 00:04:09.500
+If you convert the 32-bit
+floating point value
+
+96
+00:04:09.500 --> 00:04:11.090
+back to a decimal value,
+
+97
+00:04:11.090 --> 00:04:13.355
+you notice the slight
+loss in precision.
+
+98
+00:04:13.355 --> 00:04:15.260
+For reference, here's
+the real value of
+
+99
+00:04:15.260 --> 00:04:17.575
+Pi to 19 decimal places.
+
+100
+00:04:17.575 --> 00:04:20.000
+Now, let's see what
+happens if you project
+
+101
+00:04:20.000 --> 00:04:24.265
+this FP32 representation
+of Pi into the FP16,
+
+102
+00:04:24.265 --> 00:04:26.415
+16-bit lower precision space.
+
+103
+00:04:26.415 --> 00:04:29.900
+The 16 bits consists of
+one bit for the sign,
+
+104
+00:04:29.900 --> 00:04:31.880
+as you saw for FP32,
+
+105
+00:04:31.880 --> 00:04:35.315
+but now FP16 only
+assigns five bits to
+
+106
+00:04:35.315 --> 00:04:37.220
+represent the exponent and
+
+107
+00:04:37.220 --> 00:04:39.475
+10 bits to represent
+the fraction.
+
+108
+00:04:39.475 --> 00:04:41.810
+Therefore, the range
+of numbers you can
+
+109
+00:04:41.810 --> 00:04:44.630
+represent with FP16 is vastly
+
+110
+00:04:44.630 --> 00:04:51.820
+smaller from negative
+65,504 to positive 65,504.
+
+111
+00:04:51.820 --> 00:04:55.515
+The original FP32 value
+gets projected to
+
+112
+00:04:55.515 --> 00:05:00.725
+3.140625 in the 16-bit space.
+
+113
+00:05:00.725 --> 00:05:04.475
+Notice that you lose some
+precision with this projection.
+
+114
+00:05:04.475 --> 00:05:07.810
+There are only six places
+after the decimal point now.
+
+115
+00:05:07.810 --> 00:05:10.490
+You'll find that this loss in
+precision is acceptable in
+
+116
+00:05:10.490 --> 00:05:12.260
+most cases because you're trying
+
+117
+00:05:12.260 --> 00:05:14.360
+to optimize for
+memory footprint.
+
+118
+00:05:14.360 --> 00:05:18.670
+Storing a value in FP32
+requires four bytes of memory.
+
+119
+00:05:18.670 --> 00:05:20.820
+In contrast, storing a value on
+
+120
+00:05:20.820 --> 00:05:24.445
+FP16 requires only
+two bytes of memory,
+
+121
+00:05:24.445 --> 00:05:26.555
+so with quantization you have
+
+122
+00:05:26.555 --> 00:05:29.070
+reduced the memory
+requirement by half.
+
+123
+00:05:29.070 --> 00:05:31.830
+The AI research
+community has explored
+
+124
+00:05:31.830 --> 00:05:34.845
+ways to optimize16-bit
+quantization.
+
+125
+00:05:34.845 --> 00:05:37.830
+One datatype in
+particular BFLOAT16,
+
+126
+00:05:37.830 --> 00:05:41.625
+has recently become a
+popular alternative to FP16.
+
+127
+00:05:41.625 --> 00:05:45.300
+BFLOAT16, short for Brain
+Floating Point Format
+
+128
+00:05:45.300 --> 00:05:46.830
+developed at Google Brain
+
+129
+00:05:46.830 --> 00:05:49.485
+has become a popular
+choice in deep learning.
+
+130
+00:05:49.485 --> 00:05:52.095
+Many LLMs, including FLAN-T5,
+
+131
+00:05:52.095 --> 00:05:54.590
+have been pre-trained
+with BFLOAT16.
+
+132
+00:05:54.590 --> 00:05:58.685
+BFLOAT16 or BF16 is a hybrid
+
+133
+00:05:58.685 --> 00:06:03.435
+between half precision FP16
+and full precision FP32.
+
+134
+00:06:03.435 --> 00:06:06.550
+BF16 significantly helps with
+
+135
+00:06:06.550 --> 00:06:08.670
+training stability
+and is supported
+
+136
+00:06:08.670 --> 00:06:11.385
+by newer GPU's such
+as NVIDIA's A100.
+
+137
+00:06:11.385 --> 00:06:15.800
+BFLOAT16 is often described
+as a truncated 32-bit float,
+
+138
+00:06:15.800 --> 00:06:18.015
+as it captures the
+full dynamic range
+
+139
+00:06:18.015 --> 00:06:19.775
+of the full 32-bit float,
+
+140
+00:06:19.775 --> 00:06:21.795
+that uses only 16-bits.
+
+141
+00:06:21.795 --> 00:06:24.150
+BFLOAT16 uses the
+full eight bits
+
+142
+00:06:24.150 --> 00:06:25.640
+to represent the exponent,
+
+143
+00:06:25.640 --> 00:06:28.580
+but truncates the fraction
+to just seven bits.
+
+144
+00:06:28.580 --> 00:06:30.170
+This not only saves memory,
+
+145
+00:06:30.170 --> 00:06:32.310
+but also increases
+model performance
+
+146
+00:06:32.310 --> 00:06:34.185
+by speeding up calculations.
+
+147
+00:06:34.185 --> 00:06:36.360
+The downside is that BF16
+
+148
+00:06:36.360 --> 00:06:38.895
+is not well suited for
+integer calculations,
+
+149
+00:06:38.895 --> 00:06:41.220
+but these are relatively
+rare in deep learning.
+
+150
+00:06:41.220 --> 00:06:43.140
+For completeness
+let's have a look at
+
+151
+00:06:43.140 --> 00:06:44.820
+what happens if you quantize
+
+152
+00:06:44.820 --> 00:06:47.070
+Pi from the 32-bit into
+
+153
+00:06:47.070 --> 00:06:49.650
+the even lower precision
+eight bit space.
+
+154
+00:06:49.650 --> 00:06:51.630
+If you use one bit for the sign
+
+155
+00:06:51.630 --> 00:06:55.145
+INT8 values are represented
+by the remaining seven bits.
+
+156
+00:06:55.145 --> 00:06:57.630
+This gives you a range to
+represent numbers from
+
+157
+00:06:57.630 --> 00:07:00.180
+negative 128 to positive
+
+158
+00:07:00.180 --> 00:07:03.330
+127 and unsurprisingly Pi gets
+
+159
+00:07:03.330 --> 00:07:04.800
+projected two or three
+
+160
+00:07:04.800 --> 00:07:06.935
+in the 8-bit lower
+precision space.
+
+161
+00:07:06.935 --> 00:07:09.450
+This brings new memory
+requirement down from
+
+162
+00:07:09.450 --> 00:07:11.865
+originally four bytes
+to just one byte,
+
+163
+00:07:11.865 --> 00:07:13.410
+but obviously results in
+
+164
+00:07:13.410 --> 00:07:15.660
+a pretty dramatic
+loss of precision.
+
+165
+00:07:15.660 --> 00:07:18.285
+Let's summarize what
+you've learned here and
+
+166
+00:07:18.285 --> 00:07:19.890
+emphasize the key points you
+
+167
+00:07:19.890 --> 00:07:21.995
+should take away from
+this discussion.
+
+168
+00:07:21.995 --> 00:07:24.450
+Remember that the
+goal of quantization
+
+169
+00:07:24.450 --> 00:07:26.590
+is to reduce the
+memory required to
+
+170
+00:07:26.590 --> 00:07:28.530
+store and train models by
+
+171
+00:07:28.530 --> 00:07:31.250
+reducing the precision
+off the model weights.
+
+172
+00:07:31.250 --> 00:07:33.690
+Quantization
+statistically projects
+
+173
+00:07:33.690 --> 00:07:36.330
+the original 32-bit
+floating point numbers into
+
+174
+00:07:36.330 --> 00:07:39.300
+lower precision spaces
+using scaling factors
+
+175
+00:07:39.300 --> 00:07:41.190
+calculated based on the range
+
+176
+00:07:41.190 --> 00:07:43.380
+of the original 32-bit floats.
+
+177
+00:07:43.380 --> 00:07:45.000
+Modern deep learning
+frameworks and
+
+178
+00:07:45.000 --> 00:07:47.745
+libraries support
+quantization-aware training,
+
+179
+00:07:47.745 --> 00:07:49.620
+which learns the quantization
+
+180
+00:07:49.620 --> 00:07:52.400
+scaling factors during
+the training process.
+
+181
+00:07:52.400 --> 00:07:54.255
+The details of this process
+
+182
+00:07:54.255 --> 00:07:56.060
+are beyond the scope
+of this course.
+
+183
+00:07:56.060 --> 00:07:57.965
+But you've seen the
+key point here,
+
+184
+00:07:57.965 --> 00:08:00.670
+that you can use
+quantization to reduce
+
+185
+00:08:00.670 --> 00:08:03.665
+the memory footprint off
+the model during training.
+
+186
+00:08:03.665 --> 00:08:07.565
+BFLOAT16 has become a
+popular choice of precision
+
+187
+00:08:07.565 --> 00:08:09.150
+in deep learning as it
+
+188
+00:08:09.150 --> 00:08:11.820
+maintains the dynamic
+range of FP32,
+
+189
+00:08:11.820 --> 00:08:14.730
+but reduces the memory
+footprint by half.
+
+190
+00:08:14.730 --> 00:08:17.775
+Many LLMs, including FLAN-T5,
+
+191
+00:08:17.775 --> 00:08:20.240
+have been pre-trained
+with BFOLAT16.
+
+192
+00:08:20.240 --> 00:08:24.175
+Lookout for a mention of
+BFLOAT16 in next week's lab.
+
+193
+00:08:24.175 --> 00:08:27.810
+Now let's return to the
+challenge of fitting models into
+
+194
+00:08:27.810 --> 00:08:29.790
+GPU memory and take a look
+
+195
+00:08:29.790 --> 00:08:32.280
+at the impact
+quantization can have.
+
+196
+00:08:32.280 --> 00:08:34.475
+By applying
+quantization, you can
+
+197
+00:08:34.475 --> 00:08:37.085
+reduce your memory
+consumption required to
+
+198
+00:08:37.085 --> 00:08:39.095
+store the model
+parameters down to
+
+199
+00:08:39.095 --> 00:08:42.575
+only two gigabyte using
+16-bit half precision of
+
+200
+00:08:42.575 --> 00:08:44.320
+50% saving and you
+
+201
+00:08:44.320 --> 00:08:46.210
+could further reduce
+the memory footprint by
+
+202
+00:08:46.210 --> 00:08:48.520
+another 50% by representing
+
+203
+00:08:48.520 --> 00:08:50.645
+the model parameters
+as eight bit integers,
+
+204
+00:08:50.645 --> 00:08:53.420
+which requires only one
+gigabyte of GPU RAM.
+
+205
+00:08:53.420 --> 00:08:55.600
+Note that in all
+these cases you still
+
+206
+00:08:55.600 --> 00:08:58.095
+have a model with one
+billion parameters.
+
+207
+00:08:58.095 --> 00:08:59.860
+As you can see, the circles
+
+208
+00:08:59.860 --> 00:09:02.435
+representing the models
+are the same size.
+
+209
+00:09:02.435 --> 00:09:04.085
+Quantization will give you
+
+210
+00:09:04.085 --> 00:09:07.195
+the same degree of savings
+when it comes to training.
+
+211
+00:09:07.195 --> 00:09:09.750
+As you heard earlier, you'll
+quickly hit the limit of
+
+212
+00:09:09.750 --> 00:09:13.855
+a single NVIDIA A100 GPU
+with 80 gigabytes of memory.
+
+213
+00:09:13.855 --> 00:09:15.255
+When you try to train
+
+214
+00:09:15.255 --> 00:09:19.025
+a one billion parameter model
+at 32-bit full precision,
+
+215
+00:09:19.025 --> 00:09:20.760
+you'll need to consider using
+
+216
+00:09:20.760 --> 00:09:23.910
+either 16-bit or eight
+bit quantization if
+
+217
+00:09:23.910 --> 00:09:27.245
+you want to train on a
+single GPU and remember,
+
+218
+00:09:27.245 --> 00:09:29.550
+many models now have
+sizes in excess of
+
+219
+00:09:29.550 --> 00:09:32.610
+50 billion or even 100
+billion parameters.
+
+220
+00:09:32.610 --> 00:09:34.170
+Meaning you'd need up to
+
+221
+00:09:34.170 --> 00:09:37.295
+500 times more memory
+capacity to train them,
+
+222
+00:09:37.295 --> 00:09:39.545
+tens of thousands of gigabytes.
+
+223
+00:09:39.545 --> 00:09:41.770
+These enormous models dwarf
+
+224
+00:09:41.770 --> 00:09:44.595
+the one billion parameter
+model we've been considering,
+
+225
+00:09:44.595 --> 00:09:46.730
+shown here to scale on the left.
+
+226
+00:09:46.730 --> 00:09:49.655
+As modal scale beyond a
+few billion parameters,
+
+227
+00:09:49.655 --> 00:09:53.245
+it becomes impossible to
+train them on a single GPU.
+
+228
+00:09:53.245 --> 00:09:55.500
+Instead, you'll need to turn to
+
+229
+00:09:55.500 --> 00:09:57.805
+distributed computing
+techniques while you
+
+230
+00:09:57.805 --> 00:10:00.475
+train your model
+across multiple GPUs.
+
+231
+00:10:00.475 --> 00:10:04.220
+This could require access
+to hundreds of GPUs,
+
+232
+00:10:04.220 --> 00:10:05.660
+which is very expensive.
+
+233
+00:10:05.660 --> 00:10:07.950
+Another reason why
+you won't pre-train
+
+234
+00:10:07.950 --> 00:10:10.550
+your own model from
+scratch most of the time.
+
+235
+00:10:10.550 --> 00:10:12.280
+However, an additional
+
+236
+00:10:12.280 --> 00:10:14.325
+training process
+called fine-tuning,
+
+237
+00:10:14.325 --> 00:10:16.080
+which you'll learn
+about next week.
+
+238
+00:10:16.080 --> 00:10:18.845
+Also require storing all
+training parameters in
+
+239
+00:10:18.845 --> 00:10:20.730
+memory and it's very likely
+
+240
+00:10:20.730 --> 00:10:23.430
+you'll want to fine tune
+a model at some point.
+
+241
+00:10:23.430 --> 00:10:25.735
+To help you
+understand more about
+
+242
+00:10:25.735 --> 00:10:28.625
+the technical aspects of
+training across GPUs,
+
+243
+00:10:28.625 --> 00:10:31.210
+we've prepared an
+optional video for you.
+
+244
+00:10:31.210 --> 00:10:33.120
+It's very detailed, but it will
+
+245
+00:10:33.120 --> 00:10:34.930
+help you understand some of
+
+246
+00:10:34.930 --> 00:10:36.720
+the options that
+exist for developers
+
+247
+00:10:36.720 --> 00:10:39.200
+like you to train larger models.
+
+248
+00:10:39.200 --> 00:10:41.465
+You should feel free
+to skip this video.
+
+249
+00:10:41.465 --> 00:10:43.385
+But if you're interested
+in learning more,
+
+250
+00:10:43.385 --> 00:10:45.620
+I hope you'll check it out.

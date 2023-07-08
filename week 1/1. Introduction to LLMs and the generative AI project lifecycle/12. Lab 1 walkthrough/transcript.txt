@@ -1,0 +1,202 @@
+This is Lab 1, and like I said, we are going to grab a data-set of these
+conversations that are happening
+between people. What we plan to do
+is to summarize these dialogues and so
+think of a support dialogue between you and your
+customers maybe the end of the month
+you want to summarize all of the issues that your customer support team
+has dealt with that month. Some other things to note now, I'm zoomed in a
+little bit much here, but you can see that
+we have eight CPUs, we have 32 gigs of RAM. We're using Python three and these are some
+of the pip install. So if I do a Shift Enter here, this is going to start doing the Python library installs and we see that we're
+going to be using PyTorch. We are installing a
+library called Torch data, which helps with the
+data loading and some other aspects for PyTorch
+specific to data-sets. Here we see Transformers. This is a library
+from Hugging Face, a really cool company
+who has built a whole lot of open source tooling for large
+language models. They also had built
+this library, this Python library
+called data-sets, that can load in many of the common public
+data-sets that people use to either train models, fine tune models, or
+just experiment with. If you click Shift Enter there, this will run for a bit. Now keep in mind this does
+take a few minutes to load. This whole notebook will
+depend on these libraries. So make sure that
+these do install. Just ignore these
+errors, these warnings. We always try to do things to mitigate these errors and warnings and they
+always show up, things will still work. Just trust me, these libraries and these notebooks do run. We've pinned all of the Python library versions so that as new versions come out, it will not potentially
+break these notebooks so just keep that in mind. This does say to
+restart the kernel, I don't think you
+have to do that. Let's just keep on going. Now we're going to actually
+do the imports here. This is going to import
+functions called load data-set, this is going to import
+some of the models and tokenizers that are needed to accomplish our lab here. We're going to use this data-set
+called Dialogue sum and this is a public data-set
+that transformers, and specifically the
+data-sets library does expose and does
+give us access to, so all we do is call
+load data-set that was imported up above and we
+pull in this data-set. Now, from here on out, we're going to explore
+some of the data, we're going to actually try to summarize with just the
+flat T5 based model. Before we get there though,
+let me load the data-set. Let's take a look at some of the examples of this data-set. Here's a sample dialogue
+between person 1 and person 2. Person 1 says, what
+time is it, Tom? It looks like person 2
+'s name is Tom actually. Just a minute, it's
+10.00 to 9.00 by my watch and on and on. Here's the baseline
+human summary. This is what a human has labeled this conversation to be, a summary of that conversation. Now we will try to improve upon that summary
+by using our model. Again, no model has
+even been loaded yet. This is purely just
+the actual data. Here's the conversation and then think of this like
+this is the training sample and then this is what a
+human has labeled it and then we will compare
+the human summary, which is what we're considering
+to be the baseline, we will compare that to what the model predicts
+is the summary. The model will actually
+generate a summary. Here's a second example. You can see it's got
+some familiar terms here that a lot of us
+are familiar with, CD ROM painting program
+for your software. Now, here's where we're actually
+going to load the model. FLAN-T5, we spoke
+about in the videos. This is a very nice general
+purpose model that can do a whole lot of tasks
+and today we'll be focused on FLAN-T5's, ability to summarize
+conversations. After loading the model, we have to load the tokenizer. Now, these are all coming from the Hugging Face
+Transformers library. To give you an example, before
+transformers came along, we had to write a lot
+of this code ourselves. Depending on the type of model, there's now many different
+language models and some of them do things
+very differently than some of the other models. There was a lot of bespoke ad hoc libraries out there that were all
+trying to do similar things. Then Hugging Face came
+along and really has a very well optimized
+implementation of all of these. Now, here's the tokenizer. This is what's going
+to be used to convert the raw text from
+our conversation into our vector space
+that can then be processed by our Flan-T5 model. Just to give you an idea, let's just take a
+sample sentence here. What time is it, Tom? The first sentence from
+our conversation up above, we see the encoded sentence is actually these numbers here. Then if you go to decode it, we see that this decodes
+right back to the original. The tokenizer's job is to
+convert raw text into numbers. Those numbers point to a set of vectors or the embeddings as
+they're often called, that are then used in mathematical operations
+like our deep learning, back-propagation,
+our linear algebra, all that fun stuff. Now, let's run this cell here
+and continue to explore. Now, that we've loaded our model and we've loaded our tokenizer, we can run through some of these conversations through
+the Flan-T5 model and see what does this model actually generate as a summary
+for these conversations. Here again, we have
+the conversation. Here again is the
+baseline summary. Then we see without any
+prompt engineering at all, just taking the
+actual conversation, passing it to our Flan-T5 model, it doesn't do a very
+good job summarizing. We see it's 10 to nine. That's not very helpful. There's some more details in this conversation that are
+not coming out at this point. Same with the conversation
+about our CD-ROM, baseline summary as Person
+1 teaches Person 2 how to upgrade the software and
+hardware in Person 2's system. The model generated Person 1 is thinking about
+upgrading their computer. Again, lots of details in this original
+conversation that do not come through the summary. Let's see how we can
+improve on this. In the lesson, you learned
+how to use instructions to tell your model what you're trying to do with the data
+that you're passing it. Here's an example. This is
+called in-context learning and specifically zero shots
+inference with an instruction. Here's the instruction, which is summarize the
+following conversation. Here is the actual conversation, and then we are telling
+the model where it should print the summary, which is going to be
+after this word summary. Now this seems very simple
+and let's see how it does. Let's see if things
+do get better. Not much better here. The baseline is still
+Person 1 is in a hurry, Tom tells Person 2
+there's plenty of time. Then the zero shot in context
+learning with a prompt, it just says the train
+is about to leave. Again, not the greatest. And then here is the zero-shot
+for the computer sample. It's still thinking that
+Person 1 is trying to upgrade, so not much better. Let's keep going here. There is a different prompt
+that we can use here, which is where we just
+say dialogue corn. Now these are really up to you. This is the prompt
+engineering side of these large language
+models where we're trying to find the best prompt and in this case just
+zero-shot inference. No fine-tuning of the
+model, no nothing. All we're doing is just finding
+different instructions to pass and seeing
+if the model does any better with slightly
+different phrases. Let's see how this does. Really this is the
+inverse of before where here we're just saying
+here's the dialogue, and then afterward
+we're saying what was going on up
+in that dialogue. Let's see if this
+does anything better. Tom is late for the train, so it's picking that up, but still not great. Here we see Person 1. You could add a
+painting program. Person 2 that would be a bonus. A little bit better. It's not exactly right,
+but it's getting better. It's at least picking
+up some of the nuance. Now, as part of
+in-context learning, you learn there's
+something called one shot and then few shots. Let's get a sample of that here. Let's get hands-on with one
+shot and then few shot. Earlier we were doing zero-shot. That means we're not giving it any samples of prompt
+and then completion, all we're doing is just
+giving it a prompt. We are asking the model to do something and seeing what
+the model generates. With one shot and then few shot, we will actually give it
+samples that are correct, or that use the human baseline. That gives the model a little bit more
+information to work on. Let's see how one
+shot works here. All we're doing is just
+taking a full example, including the summary
+from the human baseline, then giving it a second example, but without the actual summary. That's the dialogue
+that we want the model to summarize. Let's
+see how this looks. One-shot means I'm giving
+it one complete example, including the correct answer as dictated by the human
+here, the human baseline. Then we give it a second example and ask the model
+what's going on. Let's see how we do here. Here we're just going to
+do the upgrade software. Person1 wants to upgrade, Person2 wants to add
+painting program, Person1 wants to add a CD ROM. I think it's a little better
+and let's keep going. There's something called
+few-shot inference as well. Now some of you might
+be asking, well, this seems like cheating because
+we're actually giving it one answer and then asking it. It's not really cheating. It's more of you're helping
+the model help itself. Now in future lessons
+and in future labs, we will actually
+fine tune the model where we can go back to
+the zero-shot inference, which is what you
+would normally think of as a good language model. But here we're just building up some of
+the intuition here. Keep in mind, this is
+a very inexpensive way to try out these models and to even figure out which
+model should you fine tune. We chose Plan T5
+because it works across a large number of tasks. But if you have no
+idea how a model is, if you just get it off of
+some model hub somewhere. These are the first step. Prompt engineering,
+zero-shot, one-shot, few shot is almost always the first step when
+you're trying to learn the language model that you've been
+handed and dataset. Also very datasets specific
+as well, and task-specific. Few shot means that we're
+giving three full examples, including the human
+baseline summary, 1, 2, 3, and then a fourth but
+without the human summary. Yes, even though we have it, we're just exploring
+our model right now. We're saying, tell us what
+that forth dialogue is. That summary. Just ignore
+some of these errors. Some of these sequences
+are a bit larger than the 512 context
+length of the model. Typically, you would
+probably want to filter out any of these inputs that
+are larger than 512. But here it's still
+does a pretty good job. Here we see a case where the few-shot didn't do much
+better than the one shot. This is something
+that you want to pay attention to because
+in practice, people often try to just keep
+adding more and more shots, five shots, six shots. Typically, in my experience, above five or six shots, so full prompt and
+then completions, you really don't gain
+much after that. Either the model can
+do it or it can't do it and going about five or six. Here we see for this particular sample that really one shot was good enough. Now the last part of this
+lab is going to be fun. This is where you can
+actually play with some of these configuration
+parameters that you learn during the lessons. Things like the
+sampling, temperature. You can play with these try
+out and gain your intuition on how these things can impact what's actually
+generated by the model. In some cases, for example, by raising the
+temperature up above, towards one or even
+closer to two, you will get very creative
+type of responses. If you lower it down
+I believe 0.1 is the minimum for the hugging
+face implementation anyway, of this generation
+config class here that's used when you
+actually generate. I can pass generation
+config right here. If you go down to 0.1, that will actually
+make the response more conservative and will oftentimes give you the same
+response over and over. If you go higher, I believe actually
+2.0 is the highest. If you try to 2.0, that will start to give you
+some very wild responses. It's fun. You should try it

@@ -1,0 +1,507 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.490
+As you saw in the first
+week of the course,
+
+2
+00:00:02.490 --> 00:00:05.685
+training LLMs is
+computationally intensive.
+
+3
+00:00:05.685 --> 00:00:07.740
+Full fine-tuning requires memory
+
+4
+00:00:07.740 --> 00:00:09.240
+not just to store the model,
+
+5
+00:00:09.240 --> 00:00:10.980
+but various other
+parameters that are
+
+6
+00:00:10.980 --> 00:00:13.275
+required during the
+training process.
+
+7
+00:00:13.275 --> 00:00:16.095
+Even if your computer can
+hold the model weights,
+
+8
+00:00:16.095 --> 00:00:18.030
+which are now on the
+order of hundreds
+
+9
+00:00:18.030 --> 00:00:20.070
+of gigabytes for
+the largest models,
+
+10
+00:00:20.070 --> 00:00:22.260
+you must also be
+able to allocate
+
+11
+00:00:22.260 --> 00:00:25.155
+memory for optimizer states,
+
+12
+00:00:25.155 --> 00:00:28.245
+gradients, forward activations,
+
+13
+00:00:28.245 --> 00:00:31.515
+and temporary memory throughout
+the training process.
+
+14
+00:00:31.515 --> 00:00:34.590
+These additional components
+can be many times larger than
+
+15
+00:00:34.590 --> 00:00:36.570
+the model and can quickly become
+
+16
+00:00:36.570 --> 00:00:39.460
+too large to handle
+on consumer hardware.
+
+17
+00:00:39.460 --> 00:00:41.930
+In contrast to full
+fine-tuning where
+
+18
+00:00:41.930 --> 00:00:45.170
+every model weight is updated
+during supervised learning,
+
+19
+00:00:45.170 --> 00:00:47.435
+parameter efficient
+fine tuning methods
+
+20
+00:00:47.435 --> 00:00:50.210
+only update a small
+subset of parameters.
+
+21
+00:00:50.210 --> 00:00:51.950
+Some path techniques freeze
+
+22
+00:00:51.950 --> 00:00:53.720
+most of the model
+weights and focus
+
+23
+00:00:53.720 --> 00:00:57.365
+on fine tuning a subset of
+existing model parameters,
+
+24
+00:00:57.365 --> 00:01:00.355
+for example, particular
+layers or components.
+
+25
+00:01:00.355 --> 00:01:01.940
+Other techniques don't touch
+
+26
+00:01:01.940 --> 00:01:03.605
+the original model
+weights at all,
+
+27
+00:01:03.605 --> 00:01:05.720
+and instead add a
+small number of
+
+28
+00:01:05.720 --> 00:01:07.700
+new parameters or layers and
+
+29
+00:01:07.700 --> 00:01:10.025
+fine-tune only the
+new components.
+
+30
+00:01:10.025 --> 00:01:12.080
+With PEFT, most if not all
+
+31
+00:01:12.080 --> 00:01:14.410
+of the LLM weights
+are kept frozen.
+
+32
+00:01:14.410 --> 00:01:17.900
+As a result, the number of
+trained parameters is much
+
+33
+00:01:17.900 --> 00:01:19.220
+smaller than the number of
+
+34
+00:01:19.220 --> 00:01:21.380
+parameters in the original LLM.
+
+35
+00:01:21.380 --> 00:01:26.305
+In some cases, just 15-20%
+of the original LLM weights.
+
+36
+00:01:26.305 --> 00:01:28.130
+This makes the
+memory requirements
+
+37
+00:01:28.130 --> 00:01:30.205
+for training much
+more manageable.
+
+38
+00:01:30.205 --> 00:01:34.805
+In fact, PEFT can often be
+performed on a single GPU.
+
+39
+00:01:34.805 --> 00:01:37.025
+And because the original LLM is
+
+40
+00:01:37.025 --> 00:01:39.320
+only slightly modified
+or left unchanged,
+
+41
+00:01:39.320 --> 00:01:41.030
+PEFT is less prone to
+
+42
+00:01:41.030 --> 00:01:44.560
+the catastrophic forgetting
+problems of full fine-tuning.
+
+43
+00:01:44.560 --> 00:01:47.210
+Full fine-tuning results
+in a new version of
+
+44
+00:01:47.210 --> 00:01:49.530
+the model for every
+task you train on.
+
+45
+00:01:49.530 --> 00:01:52.760
+Each of these is the same
+size as the original model,
+
+46
+00:01:52.760 --> 00:01:55.010
+so it can create an
+expensive storage problem
+
+47
+00:01:55.010 --> 00:01:57.550
+if you're fine-tuning
+for multiple tasks.
+
+48
+00:01:57.550 --> 00:02:01.130
+Let's see how you can use PEFT
+to improve the situation.
+
+49
+00:02:01.130 --> 00:02:03.650
+With parameter
+efficient fine-tuning,
+
+50
+00:02:03.650 --> 00:02:05.765
+you train only a small
+number of weights,
+
+51
+00:02:05.765 --> 00:02:08.720
+which results in a much
+smaller footprint overall,
+
+52
+00:02:08.720 --> 00:02:11.875
+as small as megabytes
+depending on the task.
+
+53
+00:02:11.875 --> 00:02:13.970
+The new parameters
+are combined with
+
+54
+00:02:13.970 --> 00:02:16.475
+the original LLM
+weights for inference.
+
+55
+00:02:16.475 --> 00:02:18.275
+The PEFT weights are trained for
+
+56
+00:02:18.275 --> 00:02:21.845
+each task and can be easily
+swapped out for inference,
+
+57
+00:02:21.845 --> 00:02:23.660
+allowing efficient adaptation of
+
+58
+00:02:23.660 --> 00:02:26.855
+the original model
+to multiple tasks.
+
+59
+00:02:26.855 --> 00:02:29.120
+There are several
+methods you can use for
+
+60
+00:02:29.120 --> 00:02:31.250
+parameter efficient fine-tuning,
+
+61
+00:02:31.250 --> 00:02:34.295
+each with trade-offs on
+parameter efficiency,
+
+62
+00:02:34.295 --> 00:02:37.385
+memory efficiency,
+training speed,
+
+63
+00:02:37.385 --> 00:02:40.340
+model quality, and
+inference costs.
+
+64
+00:02:40.340 --> 00:02:42.860
+Let's take a look at
+the three main classes
+
+65
+00:02:42.860 --> 00:02:44.155
+of PEFT methods.
+
+66
+00:02:44.155 --> 00:02:47.045
+Selective methods are
+those that fine-tune only
+
+67
+00:02:47.045 --> 00:02:50.065
+a subset of the original
+LLM parameters.
+
+68
+00:02:50.065 --> 00:02:52.220
+There are several approaches
+that you can take to
+
+69
+00:02:52.220 --> 00:02:54.900
+identify which parameters
+you want to update.
+
+70
+00:02:54.900 --> 00:02:56.240
+You have the option to train
+
+71
+00:02:56.240 --> 00:02:59.615
+only certain components of
+the model or specific layers,
+
+72
+00:02:59.615 --> 00:03:02.140
+or even individual
+parameter types.
+
+73
+00:03:02.140 --> 00:03:03.470
+Researchers have found that
+
+74
+00:03:03.470 --> 00:03:05.960
+the performance of these
+methods is mixed and there are
+
+75
+00:03:05.960 --> 00:03:08.090
+significant trade-offs between
+
+76
+00:03:08.090 --> 00:03:11.195
+parameter efficiency
+and compute efficiency.
+
+77
+00:03:11.195 --> 00:03:13.675
+We won't focus on
+them in this course.
+
+78
+00:03:13.675 --> 00:03:16.340
+Reparameterization
+methods also work
+
+79
+00:03:16.340 --> 00:03:18.785
+with the original
+LLM parameters,
+
+80
+00:03:18.785 --> 00:03:22.280
+but reduce the number of
+parameters to train by creating
+
+81
+00:03:22.280 --> 00:03:24.695
+new low rank transformations
+
+82
+00:03:24.695 --> 00:03:26.875
+of the original network weights.
+
+83
+00:03:26.875 --> 00:03:30.245
+A commonly used technique
+of this type is LoRA,
+
+84
+00:03:30.245 --> 00:03:33.460
+which we'll explore in
+detail in the next video.
+
+85
+00:03:33.460 --> 00:03:35.540
+Lastly, additive methods
+
+86
+00:03:35.540 --> 00:03:38.090
+carry out fine-tuning
+by keeping all of
+
+87
+00:03:38.090 --> 00:03:39.650
+the original LLM weights
+
+88
+00:03:39.650 --> 00:03:43.160
+frozen and introducing
+new trainable components.
+
+89
+00:03:43.160 --> 00:03:45.145
+Here there are two
+main approaches.
+
+90
+00:03:45.145 --> 00:03:47.960
+Adapter methods add
+new trainable layers
+
+91
+00:03:47.960 --> 00:03:49.685
+to the architecture
+of the model,
+
+92
+00:03:49.685 --> 00:03:52.460
+typically inside the
+encoder or decoder
+
+93
+00:03:52.460 --> 00:03:56.170
+components after the attention
+or feed-forward layers.
+
+94
+00:03:56.170 --> 00:03:58.490
+Soft prompt methods,
+on the other hand,
+
+95
+00:03:58.490 --> 00:04:01.805
+keep the model architecture
+fixed and frozen,
+
+96
+00:04:01.805 --> 00:04:03.560
+and focus on manipulating
+
+97
+00:04:03.560 --> 00:04:06.055
+the input to achieve
+better performance.
+
+98
+00:04:06.055 --> 00:04:07.535
+This can be done by adding
+
+99
+00:04:07.535 --> 00:04:09.830
+trainable parameters to
+the prompt embeddings
+
+100
+00:04:09.830 --> 00:04:11.570
+or keeping the input
+
+101
+00:04:11.570 --> 00:04:14.225
+fixed and retraining
+the embedding weights.
+
+102
+00:04:14.225 --> 00:04:16.070
+In this lesson,
+you'll take a look at
+
+103
+00:04:16.070 --> 00:04:19.835
+a specific soft prompts
+technique called prompt tuning.
+
+104
+00:04:19.835 --> 00:04:21.680
+First, let's move on to
+
+105
+00:04:21.680 --> 00:04:23.960
+the next video and
+take a closer look at
+
+106
+00:04:23.960 --> 00:04:26.090
+the LoRA method and see how it
+
+107
+00:04:26.090 --> 00:04:29.310
+reduces the memory
+required for training

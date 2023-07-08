@@ -1,0 +1,907 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.135
+Multitask fine-tuning
+is an extension
+
+2
+00:00:03.135 --> 00:00:05.055
+of single task fine-tuning,
+
+3
+00:00:05.055 --> 00:00:07.785
+where the training
+dataset is comprised of
+
+4
+00:00:07.785 --> 00:00:11.820
+example inputs and outputs
+for multiple tasks.
+
+5
+00:00:11.820 --> 00:00:14.640
+Here, the dataset
+contains examples that
+
+6
+00:00:14.640 --> 00:00:18.105
+instruct the model to carry
+out a variety of tasks,
+
+7
+00:00:18.105 --> 00:00:21.495
+including summarization,
+review rating,
+
+8
+00:00:21.495 --> 00:00:25.140
+code translation, and
+entity recognition.
+
+9
+00:00:25.140 --> 00:00:26.760
+You train the model on
+
+10
+00:00:26.760 --> 00:00:29.340
+this mixed dataset so
+that it can improve
+
+11
+00:00:29.340 --> 00:00:31.050
+the performance of the model on
+
+12
+00:00:31.050 --> 00:00:33.540
+all the tasks simultaneously,
+
+13
+00:00:33.540 --> 00:00:37.675
+thus avoiding the issue of
+catastrophic forgetting.
+
+14
+00:00:37.675 --> 00:00:39.830
+Over many epochs of training,
+
+15
+00:00:39.830 --> 00:00:42.350
+the calculated losses
+across examples
+
+16
+00:00:42.350 --> 00:00:45.125
+are used to update the
+weights of the model,
+
+17
+00:00:45.125 --> 00:00:48.695
+resulting in an instruction
+tuned model that is learned
+
+18
+00:00:48.695 --> 00:00:52.840
+how to be good at many
+different tasks simultaneously.
+
+19
+00:00:52.840 --> 00:00:55.230
+One drawback to multitask
+
+20
+00:00:55.230 --> 00:00:58.610
+fine-tuning is that it
+requires a lot of data.
+
+21
+00:00:58.610 --> 00:01:00.650
+You may need as many as
+
+22
+00:01:00.650 --> 00:01:04.585
+50-100,000 examples
+in your training set.
+
+23
+00:01:04.585 --> 00:01:07.415
+However, it can be
+really worthwhile
+
+24
+00:01:07.415 --> 00:01:10.465
+and worth the effort
+to assemble this data.
+
+25
+00:01:10.465 --> 00:01:12.740
+The resulting models
+are often very
+
+26
+00:01:12.740 --> 00:01:15.050
+capable and suitable for use in
+
+27
+00:01:15.050 --> 00:01:17.165
+situations where
+good performance
+
+28
+00:01:17.165 --> 00:01:20.160
+at many tasks is desirable.
+
+29
+00:01:20.160 --> 00:01:23.680
+Let's take a look at one family
+of models that have been
+
+30
+00:01:23.680 --> 00:01:27.560
+trained using multitask
+instruction fine-tuning.
+
+31
+00:01:27.560 --> 00:01:30.460
+Instruct model variance
+differ based on
+
+32
+00:01:30.460 --> 00:01:33.955
+the datasets and tasks
+used during fine-tuning.
+
+33
+00:01:33.955 --> 00:01:37.595
+One example is the
+FLAN family of models.
+
+34
+00:01:37.595 --> 00:01:42.385
+FLAN, which stands for
+fine-tuned language net,
+
+35
+00:01:42.385 --> 00:01:44.395
+is a specific set
+of instructions
+
+36
+00:01:44.395 --> 00:01:47.030
+used to fine-tune
+different models.
+
+37
+00:01:47.030 --> 00:01:50.470
+Because they're FLAN
+fine-tuning is the last step of
+
+38
+00:01:50.470 --> 00:01:53.980
+the training process the
+authors of the original paper
+
+39
+00:01:53.980 --> 00:01:56.980
+called it the
+metaphorical dessert to
+
+40
+00:01:56.980 --> 00:02:01.265
+the main course of pre-training
+quite a fitting name.
+
+41
+00:02:01.265 --> 00:02:05.270
+FLAN-T5, the FLAN
+instruct version of
+
+42
+00:02:05.270 --> 00:02:07.865
+the T5 foundation model while
+
+43
+00:02:07.865 --> 00:02:11.240
+FLAN-PALM is the
+flattening struct version
+
+44
+00:02:11.240 --> 00:02:13.400
+of the palm foundation model.
+
+45
+00:02:13.400 --> 00:02:14.830
+You get the idea,
+
+46
+00:02:14.830 --> 00:02:19.955
+FLAN-T5 is a great general
+purpose instruct model.
+
+47
+00:02:19.955 --> 00:02:22.655
+In total, it's
+been fine tuned on
+
+48
+00:02:22.655 --> 00:02:29.510
+473 datasets across
+146 task categories.
+
+49
+00:02:29.510 --> 00:02:32.135
+Those datasets are chosen from
+
+50
+00:02:32.135 --> 00:02:35.275
+other models and
+papers as shown here.
+
+51
+00:02:35.275 --> 00:02:38.530
+Don't worry about reading
+all the details right now.
+
+52
+00:02:38.530 --> 00:02:40.220
+If you're interested, you can
+
+53
+00:02:40.220 --> 00:02:42.230
+access the original
+paper through
+
+54
+00:02:42.230 --> 00:02:44.030
+a reading exercise after
+
+55
+00:02:44.030 --> 00:02:46.400
+the video and take
+a closer look.
+
+56
+00:02:46.400 --> 00:02:49.340
+One example of a prompt
+dataset used for
+
+57
+00:02:49.340 --> 00:02:53.945
+summarization tasks
+in FLAN-T5 is SAMSum.
+
+58
+00:02:53.945 --> 00:02:57.515
+It's part of the muffin
+collection of tasks and datasets
+
+59
+00:02:57.515 --> 00:02:58.880
+and is used to train
+
+60
+00:02:58.880 --> 00:03:01.765
+language models to
+summarize dialogue.
+
+61
+00:03:01.765 --> 00:03:03.920
+SAMSum is a dataset with
+
+62
+00:03:03.920 --> 00:03:08.945
+16,000 messenger like
+conversations with summaries.
+
+63
+00:03:08.945 --> 00:03:11.480
+Three examples are
+shown here with
+
+64
+00:03:11.480 --> 00:03:15.425
+the dialogue on the left and
+the summaries on the right.
+
+65
+00:03:15.425 --> 00:03:18.920
+The dialogues and summaries
+were crafted by linguists for
+
+66
+00:03:18.920 --> 00:03:21.275
+the express purpose
+of generating
+
+67
+00:03:21.275 --> 00:03:24.940
+a high-quality training
+dataset for language models.
+
+68
+00:03:24.940 --> 00:03:28.010
+The linguists were asked
+to create conversations
+
+69
+00:03:28.010 --> 00:03:31.265
+similar to those that they
+would write on a daily basis,
+
+70
+00:03:31.265 --> 00:03:33.680
+reflecting their
+proportion of topics of
+
+71
+00:03:33.680 --> 00:03:36.490
+their real life
+messenger conversations.
+
+72
+00:03:36.490 --> 00:03:38.900
+Although language
+experts then created
+
+73
+00:03:38.900 --> 00:03:41.510
+short summaries of those
+conversations that
+
+74
+00:03:41.510 --> 00:03:43.520
+included important pieces of
+
+75
+00:03:43.520 --> 00:03:47.045
+information and names of
+the people in the dialogue.
+
+76
+00:03:47.045 --> 00:03:49.910
+Here is a prompt template
+designed to work
+
+77
+00:03:49.910 --> 00:03:52.885
+with this SAMSum dialogue
+summary dataset.
+
+78
+00:03:52.885 --> 00:03:55.370
+The template is
+actually comprised of
+
+79
+00:03:55.370 --> 00:03:57.830
+several different
+instructions that
+
+80
+00:03:57.830 --> 00:04:01.040
+all basically ask the model
+to do this same thing.
+
+81
+00:04:01.040 --> 00:04:03.140
+Summarize a dialogue.
+
+82
+00:04:03.140 --> 00:04:06.950
+For example, briefly
+summarize that dialogue.
+
+83
+00:04:06.950 --> 00:04:09.590
+What is a summary
+of this dialogue?
+
+84
+00:04:09.590 --> 00:04:12.875
+What was going on in
+that conversation?
+
+85
+00:04:12.875 --> 00:04:16.445
+Including different ways of
+saying the same instruction
+
+86
+00:04:16.445 --> 00:04:20.215
+helps the model generalize
+and perform better.
+
+87
+00:04:20.215 --> 00:04:23.045
+Just like the prompt
+templates you saw earlier.
+
+88
+00:04:23.045 --> 00:04:24.890
+You see that in each case,
+
+89
+00:04:24.890 --> 00:04:27.770
+the dialogue from the
+SAMSum dataset is
+
+90
+00:04:27.770 --> 00:04:29.480
+inserted into the template
+
+91
+00:04:29.480 --> 00:04:32.030
+wherever the dialogue
+field appears.
+
+92
+00:04:32.030 --> 00:04:35.420
+The summary is
+used as the label.
+
+93
+00:04:35.420 --> 00:04:37.640
+After applying this template to
+
+94
+00:04:37.640 --> 00:04:39.980
+each row in the SAMSum dataset,
+
+95
+00:04:39.980 --> 00:04:41.915
+you can use it to fine tune
+
+96
+00:04:41.915 --> 00:04:44.725
+a dialogue summarization task.
+
+97
+00:04:44.725 --> 00:04:48.830
+While FLAN-T5 is a
+great general use model
+
+98
+00:04:48.830 --> 00:04:51.580
+that shows good
+capability in many tasks.
+
+99
+00:04:51.580 --> 00:04:54.410
+You may still find
+that it has room
+
+100
+00:04:54.410 --> 00:04:57.755
+for improvement on tasks
+for your specific use case.
+
+101
+00:04:57.755 --> 00:04:59.840
+For example, imagine you're
+
+102
+00:04:59.840 --> 00:05:01.910
+a data scientist building an app
+
+103
+00:05:01.910 --> 00:05:04.100
+to support your
+customer service team,
+
+104
+00:05:04.100 --> 00:05:07.175
+process requests received
+through a chat bot,
+
+105
+00:05:07.175 --> 00:05:09.185
+like the one shown here.
+
+106
+00:05:09.185 --> 00:05:11.480
+Your customer service team needs
+
+107
+00:05:11.480 --> 00:05:14.630
+a summary of every
+dialogue to identify
+
+108
+00:05:14.630 --> 00:05:17.690
+the key actions that the
+customer is requesting and
+
+109
+00:05:17.690 --> 00:05:21.170
+to determine what actions
+should be taken in response.
+
+110
+00:05:21.170 --> 00:05:23.120
+The SAMSum dataset gives
+
+111
+00:05:23.120 --> 00:05:26.735
+FLAN-T5 some abilities to
+summarize conversations.
+
+112
+00:05:26.735 --> 00:05:29.000
+However, the examples
+in the dataset are
+
+113
+00:05:29.000 --> 00:05:31.490
+mostly conversations
+between friends
+
+114
+00:05:31.490 --> 00:05:35.030
+about day-to-day activities
+and don't overlap much
+
+115
+00:05:35.030 --> 00:05:36.410
+with the language structure
+
+116
+00:05:36.410 --> 00:05:39.055
+observed in customer
+service chats.
+
+117
+00:05:39.055 --> 00:05:41.735
+You can perform
+additional fine-tuning
+
+118
+00:05:41.735 --> 00:05:44.060
+of the FLAN-T5 model using
+
+119
+00:05:44.060 --> 00:05:46.970
+a dialogue dataset
+that is much closer to
+
+120
+00:05:46.970 --> 00:05:50.225
+the conversations that
+happened with your bot.
+
+121
+00:05:50.225 --> 00:05:52.700
+This is the exact scenario that
+
+122
+00:05:52.700 --> 00:05:55.195
+you'll explore in
+the lab this week.
+
+123
+00:05:55.195 --> 00:05:57.950
+You'll make use of
+an additional domain
+
+124
+00:05:57.950 --> 00:06:00.830
+specific summarization
+dataset called
+
+125
+00:06:00.830 --> 00:06:03.905
+dialogsum to improve
+FLAN-T5's is
+
+126
+00:06:03.905 --> 00:06:07.340
+ability to summarize
+support chat conversations.
+
+127
+00:06:07.340 --> 00:06:09.680
+This dataset consists of over
+
+128
+00:06:09.680 --> 00:06:13.310
+13,000 support chat
+dialogues and summaries.
+
+129
+00:06:13.310 --> 00:06:15.680
+The dialogue some dataset is not
+
+130
+00:06:15.680 --> 00:06:18.650
+part of the FLAN-T5
+training data,
+
+131
+00:06:18.650 --> 00:06:22.235
+so the model has not seen
+these conversations before.
+
+132
+00:06:22.235 --> 00:06:25.520
+Let's take a look at
+example from dialogsum and
+
+133
+00:06:25.520 --> 00:06:27.500
+discuss how a further round of
+
+134
+00:06:27.500 --> 00:06:30.095
+fine-tuning can
+improve the model.
+
+135
+00:06:30.095 --> 00:06:32.690
+This is a support chat
+that is typical of
+
+136
+00:06:32.690 --> 00:06:35.555
+the examples in the
+dialogsum dataset.
+
+137
+00:06:35.555 --> 00:06:38.420
+The conversation is
+between a customer and
+
+138
+00:06:38.420 --> 00:06:41.420
+a staff member at a
+hotel check-in desk.
+
+139
+00:06:41.420 --> 00:06:43.550
+The chat has had a template
+
+140
+00:06:43.550 --> 00:06:45.470
+applied so that
+the instruction to
+
+141
+00:06:45.470 --> 00:06:47.300
+summarize the conversation is
+
+142
+00:06:47.300 --> 00:06:49.790
+included at the
+start of the text.
+
+143
+00:06:49.790 --> 00:06:52.610
+Now, let's take a
+look at how FLAN-T5
+
+144
+00:06:52.610 --> 00:06:54.230
+responds to this prompt
+
+145
+00:06:54.230 --> 00:06:56.750
+before doing any
+additional fine-tuning,
+
+146
+00:06:56.750 --> 00:06:59.870
+note that the prompt is now
+condensed on the left to
+
+147
+00:06:59.870 --> 00:07:00.950
+give you more room to
+
+148
+00:07:00.950 --> 00:07:02.900
+examine the completion
+of the model.
+
+149
+00:07:02.900 --> 00:07:06.055
+Here is the model's response
+to the instruction.
+
+150
+00:07:06.055 --> 00:07:09.740
+You can see that the model
+does as it's able to
+
+151
+00:07:09.740 --> 00:07:11.630
+identify that the
+conversation was
+
+152
+00:07:11.630 --> 00:07:13.925
+about a reservation for Tommy.
+
+153
+00:07:13.925 --> 00:07:16.130
+However, it does
+not do as well as
+
+154
+00:07:16.130 --> 00:07:18.455
+the human-generated
+baseline summary,
+
+155
+00:07:18.455 --> 00:07:20.900
+which includes
+important information
+
+156
+00:07:20.900 --> 00:07:23.540
+such as Mike asking
+for information to
+
+157
+00:07:23.540 --> 00:07:27.725
+facilitate check-in and the
+models completion has also
+
+158
+00:07:27.725 --> 00:07:29.660
+invented information that was
+
+159
+00:07:29.660 --> 00:07:32.375
+not included in the
+original conversation.
+
+160
+00:07:32.375 --> 00:07:34.040
+Specifically the name of
+
+161
+00:07:34.040 --> 00:07:37.340
+the hotel and the city
+it was located in.
+
+162
+00:07:37.340 --> 00:07:40.115
+Now let's take a look at
+how the model does after
+
+163
+00:07:40.115 --> 00:07:43.220
+fine-tuning on the
+dialogue some dataset,
+
+164
+00:07:43.220 --> 00:07:45.185
+hopefully, you will
+agree that this is
+
+165
+00:07:45.185 --> 00:07:47.450
+closer to the
+human-produced summary.
+
+166
+00:07:47.450 --> 00:07:50.060
+There is no fabricated
+information and
+
+167
+00:07:50.060 --> 00:07:53.060
+the summary includes all
+of the important details,
+
+168
+00:07:53.060 --> 00:07:54.680
+including the names of
+
+169
+00:07:54.680 --> 00:07:57.595
+both people participating
+in the conversation.
+
+170
+00:07:57.595 --> 00:08:00.350
+This example, use
+the public dialogue,
+
+171
+00:08:00.350 --> 00:08:04.345
+some dataset to demonstrate
+fine-tuning on custom data.
+
+172
+00:08:04.345 --> 00:08:07.430
+In practice, you'll get the
+most out of fine-tuning
+
+173
+00:08:07.430 --> 00:08:10.550
+by using your company's
+own internal data.
+
+174
+00:08:10.550 --> 00:08:13.280
+For example, the support
+chat conversations
+
+175
+00:08:13.280 --> 00:08:15.605
+from your customer
+support application.
+
+176
+00:08:15.605 --> 00:08:17.240
+This will help the model learn
+
+177
+00:08:17.240 --> 00:08:20.450
+the specifics of how your
+company likes to summarize
+
+178
+00:08:20.450 --> 00:08:22.580
+conversations and what is most
+
+179
+00:08:22.580 --> 00:08:25.810
+useful to your customer
+service colleagues.
+
+180
+00:08:25.810 --> 00:08:28.235
+I know there's a lot
+to take in here.
+
+181
+00:08:28.235 --> 00:08:30.320
+But don't worry, this example
+
+182
+00:08:30.320 --> 00:08:31.820
+is going to be
+covered in the lab.
+
+183
+00:08:31.820 --> 00:08:33.650
+You'll get a chance to see this
+
+184
+00:08:33.650 --> 00:08:36.485
+in action and try it
+out for yourself.
+
+185
+00:08:36.485 --> 00:08:39.950
+One thing you need to think
+about when fine-tuning is how
+
+186
+00:08:39.950 --> 00:08:43.295
+to evaluate the quality of
+your models completions.
+
+187
+00:08:43.295 --> 00:08:44.675
+In the next video,
+
+188
+00:08:44.675 --> 00:08:46.790
+you'll learn about
+several metrics and
+
+189
+00:08:46.790 --> 00:08:49.460
+benchmarks that you can
+use to determine how
+
+190
+00:08:49.460 --> 00:08:52.850
+well your model is performing
+and how much better you're
+
+191
+00:08:52.850 --> 00:08:57.420
+fine-tuned version is than
+the original base model.

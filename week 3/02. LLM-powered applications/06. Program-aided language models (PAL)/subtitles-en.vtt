@@ -1,0 +1,793 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.145
+As you saw earlier
+in this lesson,
+
+2
+00:00:02.145 --> 00:00:04.440
+the ability of LLMs to carry out
+
+3
+00:00:04.440 --> 00:00:08.280
+arithmetic and other mathematical
+operations is limited.
+
+4
+00:00:08.280 --> 00:00:10.170
+While you can try using chain of
+
+5
+00:00:10.170 --> 00:00:11.895
+thought prompting
+to overcome this,
+
+6
+00:00:11.895 --> 00:00:13.920
+it will only get you so far.
+
+7
+00:00:13.920 --> 00:00:17.310
+Even if the model correctly
+reasons through a problem,
+
+8
+00:00:17.310 --> 00:00:20.700
+it may still get the individual
+math operations wrong,
+
+9
+00:00:20.700 --> 00:00:24.810
+especially with larger numbers
+or complex operations.
+
+10
+00:00:24.810 --> 00:00:27.870
+Here's the example
+you saw earlier where
+
+11
+00:00:27.870 --> 00:00:29.670
+the LLM tries to act like
+
+12
+00:00:29.670 --> 00:00:32.370
+a calculator but gets
+the answer wrong.
+
+13
+00:00:32.370 --> 00:00:34.395
+Remember, the model isn't
+
+14
+00:00:34.395 --> 00:00:36.540
+actually doing any
+real math here.
+
+15
+00:00:36.540 --> 00:00:38.250
+It is simply trying to predict
+
+16
+00:00:38.250 --> 00:00:41.620
+the most probable tokens
+that complete the prompt.
+
+17
+00:00:41.620 --> 00:00:44.150
+The model getting
+math wrong can have
+
+18
+00:00:44.150 --> 00:00:47.675
+many negative consequences
+depending on your use case,
+
+19
+00:00:47.675 --> 00:00:50.030
+like charging customers
+the wrong total
+
+20
+00:00:50.030 --> 00:00:53.270
+or getting the measurements
+for a recipe incorrect.
+
+21
+00:00:53.270 --> 00:00:55.640
+You can overcome this limitation
+
+22
+00:00:55.640 --> 00:00:57.020
+by allowing your model to
+
+23
+00:00:57.020 --> 00:00:59.090
+interact with
+external applications
+
+24
+00:00:59.090 --> 00:01:00.350
+that are good at math,
+
+25
+00:01:00.350 --> 00:01:02.420
+like a Python interpreter.
+
+26
+00:01:02.420 --> 00:01:05.900
+One interesting framework
+for augmenting LLMs
+
+27
+00:01:05.900 --> 00:01:08.915
+in this way is called
+program-aided language models,
+
+28
+00:01:08.915 --> 00:01:10.585
+or PAL for short.
+
+29
+00:01:10.585 --> 00:01:14.180
+This work first presented
+by Luyu Gao and
+
+30
+00:01:14.180 --> 00:01:18.605
+collaborators at Carnegie
+Mellon University in 2022,
+
+31
+00:01:18.605 --> 00:01:20.270
+pairs an LLM with
+
+32
+00:01:20.270 --> 00:01:24.515
+an external code interpreter
+to carry out calculations.
+
+33
+00:01:24.515 --> 00:01:27.650
+The method makes use of
+chain of thought prompting
+
+34
+00:01:27.650 --> 00:01:30.665
+to generate executable
+Python scripts.
+
+35
+00:01:30.665 --> 00:01:32.870
+The scripts that
+the model generates
+
+36
+00:01:32.870 --> 00:01:35.765
+are passed to an
+interpreter to execute.
+
+37
+00:01:35.765 --> 00:01:38.150
+The image on the right
+here is taken from
+
+38
+00:01:38.150 --> 00:01:42.170
+the paper and show some example
+prompts and completions.
+
+39
+00:01:42.170 --> 00:01:43.760
+You'll walk through
+an example of
+
+40
+00:01:43.760 --> 00:01:45.045
+these in a second so don't
+
+41
+00:01:45.045 --> 00:01:48.010
+worry about reading all of
+the details here for now.
+
+42
+00:01:48.010 --> 00:01:51.750
+The strategy behind PAL is
+to have the LLM generate
+
+43
+00:01:51.750 --> 00:01:54.035
+completions where
+reasoning steps
+
+44
+00:01:54.035 --> 00:01:56.390
+are accompanied
+by computer code.
+
+45
+00:01:56.390 --> 00:01:59.570
+This code is then passed
+to an interpreter to carry
+
+46
+00:01:59.570 --> 00:02:02.960
+out the calculations necessary
+to solve the problem.
+
+47
+00:02:02.960 --> 00:02:06.410
+You specify the output format
+for the model by including
+
+48
+00:02:06.410 --> 00:02:10.220
+examples for one or few short
+inference in the prompt.
+
+49
+00:02:10.220 --> 00:02:12.260
+Let's take a closer look at how
+
+50
+00:02:12.260 --> 00:02:14.900
+these example prompts
+are structured.
+
+51
+00:02:14.900 --> 00:02:17.870
+You'll continue to work
+with the story of Roger
+
+52
+00:02:17.870 --> 00:02:21.125
+buying tennis balls as
+the one-shot example.
+
+53
+00:02:21.125 --> 00:02:23.990
+The setup here should
+now look familiar.
+
+54
+00:02:23.990 --> 00:02:26.660
+This is a chain of
+thought example.
+
+55
+00:02:26.660 --> 00:02:29.315
+You can see the reasoning
+steps written out
+
+56
+00:02:29.315 --> 00:02:32.425
+in words on the lines
+highlighted in blue.
+
+57
+00:02:32.425 --> 00:02:35.420
+What differs from the
+prompts you saw before is
+
+58
+00:02:35.420 --> 00:02:39.380
+the inclusion of lines of
+Python code shown in pink.
+
+59
+00:02:39.380 --> 00:02:42.200
+These lines translate
+any reasoning steps
+
+60
+00:02:42.200 --> 00:02:44.840
+that involve
+calculations into code.
+
+61
+00:02:44.840 --> 00:02:46.850
+Variables are declared based on
+
+62
+00:02:46.850 --> 00:02:49.060
+the text in each reasoning step.
+
+63
+00:02:49.060 --> 00:02:51.840
+Their values are assigned
+either directly,
+
+64
+00:02:51.840 --> 00:02:53.765
+as in the first
+line of code here,
+
+65
+00:02:53.765 --> 00:02:56.990
+or as calculations using
+numbers present in
+
+66
+00:02:56.990 --> 00:03:00.275
+the reasoning text as you see
+in the second Python line.
+
+67
+00:03:00.275 --> 00:03:02.060
+The model can also work with
+
+68
+00:03:02.060 --> 00:03:04.025
+variables it creates
+in other steps,
+
+69
+00:03:04.025 --> 00:03:05.870
+as you see in the third line.
+
+70
+00:03:05.870 --> 00:03:07.415
+Note that the text of
+
+71
+00:03:07.415 --> 00:03:10.025
+each reasoning step
+begins with a pound sign,
+
+72
+00:03:10.025 --> 00:03:11.900
+so that the line
+can be skipped as
+
+73
+00:03:11.900 --> 00:03:14.630
+a comment by the
+Python interpreter.
+
+74
+00:03:14.630 --> 00:03:18.320
+The prompt here ends with the
+new problem to be solved.
+
+75
+00:03:18.320 --> 00:03:20.480
+In this case, the
+objective is to
+
+76
+00:03:20.480 --> 00:03:23.180
+determine how many loaves
+of bread a bakery has
+
+77
+00:03:23.180 --> 00:03:25.880
+left after a day of sales and
+
+78
+00:03:25.880 --> 00:03:27.080
+after some loaves are
+
+79
+00:03:27.080 --> 00:03:29.480
+returned from a
+grocery store partner.
+
+80
+00:03:29.480 --> 00:03:31.010
+On the right, you can see
+
+81
+00:03:31.010 --> 00:03:33.970
+the completion
+generated by the LLM.
+
+82
+00:03:33.970 --> 00:03:37.250
+Again, the chain of thought
+reasoning steps are shown
+
+83
+00:03:37.250 --> 00:03:40.555
+in blue and the Python
+code is shown in pink.
+
+84
+00:03:40.555 --> 00:03:43.070
+As you can see,
+the model creates
+
+85
+00:03:43.070 --> 00:03:46.040
+a number of variables to
+track the loaves baked,
+
+86
+00:03:46.040 --> 00:03:48.725
+the loaves sold in
+each part of the day,
+
+87
+00:03:48.725 --> 00:03:52.265
+and the loaves returned
+by the grocery store.
+
+88
+00:03:52.265 --> 00:03:55.385
+The answer is then
+calculated by carrying
+
+89
+00:03:55.385 --> 00:03:58.820
+out arithmetic operations
+on these variables.
+
+90
+00:03:58.820 --> 00:04:01.670
+The model correctly identifies
+whether terms should be
+
+91
+00:04:01.670 --> 00:04:05.170
+added or subtracted to
+reach the correct total.
+
+92
+00:04:05.170 --> 00:04:06.770
+Now that you know how to
+
+93
+00:04:06.770 --> 00:04:08.840
+structure examples
+that will tell
+
+94
+00:04:08.840 --> 00:04:10.160
+the LLM to write
+
+95
+00:04:10.160 --> 00:04:13.525
+Python scripts based on
+its reasoning steps,
+
+96
+00:04:13.525 --> 00:04:16.520
+let's go over how the
+PAL framework enables
+
+97
+00:04:16.520 --> 00:04:20.495
+an LLM to interact with
+an external interpreter.
+
+98
+00:04:20.495 --> 00:04:22.870
+To prepare for
+inference with PAL,
+
+99
+00:04:22.870 --> 00:04:24.380
+you'll format your prompt to
+
+100
+00:04:24.380 --> 00:04:26.945
+contain one or more examples.
+
+101
+00:04:26.945 --> 00:04:30.560
+Each example should contain
+a question followed by
+
+102
+00:04:30.560 --> 00:04:32.060
+reasoning steps in lines of
+
+103
+00:04:32.060 --> 00:04:34.660
+Python code that
+solve the problem.
+
+104
+00:04:34.660 --> 00:04:36.890
+Next, you will append
+the new question that
+
+105
+00:04:36.890 --> 00:04:39.460
+you'd like to answer to
+the prompt template.
+
+106
+00:04:39.460 --> 00:04:42.860
+Your resulting PAL
+formatted prompt now
+
+107
+00:04:42.860 --> 00:04:46.565
+contains both the example
+and the problem to solve.
+
+108
+00:04:46.565 --> 00:04:50.660
+Next, you'll pass this
+combined prompt to your LLM,
+
+109
+00:04:50.660 --> 00:04:54.170
+which then generates a completion
+that is in the form of
+
+110
+00:04:54.170 --> 00:04:56.390
+a Python script
+having learned how to
+
+111
+00:04:56.390 --> 00:04:59.480
+format the output based on
+the example in the prompt.
+
+112
+00:04:59.480 --> 00:05:02.795
+You can now hand off the script
+to a Python interpreter,
+
+113
+00:05:02.795 --> 00:05:06.740
+which you'll use to run the
+code and generate an answer.
+
+114
+00:05:06.740 --> 00:05:08.840
+For the bakery example script
+
+115
+00:05:08.840 --> 00:05:10.445
+you saw on the previous slide,
+
+116
+00:05:10.445 --> 00:05:12.740
+the answer is 74.
+
+117
+00:05:12.740 --> 00:05:16.100
+You'll now append the text
+containing the answer,
+
+118
+00:05:16.100 --> 00:05:17.720
+which you know is
+accurate because
+
+119
+00:05:17.720 --> 00:05:19.430
+the calculation
+was carried out in
+
+120
+00:05:19.430 --> 00:05:23.705
+Python to the PAL formatted
+prompt you started with.
+
+121
+00:05:23.705 --> 00:05:26.450
+By this point you have
+a prompt that includes
+
+122
+00:05:26.450 --> 00:05:29.345
+the correct answer in context.
+
+123
+00:05:29.345 --> 00:05:33.425
+Now when you pass the
+updated prompt to the LLM,
+
+124
+00:05:33.425 --> 00:05:35.090
+it generates a completion that
+
+125
+00:05:35.090 --> 00:05:37.490
+contains the correct answer.
+
+126
+00:05:37.490 --> 00:05:39.860
+Given the relatively simple math
+
+127
+00:05:39.860 --> 00:05:41.765
+in the bakery bread problem,
+
+128
+00:05:41.765 --> 00:05:44.150
+it's likely that the model
+may have gotten the answer
+
+129
+00:05:44.150 --> 00:05:46.790
+correct just with chain
+of thought prompting.
+
+130
+00:05:46.790 --> 00:05:48.590
+But for more complex math,
+
+131
+00:05:48.590 --> 00:05:50.960
+including arithmetic
+with large numbers,
+
+132
+00:05:50.960 --> 00:05:53.105
+trigonometry or calculus,
+
+133
+00:05:53.105 --> 00:05:54.980
+PAL is a powerful technique
+
+134
+00:05:54.980 --> 00:05:56.270
+that allows you to ensure that
+
+135
+00:05:56.270 --> 00:05:57.770
+any calculations done by
+
+136
+00:05:57.770 --> 00:06:01.265
+your application are
+accurate and reliable.
+
+137
+00:06:01.265 --> 00:06:03.230
+You might be wondering how to
+
+138
+00:06:03.230 --> 00:06:05.090
+automate this
+process so that you
+
+139
+00:06:05.090 --> 00:06:06.740
+don't have to pass information
+
+140
+00:06:06.740 --> 00:06:08.870
+back and forth between the LLM,
+
+141
+00:06:08.870 --> 00:06:11.015
+and the interpreter by hand.
+
+142
+00:06:11.015 --> 00:06:12.770
+This is where the orchestrator
+
+143
+00:06:12.770 --> 00:06:14.885
+that you saw earlier comes in.
+
+144
+00:06:14.885 --> 00:06:17.210
+The orchestrator shown here as
+
+145
+00:06:17.210 --> 00:06:18.800
+the yellow box is
+
+146
+00:06:18.800 --> 00:06:21.200
+a technical component
+that can manage the flow
+
+147
+00:06:21.200 --> 00:06:23.810
+of information and
+the initiation of
+
+148
+00:06:23.810 --> 00:06:27.550
+calls to external data
+sources or applications.
+
+149
+00:06:27.550 --> 00:06:31.280
+It can also decide what
+actions to take based
+
+150
+00:06:31.280 --> 00:06:35.105
+on the information contained
+in the output of the LLM.
+
+151
+00:06:35.105 --> 00:06:39.245
+Remember, the LLM is your
+application's reasoning engine.
+
+152
+00:06:39.245 --> 00:06:41.480
+Ultimately, it
+creates the plan that
+
+153
+00:06:41.480 --> 00:06:44.410
+the orchestrator will
+interpret and execute.
+
+154
+00:06:44.410 --> 00:06:48.245
+In PAL there's only one
+action to be carried out,
+
+155
+00:06:48.245 --> 00:06:51.205
+the execution of Python code.
+
+156
+00:06:51.205 --> 00:06:55.100
+The LLM doesn't really have
+to decide to run the code,
+
+157
+00:06:55.100 --> 00:06:57.500
+it just has to write
+the script which
+
+158
+00:06:57.500 --> 00:06:59.240
+the orchestrator then passes to
+
+159
+00:06:59.240 --> 00:07:01.520
+the external interpreter to run.
+
+160
+00:07:01.520 --> 00:07:05.090
+However, most real-world
+applications are likely
+
+161
+00:07:05.090 --> 00:07:09.050
+to be more complicated than
+the simple PAL architecture.
+
+162
+00:07:09.050 --> 00:07:11.030
+Your use case may require
+
+163
+00:07:11.030 --> 00:07:14.770
+interactions with several
+external data sources.
+
+164
+00:07:14.770 --> 00:07:17.585
+As you saw in the
+shop bought example,
+
+165
+00:07:17.585 --> 00:07:20.225
+you may need to manage
+multiple decision points,
+
+166
+00:07:20.225 --> 00:07:23.965
+validation actions, and calls
+to external applications.
+
+167
+00:07:23.965 --> 00:07:25.800
+How can you use the LLM to
+
+168
+00:07:25.800 --> 00:07:28.005
+power a more complex
+application?
+
+169
+00:07:28.005 --> 00:07:31.710
+Let's explore one strategy
+in the next video.

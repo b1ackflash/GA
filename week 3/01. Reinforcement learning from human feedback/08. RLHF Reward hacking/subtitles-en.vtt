@@ -1,0 +1,704 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.850
+Let's recap what
+you've seen so far.
+
+2
+00:00:02.850 --> 00:00:05.910
+Arlo HF is a fine-tuning process
+
+3
+00:00:05.910 --> 00:00:08.755
+that aligns LLMs with
+human preferences.
+
+4
+00:00:08.755 --> 00:00:10.740
+In this process, you make use of
+
+5
+00:00:10.740 --> 00:00:13.140
+a reward model to
+assess and LLMs
+
+6
+00:00:13.140 --> 00:00:15.400
+completions of a prompt data
+
+7
+00:00:15.400 --> 00:00:17.595
+set against some human
+preference metric,
+
+8
+00:00:17.595 --> 00:00:19.635
+like helpful or not helpful.
+
+9
+00:00:19.635 --> 00:00:22.840
+Next, you use a reinforcement
+learning algorithm,
+
+10
+00:00:22.840 --> 00:00:24.395
+in this case, PPO,
+
+11
+00:00:24.395 --> 00:00:28.220
+to update the weights off the
+LLM based on the reward is
+
+12
+00:00:28.220 --> 00:00:30.080
+signed to the
+completions generated
+
+13
+00:00:30.080 --> 00:00:32.615
+by the current
+version off the LLM.
+
+14
+00:00:32.615 --> 00:00:34.550
+You'll carry out this cycle of
+
+15
+00:00:34.550 --> 00:00:37.760
+a multiple iterations using
+many different prompts
+
+16
+00:00:37.760 --> 00:00:40.070
+and updates off
+the model weights
+
+17
+00:00:40.070 --> 00:00:43.180
+until you obtain your
+desired degree of alignment.
+
+18
+00:00:43.180 --> 00:00:44.945
+Your end result is
+
+19
+00:00:44.945 --> 00:00:48.755
+a human aligned LLM that you
+can use in your application.
+
+20
+00:00:48.755 --> 00:00:51.080
+An interesting problem
+that can emerge in
+
+21
+00:00:51.080 --> 00:00:54.455
+reinforcement learning is
+known as reward hacking,
+
+22
+00:00:54.455 --> 00:00:56.750
+where the agent learns to cheat
+
+23
+00:00:56.750 --> 00:00:59.690
+the system by favoring
+actions that maximize
+
+24
+00:00:59.690 --> 00:01:01.640
+the reward received even if
+
+25
+00:01:01.640 --> 00:01:03.140
+those actions don't align
+
+26
+00:01:03.140 --> 00:01:05.600
+well with the
+original objective.
+
+27
+00:01:05.600 --> 00:01:07.720
+In the context of LLMs,
+
+28
+00:01:07.720 --> 00:01:09.610
+reward hacking can manifest
+
+29
+00:01:09.610 --> 00:01:11.770
+as the addition of
+words or phrases to
+
+30
+00:01:11.770 --> 00:01:13.690
+completions that result in
+
+31
+00:01:13.690 --> 00:01:16.435
+high scores for the
+metric being aligned.
+
+32
+00:01:16.435 --> 00:01:19.675
+But that reduce the overall
+quality of the language.
+
+33
+00:01:19.675 --> 00:01:21.940
+For example, suppose
+you are using
+
+34
+00:01:21.940 --> 00:01:24.865
+RHF to detoxify and
+instruct model.
+
+35
+00:01:24.865 --> 00:01:26.410
+You have already trained
+
+36
+00:01:26.410 --> 00:01:28.270
+a reward model
+that can carry out
+
+37
+00:01:28.270 --> 00:01:30.535
+sentiment analysis and classify
+
+38
+00:01:30.535 --> 00:01:33.610
+model completions as
+toxic or non-toxic.
+
+39
+00:01:33.610 --> 00:01:35.050
+You select a prompt from
+
+40
+00:01:35.050 --> 00:01:37.330
+the training data
+this product is,
+
+41
+00:01:37.330 --> 00:01:38.995
+and pass it to the instruct
+
+42
+00:01:38.995 --> 00:01:41.455
+an LLM which generates
+a completion.
+
+43
+00:01:41.455 --> 00:01:44.290
+This one, complete
+garbage is not very
+
+44
+00:01:44.290 --> 00:01:47.740
+nice and you can expect it
+to get a high toxic rating.
+
+45
+00:01:47.740 --> 00:01:49.540
+The completion is processed
+
+46
+00:01:49.540 --> 00:01:51.265
+by the toxicity of reward model,
+
+47
+00:01:51.265 --> 00:01:53.230
+which generates a score and this
+
+48
+00:01:53.230 --> 00:01:55.285
+is fed to the PPO algorithm,
+
+49
+00:01:55.285 --> 00:01:58.190
+which uses it to update
+the model weights.
+
+50
+00:01:58.190 --> 00:02:00.990
+As you iterate RHF will update
+
+51
+00:02:00.990 --> 00:02:03.975
+the LLM to create a
+less toxic responses.
+
+52
+00:02:03.975 --> 00:02:07.825
+However, as the policy tries
+to optimize the reward,
+
+53
+00:02:07.825 --> 00:02:11.275
+it can diverge too much from
+the initial language model.
+
+54
+00:02:11.275 --> 00:02:13.420
+In this example, the model has
+
+55
+00:02:13.420 --> 00:02:15.490
+started generating
+completions that
+
+56
+00:02:15.490 --> 00:02:17.050
+it has learned will lead to
+
+57
+00:02:17.050 --> 00:02:19.720
+very low toxicity
+scores by including
+
+58
+00:02:19.720 --> 00:02:23.095
+phrases like most
+awesome, most incredible.
+
+59
+00:02:23.095 --> 00:02:25.585
+This language sounds
+very exaggerated.
+
+60
+00:02:25.585 --> 00:02:28.375
+The model could also start
+generating nonsensical,
+
+61
+00:02:28.375 --> 00:02:30.620
+grammatically incorrect
+text that just
+
+62
+00:02:30.620 --> 00:02:33.890
+happens to maximize the
+rewards in a similar way,
+
+63
+00:02:33.890 --> 00:02:37.100
+outputs like this are
+definitely not very useful.
+
+64
+00:02:37.100 --> 00:02:39.600
+To prevent our board
+hacking from happening,
+
+65
+00:02:39.600 --> 00:02:41.330
+you can use the initial instruct
+
+66
+00:02:41.330 --> 00:02:43.535
+LLM as performance reference.
+
+67
+00:02:43.535 --> 00:02:45.830
+Let's call it the
+reference model.
+
+68
+00:02:45.830 --> 00:02:48.800
+The weights of the reference
+model are frozen and are
+
+69
+00:02:48.800 --> 00:02:51.845
+not updated during
+iterations of RHF.
+
+70
+00:02:51.845 --> 00:02:54.140
+This way, you always maintain
+
+71
+00:02:54.140 --> 00:02:56.830
+a single reference
+model to compare to.
+
+72
+00:02:56.830 --> 00:03:00.815
+During training, each prompt
+is passed to both models,
+
+73
+00:03:00.815 --> 00:03:02.960
+generating a completion
+by the reference
+
+74
+00:03:02.960 --> 00:03:06.245
+LLM and the intermediate
+LLM updated model.
+
+75
+00:03:06.245 --> 00:03:09.500
+At this point, you can
+compare the two completions
+
+76
+00:03:09.500 --> 00:03:10.970
+and calculate a value
+
+77
+00:03:10.970 --> 00:03:13.145
+called the Kullback-Leibler
+divergence,
+
+78
+00:03:13.145 --> 00:03:15.490
+or KL divergence for short.
+
+79
+00:03:15.490 --> 00:03:18.575
+KL divergence is a
+statistical measure
+
+80
+00:03:18.575 --> 00:03:22.100
+of how different two
+probability distributions are.
+
+81
+00:03:22.100 --> 00:03:23.900
+You can use it to compare
+
+82
+00:03:23.900 --> 00:03:26.270
+the completions off
+the two models and
+
+83
+00:03:26.270 --> 00:03:28.325
+determine how much
+the updated model
+
+84
+00:03:28.325 --> 00:03:30.545
+has diverged from the reference.
+
+85
+00:03:30.545 --> 00:03:34.235
+Don't worry too much about the
+details of how this works.
+
+86
+00:03:34.235 --> 00:03:36.110
+The KL divergence algorithm
+
+87
+00:03:36.110 --> 00:03:38.030
+is included in many
+standard machine
+
+88
+00:03:38.030 --> 00:03:39.920
+learning libraries
+and you can use
+
+89
+00:03:39.920 --> 00:03:42.325
+it without knowing all
+the math behind it.
+
+90
+00:03:42.325 --> 00:03:44.780
+You'll actually make
+use of KL divergence in
+
+91
+00:03:44.780 --> 00:03:46.220
+this week's lab so you can
+
+92
+00:03:46.220 --> 00:03:48.155
+see how this works for yourself.
+
+93
+00:03:48.155 --> 00:03:51.170
+KL divergence is calculated
+for each generate a
+
+94
+00:03:51.170 --> 00:03:54.680
+token across the whole
+vocabulary off the LLM.
+
+95
+00:03:54.680 --> 00:03:57.140
+This can easily be
+tens or hundreds
+
+96
+00:03:57.140 --> 00:03:58.595
+of thousands of tokens.
+
+97
+00:03:58.595 --> 00:04:01.325
+However, using a
+softmax function,
+
+98
+00:04:01.325 --> 00:04:03.560
+you've reduced the number
+of probabilities to
+
+99
+00:04:03.560 --> 00:04:06.185
+much less than the
+full vocabulary size.
+
+100
+00:04:06.185 --> 00:04:08.090
+Keep in mind that this is still
+
+101
+00:04:08.090 --> 00:04:10.625
+a relatively compute
+expensive process.
+
+102
+00:04:10.625 --> 00:04:14.150
+You will almost always
+benefit from using GPUs.
+
+103
+00:04:14.150 --> 00:04:16.340
+Once you've calculated
+the KL divergence
+
+104
+00:04:16.340 --> 00:04:17.645
+between the two models,
+
+105
+00:04:17.645 --> 00:04:21.035
+you added acid term to
+the reward calculation.
+
+106
+00:04:21.035 --> 00:04:25.310
+This will penalize the RL
+updated model if it shifts too
+
+107
+00:04:25.310 --> 00:04:26.615
+far from the reference
+
+108
+00:04:26.615 --> 00:04:29.725
+LLM and generates completions
+that are two different.
+
+109
+00:04:29.725 --> 00:04:32.315
+Note that you now
+need to full copies
+
+110
+00:04:32.315 --> 00:04:35.000
+of the LLM to calculate
+the KL divergence,
+
+111
+00:04:35.000 --> 00:04:37.040
+the frozen reference LLM,
+
+112
+00:04:37.040 --> 00:04:39.925
+and the oral updated PPO LLM.
+
+113
+00:04:39.925 --> 00:04:41.900
+By the way, you can benefit from
+
+114
+00:04:41.900 --> 00:04:44.240
+combining our
+relationship with puffed.
+
+115
+00:04:44.240 --> 00:04:46.220
+In this case, you only
+
+116
+00:04:46.220 --> 00:04:48.365
+update the weights
+of a path adapter,
+
+117
+00:04:48.365 --> 00:04:50.680
+not the full weights of the LLM.
+
+118
+00:04:50.680 --> 00:04:53.210
+This means that you can reuse
+
+119
+00:04:53.210 --> 00:04:55.430
+the same underlying LLM for
+
+120
+00:04:55.430 --> 00:04:58.130
+both the reference model
+and the PPO model,
+
+121
+00:04:58.130 --> 00:05:01.295
+which you update with a
+trained path parameters.
+
+122
+00:05:01.295 --> 00:05:03.605
+This reduces the
+memory footprint
+
+123
+00:05:03.605 --> 00:05:06.125
+during training by
+approximately half.
+
+124
+00:05:06.125 --> 00:05:08.525
+I know that there is a
+lot to take in here,
+
+125
+00:05:08.525 --> 00:05:10.190
+but don't worry, RHF
+
+126
+00:05:10.190 --> 00:05:12.180
+with path is going to
+be covered in the lab.
+
+127
+00:05:12.180 --> 00:05:14.060
+If you'll get a
+chance to see this
+
+128
+00:05:14.060 --> 00:05:16.670
+in action and try it
+out for yourself.
+
+129
+00:05:16.670 --> 00:05:20.450
+Once you have completed your
+RHF alignment of the model,
+
+130
+00:05:20.450 --> 00:05:23.075
+you will want to assess
+the model's performance.
+
+131
+00:05:23.075 --> 00:05:25.340
+You can use the
+summarization data set
+
+132
+00:05:25.340 --> 00:05:27.795
+to quantify the
+reduction in toxicity,
+
+133
+00:05:27.795 --> 00:05:29.210
+for example, the dialogue,
+
+134
+00:05:29.210 --> 00:05:32.150
+some data set that you saw
+earlier in the course.
+
+135
+00:05:32.150 --> 00:05:35.840
+The number you'll use here
+is the toxicity score,
+
+136
+00:05:35.840 --> 00:05:37.670
+this is the probability of
+
+137
+00:05:37.670 --> 00:05:39.515
+the negative class,
+in this case,
+
+138
+00:05:39.515 --> 00:05:41.405
+a toxic or hateful response
+
+139
+00:05:41.405 --> 00:05:43.835
+averaged across the completions.
+
+140
+00:05:43.835 --> 00:05:47.990
+If RHF has successfully reduce
+the toxicity of your LLM,
+
+141
+00:05:47.990 --> 00:05:49.720
+this score should go down.
+
+142
+00:05:49.720 --> 00:05:52.955
+First, you'll create a
+baseline toxicity score
+
+143
+00:05:52.955 --> 00:05:56.000
+for the original instruct
+LLM by evaluating
+
+144
+00:05:56.000 --> 00:05:59.000
+its completions off the
+summarization data set
+
+145
+00:05:59.000 --> 00:06:02.240
+with a reward model that
+can assess toxic language.
+
+146
+00:06:02.240 --> 00:06:05.525
+Then you'll evaluate your
+newly human aligned model
+
+147
+00:06:05.525 --> 00:06:08.530
+on the same data set
+and compare the scores.
+
+148
+00:06:08.530 --> 00:06:10.115
+In this example,
+
+149
+00:06:10.115 --> 00:06:13.985
+the toxicity score has indeed
+decreased after Arlo HF,
+
+150
+00:06:13.985 --> 00:06:17.630
+indicating a less toxic,
+better aligned model.
+
+151
+00:06:17.630 --> 00:06:21.210
+Again, you'll see all of
+this in this week's lab.

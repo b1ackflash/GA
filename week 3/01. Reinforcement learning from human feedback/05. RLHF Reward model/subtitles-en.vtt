@@ -1,0 +1,251 @@
+WEBVTT
+
+1
+00:00:00.200 --> 00:00:02.880
+At this stage, you
+have everything
+
+2
+00:00:02.880 --> 00:00:05.085
+you need to train
+the reward model.
+
+3
+00:00:05.085 --> 00:00:07.290
+While it has taken
+a fair amount of
+
+4
+00:00:07.290 --> 00:00:09.240
+human effort to
+get to this point,
+
+5
+00:00:09.240 --> 00:00:11.970
+by the time you're done
+training the reward model,
+
+6
+00:00:11.970 --> 00:00:15.135
+you won't need to include
+any more humans in the loop.
+
+7
+00:00:15.135 --> 00:00:17.310
+Instead, the reward model will
+
+8
+00:00:17.310 --> 00:00:19.995
+effectively take place
+off the human labeler
+
+9
+00:00:19.995 --> 00:00:22.935
+and automatically choose
+the preferred completion
+
+10
+00:00:22.935 --> 00:00:25.545
+during the oral HF process.
+
+11
+00:00:25.545 --> 00:00:29.040
+This reward model is usually
+also a language model.
+
+12
+00:00:29.040 --> 00:00:31.140
+For example, a bird
+that is trained
+
+13
+00:00:31.140 --> 00:00:33.330
+using supervised
+learning methods on
+
+14
+00:00:33.330 --> 00:00:35.580
+the pairwise comparison
+data that you
+
+15
+00:00:35.580 --> 00:00:37.020
+prepared from the human labelers
+
+16
+00:00:37.020 --> 00:00:39.120
+assessment off the prompts.
+
+17
+00:00:39.120 --> 00:00:41.135
+For a given prompt X,
+
+18
+00:00:41.135 --> 00:00:43.295
+the reward model
+learns to favor the
+
+19
+00:00:43.295 --> 00:00:46.205
+human-preferred completion y_ j,
+
+20
+00:00:46.205 --> 00:00:48.140
+while minimizing the lock
+
+21
+00:00:48.140 --> 00:00:51.960
+sigmoid off the reward
+difference, r_j-r_k.
+
+22
+00:00:53.660 --> 00:00:56.280
+As you saw on the last slide,
+
+23
+00:00:56.280 --> 00:00:58.205
+the human-preferred option is
+
+24
+00:00:58.205 --> 00:01:01.685
+always the first
+one labeled y_j.
+
+25
+00:01:01.685 --> 00:01:04.400
+Once the model has
+been trained on
+
+26
+00:01:04.400 --> 00:01:06.425
+the human rank
+prompt-completion pairs,
+
+27
+00:01:06.425 --> 00:01:09.890
+you can use the reward model
+as a binary classifier
+
+28
+00:01:09.890 --> 00:01:12.020
+to provide a set
+of logics across
+
+29
+00:01:12.020 --> 00:01:14.515
+the positive and
+negative classes.
+
+30
+00:01:14.515 --> 00:01:17.660
+Logics are the
+unnormalized model outputs
+
+31
+00:01:17.660 --> 00:01:20.720
+before applying any
+activation function.
+
+32
+00:01:20.720 --> 00:01:23.870
+Let's say you want to
+detoxify your LLM,
+
+33
+00:01:23.870 --> 00:01:25.370
+and the reward model needs to
+
+34
+00:01:25.370 --> 00:01:28.555
+identify if the completion
+contains hate speech.
+
+35
+00:01:28.555 --> 00:01:32.255
+In this case, the two
+classes would be notate,
+
+36
+00:01:32.255 --> 00:01:35.300
+the positive class that you
+ultimately want to optimize
+
+37
+00:01:35.300 --> 00:01:39.340
+for and hate the negative
+class you want to avoid.
+
+38
+00:01:39.340 --> 00:01:42.920
+The largest value of the
+positive class is what you
+
+39
+00:01:42.920 --> 00:01:46.565
+use as the reward value in LLHF.
+
+40
+00:01:46.565 --> 00:01:48.800
+Just to remind you, if you apply
+
+41
+00:01:48.800 --> 00:01:50.735
+a Softmax function
+to the logits,
+
+42
+00:01:50.735 --> 00:01:53.185
+you will get the probabilities.
+
+43
+00:01:53.185 --> 00:01:55.820
+The example here shows
+a good reward for
+
+44
+00:01:55.820 --> 00:01:59.390
+non-toxic completion
+and the second example
+
+45
+00:01:59.390 --> 00:02:03.455
+shows a bad reward being
+given for toxic completion.
+
+46
+00:02:03.455 --> 00:02:07.475
+I know this lesson has
+covered a lot so far.
+
+47
+00:02:07.475 --> 00:02:10.265
+But at this point, you
+have a powerful tool
+
+48
+00:02:10.265 --> 00:02:13.685
+in this reward model
+for aligning your LLM.
+
+49
+00:02:13.685 --> 00:02:15.830
+The next step is to explore
+
+50
+00:02:15.830 --> 00:02:18.020
+how the reward
+model gets used in
+
+51
+00:02:18.020 --> 00:02:19.730
+the reinforcement
+learning process
+
+52
+00:02:19.730 --> 00:02:22.370
+to train your human-aligned LLM.
+
+53
+00:02:22.370 --> 00:02:25.920
+Join me in the next video
+to see how this works.

@@ -1,0 +1,312 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.800
+You could be forgiven for
+thinking that LLMs and
+
+2
+00:00:02.800 --> 00:00:05.965
+generative AI are
+focused on chats tasks.
+
+3
+00:00:05.965 --> 00:00:07.900
+After all, chatbots are highly
+
+4
+00:00:07.900 --> 00:00:10.490
+visible and getting
+a lot of attention.
+
+5
+00:00:10.490 --> 00:00:12.430
+Next word prediction is
+
+6
+00:00:12.430 --> 00:00:14.155
+the base concept behind
+
+7
+00:00:14.155 --> 00:00:16.015
+a number of different
+capabilities,
+
+8
+00:00:16.015 --> 00:00:18.865
+starting with a basic chatbot.
+
+9
+00:00:18.865 --> 00:00:22.420
+However, you can use this
+conceptually simple technique
+
+10
+00:00:22.420 --> 00:00:26.380
+for a variety of other tasks
+within text generation.
+
+11
+00:00:26.380 --> 00:00:28.690
+For example, you can ask a model
+
+12
+00:00:28.690 --> 00:00:31.180
+to write an essay
+based on a prompt,
+
+13
+00:00:31.180 --> 00:00:33.550
+to summarize
+conversations where you
+
+14
+00:00:33.550 --> 00:00:36.670
+provide the dialogue as
+part of your prompt and
+
+15
+00:00:36.670 --> 00:00:38.860
+the model uses this
+data along with
+
+16
+00:00:38.860 --> 00:00:40.900
+its understanding
+of natural language
+
+17
+00:00:40.900 --> 00:00:42.615
+to generate a summary.
+
+18
+00:00:42.615 --> 00:00:46.205
+You can use models for a
+variety of translation tasks
+
+19
+00:00:46.205 --> 00:00:48.080
+from traditional translation
+
+20
+00:00:48.080 --> 00:00:49.955
+between two different languages,
+
+21
+00:00:49.955 --> 00:00:51.695
+such as French and German,
+
+22
+00:00:51.695 --> 00:00:53.620
+or English and Spanish.
+
+23
+00:00:53.620 --> 00:00:58.090
+Or to translate natural
+language to machine code.
+
+24
+00:00:58.090 --> 00:01:00.455
+For example, you could
+ask a model to write
+
+25
+00:01:00.455 --> 00:01:03.785
+some Python code that
+will return the mean of
+
+26
+00:01:03.785 --> 00:01:06.590
+every column in a DataFrame
+and the model will
+
+27
+00:01:06.590 --> 00:01:10.040
+generate code that you can
+pass to an interpreter.
+
+28
+00:01:10.040 --> 00:01:13.205
+You can use LLMs to
+carry out smaller,
+
+29
+00:01:13.205 --> 00:01:16.355
+focused tasks like
+information retrieval.
+
+30
+00:01:16.355 --> 00:01:19.850
+In this example, you ask the
+model to identify all of
+
+31
+00:01:19.850 --> 00:01:24.095
+the people and places
+identified in a news article.
+
+32
+00:01:24.095 --> 00:01:25.415
+This is known as
+
+33
+00:01:25.415 --> 00:01:29.975
+named entity recognition,
+a word classification.
+
+34
+00:01:29.975 --> 00:01:31.985
+The understanding of knowledge
+
+35
+00:01:31.985 --> 00:01:34.580
+encoded in the model's
+parameters allows it
+
+36
+00:01:34.580 --> 00:01:36.590
+to correctly carry out this task
+
+37
+00:01:36.590 --> 00:01:39.670
+and return the requested
+information to you.
+
+38
+00:01:39.670 --> 00:01:41.630
+Finally, an area of
+
+39
+00:01:41.630 --> 00:01:44.810
+active development is
+augmenting LLMs by
+
+40
+00:01:44.810 --> 00:01:47.330
+connecting them to
+external data sources
+
+41
+00:01:47.330 --> 00:01:50.900
+or using them to
+invoke external APIs.
+
+42
+00:01:50.900 --> 00:01:52.970
+You can use this ability to
+
+43
+00:01:52.970 --> 00:01:55.580
+provide the model with
+information it doesn't
+
+44
+00:01:55.580 --> 00:01:58.250
+know from its pre-training
+and to enable
+
+45
+00:01:58.250 --> 00:02:02.245
+your model to power interactions
+with the real-world.
+
+46
+00:02:02.245 --> 00:02:04.550
+You'll learn much
+more about how to do
+
+47
+00:02:04.550 --> 00:02:07.105
+this in week 3 of the course.
+
+48
+00:02:07.105 --> 00:02:09.140
+Developers have
+discovered that as
+
+49
+00:02:09.140 --> 00:02:11.060
+the scale of foundation models
+
+50
+00:02:11.060 --> 00:02:13.625
+grows from hundreds of millions
+
+51
+00:02:13.625 --> 00:02:15.215
+of parameters to billions,
+
+52
+00:02:15.215 --> 00:02:17.330
+even hundreds of billions,
+
+53
+00:02:17.330 --> 00:02:19.790
+the subjective
+understanding of language
+
+54
+00:02:19.790 --> 00:02:22.910
+that a model possesses
+also increases.
+
+55
+00:02:22.910 --> 00:02:24.365
+This language
+
+56
+00:02:24.365 --> 00:02:26.360
+understanding stored
+within the parameters of
+
+57
+00:02:26.360 --> 00:02:29.615
+the model is what
+processes, reasons,
+
+58
+00:02:29.615 --> 00:02:32.800
+and ultimately solves
+the tasks you give it,
+
+59
+00:02:32.800 --> 00:02:36.530
+but it's also true that
+smaller models can be fine
+
+60
+00:02:36.530 --> 00:02:40.225
+tuned to perform well on
+specific focused tasks.
+
+61
+00:02:40.225 --> 00:02:41.780
+You'll learn more
+about how to do
+
+62
+00:02:41.780 --> 00:02:44.395
+this in week 2 of the course.
+
+63
+00:02:44.395 --> 00:02:46.310
+The rapid increase in
+
+64
+00:02:46.310 --> 00:02:48.860
+capability that LLMs
+have exhibited in
+
+65
+00:02:48.860 --> 00:02:50.960
+the past few years is largely
+
+66
+00:02:50.960 --> 00:02:53.330
+due to the architecture
+that powers them.
+
+67
+00:02:53.330 --> 00:02:57.420
+Let's move on to the next
+video to take a closer look.

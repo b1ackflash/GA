@@ -1,0 +1,485 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.410
+In the previous section,
+
+2
+00:00:01.410 --> 00:00:05.775
+you saw how LLMs can interact
+with external datasets.
+
+3
+00:00:05.775 --> 00:00:07.860
+Now let's take a
+look at how they can
+
+4
+00:00:07.860 --> 00:00:10.605
+interact with external
+applications.
+
+5
+00:00:10.605 --> 00:00:13.740
+To motivate the types of
+problems and use cases that
+
+6
+00:00:13.740 --> 00:00:16.845
+require this kind of
+augmentation of the LLM,
+
+7
+00:00:16.845 --> 00:00:19.545
+you'll revisit the customer
+service bot example
+
+8
+00:00:19.545 --> 00:00:21.510
+you saw earlier in the course.
+
+9
+00:00:21.510 --> 00:00:22.980
+During this walkthrough of
+
+10
+00:00:22.980 --> 00:00:25.335
+one customer's
+interaction with ShopBot,
+
+11
+00:00:25.335 --> 00:00:26.580
+you'll take a look at the
+
+12
+00:00:26.580 --> 00:00:28.350
+integrations that
+you'd need to allow
+
+13
+00:00:28.350 --> 00:00:32.215
+the app to process a return
+requests from end to end.
+
+14
+00:00:32.215 --> 00:00:34.940
+In this conversation,
+the customer has
+
+15
+00:00:34.940 --> 00:00:36.530
+expressed that they
+want to return
+
+16
+00:00:36.530 --> 00:00:38.555
+some genes that they purchased.
+
+17
+00:00:38.555 --> 00:00:41.720
+ShopBot responds by asking
+for the order number,
+
+18
+00:00:41.720 --> 00:00:44.335
+which the customer
+then provides.
+
+19
+00:00:44.335 --> 00:00:46.010
+ShopBot then looks up
+
+20
+00:00:46.010 --> 00:00:48.875
+the order number in the
+transaction database.
+
+21
+00:00:48.875 --> 00:00:51.080
+One way it could do
+this is by using
+
+22
+00:00:51.080 --> 00:00:53.060
+a rag implementation
+of the kind you
+
+23
+00:00:53.060 --> 00:00:55.760
+saw earlier in the
+previous video.
+
+24
+00:00:55.760 --> 00:00:57.680
+In this case here,
+
+25
+00:00:57.680 --> 00:00:59.090
+you would likely be retrieving
+
+26
+00:00:59.090 --> 00:01:01.070
+data through a SQL query to
+
+27
+00:01:01.070 --> 00:01:03.530
+a back-end order
+database rather than
+
+28
+00:01:03.530 --> 00:01:06.700
+retrieving data from a
+corpus of documents.
+
+29
+00:01:06.700 --> 00:01:10.020
+Once ShopBot has retrieved
+the customers order,
+
+30
+00:01:10.020 --> 00:01:11.210
+the next step is to
+
+31
+00:01:11.210 --> 00:01:13.760
+confirm the items that
+will be returned.
+
+32
+00:01:13.760 --> 00:01:16.250
+The bot ask the
+customer if they'd like
+
+33
+00:01:16.250 --> 00:01:18.725
+to return anything
+other than the genes.
+
+34
+00:01:18.725 --> 00:01:21.695
+After the user
+states their answer,
+
+35
+00:01:21.695 --> 00:01:23.750
+the bot initiates a request to
+
+36
+00:01:23.750 --> 00:01:26.840
+the company's shipping
+partner for a return label.
+
+37
+00:01:26.840 --> 00:01:30.440
+The body uses the shippers
+Python API to request
+
+38
+00:01:30.440 --> 00:01:32.540
+the label ShopBot is going
+
+39
+00:01:32.540 --> 00:01:34.955
+to email the shipping
+label to the customer.
+
+40
+00:01:34.955 --> 00:01:38.335
+It also asks them to confirm
+their email address.
+
+41
+00:01:38.335 --> 00:01:39.950
+The customer responds with
+
+42
+00:01:39.950 --> 00:01:42.140
+their email address and the bot
+
+43
+00:01:42.140 --> 00:01:46.705
+includes this information in
+the API call to the shipper.
+
+44
+00:01:46.705 --> 00:01:49.985
+Once the API request
+is completed,
+
+45
+00:01:49.985 --> 00:01:51.980
+the Bartlett's the
+customer know that
+
+46
+00:01:51.980 --> 00:01:54.200
+the label has been
+sent by email,
+
+47
+00:01:54.200 --> 00:01:56.890
+and the conversation
+comes to an end.
+
+48
+00:01:56.890 --> 00:02:00.970
+This short example illustrates
+just one possible set of
+
+49
+00:02:00.970 --> 00:02:02.950
+interactions that you might need
+
+50
+00:02:02.950 --> 00:02:06.760
+an LLM to be capable of
+to power and application.
+
+51
+00:02:06.760 --> 00:02:09.355
+In general, connecting LLMs to
+
+52
+00:02:09.355 --> 00:02:12.130
+external applications
+allows the model
+
+53
+00:02:12.130 --> 00:02:14.305
+to interact with
+the broader world,
+
+54
+00:02:14.305 --> 00:02:18.085
+extending their utility
+beyond language tasks.
+
+55
+00:02:18.085 --> 00:02:20.740
+As the shop bought
+example showed,
+
+56
+00:02:20.740 --> 00:02:23.545
+LLMs can be used
+to trigger actions
+
+57
+00:02:23.545 --> 00:02:26.955
+when given the ability
+to interact with APIs.
+
+58
+00:02:26.955 --> 00:02:31.165
+LLMs can also connect to
+other programming resources.
+
+59
+00:02:31.165 --> 00:02:33.445
+For example, a
+Python interpreter
+
+60
+00:02:33.445 --> 00:02:34.900
+that can enable models to
+
+61
+00:02:34.900 --> 00:02:39.210
+incorporate accurate
+calculations into their outputs.
+
+62
+00:02:39.210 --> 00:02:41.840
+It's important to
+note that prompts and
+
+63
+00:02:41.840 --> 00:02:45.290
+completions are at the very
+heart of these workflows.
+
+64
+00:02:45.290 --> 00:02:48.500
+The actions that the app
+will take in response to
+
+65
+00:02:48.500 --> 00:02:51.830
+user requests will be
+determined by the LLM,
+
+66
+00:02:51.830 --> 00:02:55.145
+which serves as the
+application's reasoning engine.
+
+67
+00:02:55.145 --> 00:02:57.410
+In order to trigger actions,
+
+68
+00:02:57.410 --> 00:02:59.240
+the completions generated by
+
+69
+00:02:59.240 --> 00:03:03.565
+the LLM must contain certain
+important information.
+
+70
+00:03:03.565 --> 00:03:07.550
+First, the model needs to be
+able to generate a set of
+
+71
+00:03:07.550 --> 00:03:09.950
+instructions so that
+the application
+
+72
+00:03:09.950 --> 00:03:12.230
+knows what actions to take.
+
+73
+00:03:12.230 --> 00:03:14.360
+These instructions need to be
+
+74
+00:03:14.360 --> 00:03:18.040
+understandable and correspond
+to allowed actions.
+
+75
+00:03:18.040 --> 00:03:20.525
+In the ShopBot
+example for instance,
+
+76
+00:03:20.525 --> 00:03:22.310
+the important steps were;
+
+77
+00:03:22.310 --> 00:03:23.885
+checking the order ID,
+
+78
+00:03:23.885 --> 00:03:25.820
+requesting a shipping label,
+
+79
+00:03:25.820 --> 00:03:27.845
+verifying the user email,
+
+80
+00:03:27.845 --> 00:03:30.500
+and emailing the user the label.
+
+81
+00:03:30.500 --> 00:03:33.830
+Second, the completion
+needs to be formatted in
+
+82
+00:03:33.830 --> 00:03:37.115
+a way that the broader
+application can understand.
+
+83
+00:03:37.115 --> 00:03:38.795
+This could be as simple as
+
+84
+00:03:38.795 --> 00:03:41.240
+a specific sentence
+structure or as
+
+85
+00:03:41.240 --> 00:03:42.890
+complex as writing a script in
+
+86
+00:03:42.890 --> 00:03:46.025
+Python or generating
+a SQL command.
+
+87
+00:03:46.025 --> 00:03:49.400
+For example, here is a
+SQL query that would
+
+88
+00:03:49.400 --> 00:03:51.350
+determine whether an order is
+
+89
+00:03:51.350 --> 00:03:54.265
+present in the database
+of all orders.
+
+90
+00:03:54.265 --> 00:03:56.810
+Lastly, the model
+may need to collect
+
+91
+00:03:56.810 --> 00:04:00.200
+information that allows
+it to validate an action.
+
+92
+00:04:00.200 --> 00:04:03.155
+For example, in the
+ShopBot conversation,
+
+93
+00:04:03.155 --> 00:04:05.690
+the application needed
+to verify the email
+
+94
+00:04:05.690 --> 00:04:09.020
+address the customer used
+to make the original order.
+
+95
+00:04:09.020 --> 00:04:11.300
+Any information that
+is required for
+
+96
+00:04:11.300 --> 00:04:13.520
+validation needs to
+be obtained from
+
+97
+00:04:13.520 --> 00:04:15.200
+the user and contained in
+
+98
+00:04:15.200 --> 00:04:16.820
+the completion so it can be
+
+99
+00:04:16.820 --> 00:04:19.300
+passed through to
+the application.
+
+100
+00:04:19.300 --> 00:04:22.280
+Structuring the prompts
+in the correct way is
+
+101
+00:04:22.280 --> 00:04:25.280
+important for all of
+these tasks and can make
+
+102
+00:04:25.280 --> 00:04:28.460
+a huge difference in the
+quality of a plan generated
+
+103
+00:04:28.460 --> 00:04:33.120
+or the adherence to a desired
+output format specification

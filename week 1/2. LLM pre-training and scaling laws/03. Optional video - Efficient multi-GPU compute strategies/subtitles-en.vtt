@@ -1,0 +1,931 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.760
+It's very likely that at
+some point you will need to
+
+2
+00:00:02.760 --> 00:00:06.225
+scale your model training
+efforts beyond a single GPU.
+
+3
+00:00:06.225 --> 00:00:08.385
+I emphasized in the last video
+
+4
+00:00:08.385 --> 00:00:10.215
+that you'll need
+to use multi GPU
+
+5
+00:00:10.215 --> 00:00:12.360
+compute strategies
+when your model
+
+6
+00:00:12.360 --> 00:00:14.895
+becomes too big to
+fit in a single GPU.
+
+7
+00:00:14.895 --> 00:00:18.465
+But even if your model does
+fit onto a single GPU,
+
+8
+00:00:18.465 --> 00:00:20.190
+there are benefits to using
+
+9
+00:00:20.190 --> 00:00:22.875
+multiple GPUs to speed
+up your training.
+
+10
+00:00:22.875 --> 00:00:26.175
+It'll find it useful to know
+how to distribute compute
+
+11
+00:00:26.175 --> 00:00:29.940
+across GPUs even when you're
+working with a small model.
+
+12
+00:00:29.940 --> 00:00:32.595
+Let's discuss how you can
+carry out this scaling
+
+13
+00:00:32.595 --> 00:00:35.535
+across multiple GPUs
+in an efficient way.
+
+14
+00:00:35.535 --> 00:00:37.835
+You'll begin by
+considering the case
+
+15
+00:00:37.835 --> 00:00:40.625
+where your model is still
+fits on a single GPU.
+
+16
+00:00:40.625 --> 00:00:42.200
+The first step in scaling
+
+17
+00:00:42.200 --> 00:00:44.750
+model training is to
+distribute large data-sets
+
+18
+00:00:44.750 --> 00:00:46.820
+across multiple GPUs and
+
+19
+00:00:46.820 --> 00:00:49.075
+process these batches
+of data in parallel.
+
+20
+00:00:49.075 --> 00:00:50.870
+A popular implementation of
+
+21
+00:00:50.870 --> 00:00:53.150
+this model replication
+technique is
+
+22
+00:00:53.150 --> 00:00:55.880
+Pi torches distributed
+data-parallel,
+
+23
+00:00:55.880 --> 00:00:58.010
+or DDP for short.
+
+24
+00:00:58.010 --> 00:01:01.615
+DDP copyists your
+model onto each GPU
+
+25
+00:01:01.615 --> 00:01:03.725
+and sends batches of data to
+
+26
+00:01:03.725 --> 00:01:06.110
+each of the GPUs in parallel.
+
+27
+00:01:06.110 --> 00:01:09.395
+Each data-set is processed
+in parallel and then
+
+28
+00:01:09.395 --> 00:01:12.965
+a synchronization step combines
+the results of each GPU,
+
+29
+00:01:12.965 --> 00:01:16.250
+which in turn updates
+the model on each GPU,
+
+30
+00:01:16.250 --> 00:01:18.800
+which is always
+identical across chips.
+
+31
+00:01:18.800 --> 00:01:22.085
+This implementation allows
+parallel computations
+
+32
+00:01:22.085 --> 00:01:25.915
+across all GPUs that
+results in faster training.
+
+33
+00:01:25.915 --> 00:01:28.010
+Note that DDP requires that
+
+34
+00:01:28.010 --> 00:01:30.905
+your model weights and all of
+the additional parameters,
+
+35
+00:01:30.905 --> 00:01:32.930
+gradients, and optimizer states
+
+36
+00:01:32.930 --> 00:01:34.280
+that are needed for training,
+
+37
+00:01:34.280 --> 00:01:36.320
+fit onto a single GPU.
+
+38
+00:01:36.320 --> 00:01:37.940
+If your model is
+too big for this,
+
+39
+00:01:37.940 --> 00:01:39.770
+you should look into
+another technique
+
+40
+00:01:39.770 --> 00:01:41.450
+called modal sharding.
+
+41
+00:01:41.450 --> 00:01:43.400
+A popular implementation of
+
+42
+00:01:43.400 --> 00:01:45.440
+modal sharding is Pi Torch
+
+43
+00:01:45.440 --> 00:01:47.405
+is fully sharded data parallel,
+
+44
+00:01:47.405 --> 00:01:49.375
+or FSDP for short.
+
+45
+00:01:49.375 --> 00:01:53.270
+FSDP is motivated by a paper
+published by researchers at
+
+46
+00:01:53.270 --> 00:01:57.955
+Microsoft in 2019 that proposed
+a technique called ZeRO.
+
+47
+00:01:57.955 --> 00:02:01.545
+ZeRO stands for zero
+redundancy optimizer
+
+48
+00:02:01.545 --> 00:02:03.740
+and the goal of
+ZeRO is to optimize
+
+49
+00:02:03.740 --> 00:02:06.350
+memory by distributing
+or sharding
+
+50
+00:02:06.350 --> 00:02:10.220
+model states across GPUs
+with ZeRO data overlap.
+
+51
+00:02:10.220 --> 00:02:12.650
+This allows you to scale
+model training across
+
+52
+00:02:12.650 --> 00:02:14.360
+GPUs when your model
+
+53
+00:02:14.360 --> 00:02:16.915
+doesn't fit in the
+memory of a single chip.
+
+54
+00:02:16.915 --> 00:02:18.760
+Let's take a quick
+look at how ZeRO
+
+55
+00:02:18.760 --> 00:02:21.350
+works before coming
+back to FSDP.
+
+56
+00:02:21.350 --> 00:02:23.630
+Earlier this week,
+you looked at all of
+
+57
+00:02:23.630 --> 00:02:26.645
+the memory components
+required for training LLMs,
+
+58
+00:02:26.645 --> 00:02:28.675
+the largest memory requirement
+
+59
+00:02:28.675 --> 00:02:30.610
+was for the optimizer states,
+
+60
+00:02:30.610 --> 00:02:33.520
+which take up twice as
+much space as the weights,
+
+61
+00:02:33.520 --> 00:02:36.910
+followed by weights
+themselves and the gradients.
+
+62
+00:02:36.910 --> 00:02:40.165
+Let's represent the
+parameters as this blue box,
+
+63
+00:02:40.165 --> 00:02:41.590
+the gradients and yellow
+
+64
+00:02:41.590 --> 00:02:43.510
+and the optimizer
+states in green.
+
+65
+00:02:43.510 --> 00:02:45.190
+One limitation off
+
+66
+00:02:45.190 --> 00:02:47.350
+the model replication
+strategy that I showed
+
+67
+00:02:47.350 --> 00:02:49.735
+before is that you need to keep
+
+68
+00:02:49.735 --> 00:02:52.630
+a full model copy on each GPU,
+
+69
+00:02:52.630 --> 00:02:55.395
+which leads to redundant
+memory consumption.
+
+70
+00:02:55.395 --> 00:02:58.870
+You are storing the same
+numbers on every GPU.
+
+71
+00:02:58.870 --> 00:03:00.415
+ZeRO, on the other hand,
+
+72
+00:03:00.415 --> 00:03:02.470
+eliminates this redundancy by
+
+73
+00:03:02.470 --> 00:03:04.330
+distributing also referred to as
+
+74
+00:03:04.330 --> 00:03:06.505
+sharding the model parameters,
+
+75
+00:03:06.505 --> 00:03:09.205
+gradients, and optimizer states
+
+76
+00:03:09.205 --> 00:03:12.140
+across GPUs instead
+of replicating them.
+
+77
+00:03:12.140 --> 00:03:13.475
+At the same time,
+
+78
+00:03:13.475 --> 00:03:16.385
+the communication overhead
+for a sinking model states
+
+79
+00:03:16.385 --> 00:03:20.185
+stays close to that of the
+previously discussed ADP.
+
+80
+00:03:20.185 --> 00:03:23.520
+ZeRO offers three
+optimization stages.
+
+81
+00:03:23.520 --> 00:03:24.910
+ZeRO Stage 1,
+
+82
+00:03:24.910 --> 00:03:27.980
+shots only optimizer
+states across GPUs,
+
+83
+00:03:27.980 --> 00:03:30.080
+this can reduce your
+memory footprint
+
+84
+00:03:30.080 --> 00:03:32.020
+by up to a factor of four.
+
+85
+00:03:32.020 --> 00:03:36.480
+ZeRO Stage 2 also shots the
+gradients across chips.
+
+86
+00:03:36.480 --> 00:03:38.620
+When applied together
+with Stage 1,
+
+87
+00:03:38.620 --> 00:03:40.610
+this can reduce your
+memory footprint
+
+88
+00:03:40.610 --> 00:03:42.535
+by up to eight times.
+
+89
+00:03:42.535 --> 00:03:45.225
+Finally, ZeRO Stage 3 shots
+
+90
+00:03:45.225 --> 00:03:46.580
+all components including
+
+91
+00:03:46.580 --> 00:03:48.825
+the model parameters
+across GPUs.
+
+92
+00:03:48.825 --> 00:03:51.500
+When applied together
+with Stages 1 and 2,
+
+93
+00:03:51.500 --> 00:03:54.835
+memory reduction is linear
+with a number of GPUs.
+
+94
+00:03:54.835 --> 00:03:56.660
+For example, sharding across
+
+95
+00:03:56.660 --> 00:04:01.400
+64 GPUs could reduce your
+memory by a factor of 64.
+
+96
+00:04:01.400 --> 00:04:05.150
+Let's apply this concept to
+the visualization of GDP and
+
+97
+00:04:05.150 --> 00:04:06.440
+replace the LLM by
+
+98
+00:04:06.440 --> 00:04:09.245
+the memory representation
+of model parameters,
+
+99
+00:04:09.245 --> 00:04:11.615
+gradients, and optimizer states.
+
+100
+00:04:11.615 --> 00:04:13.220
+When you use FSDP,
+
+101
+00:04:13.220 --> 00:04:14.840
+you distribute the data across
+
+102
+00:04:14.840 --> 00:04:18.320
+multiple GPUs as you
+saw happening in GDP.
+
+103
+00:04:18.320 --> 00:04:19.985
+But with FSDP,
+
+104
+00:04:19.985 --> 00:04:21.410
+you also distributed or
+
+105
+00:04:21.410 --> 00:04:24.365
+shard the model
+parameters, gradients,
+
+106
+00:04:24.365 --> 00:04:27.425
+and optimize the states
+across the GPU nodes
+
+107
+00:04:27.425 --> 00:04:31.055
+using one of the strategies
+specified in the ZeRO paper.
+
+108
+00:04:31.055 --> 00:04:33.350
+With this strategy,
+you can now work with
+
+109
+00:04:33.350 --> 00:04:36.260
+models that are too big
+to fit on a single chip.
+
+110
+00:04:36.260 --> 00:04:38.075
+In contrast to GDP,
+
+111
+00:04:38.075 --> 00:04:40.550
+where each GPU has all
+of the model states
+
+112
+00:04:40.550 --> 00:04:42.860
+required for
+processing each batch
+
+113
+00:04:42.860 --> 00:04:44.710
+of data available locally,
+
+114
+00:04:44.710 --> 00:04:48.260
+FSDP requires you to collect
+this data from all of
+
+115
+00:04:48.260 --> 00:04:52.105
+the GPUs before the
+forward and backward pass.
+
+116
+00:04:52.105 --> 00:04:56.570
+Each CPU requests data from
+the other GPUs on-demand to
+
+117
+00:04:56.570 --> 00:04:58.895
+materialize the
+sharded data into
+
+118
+00:04:58.895 --> 00:05:02.330
+uncharted data for the
+duration of the operation.
+
+119
+00:05:02.330 --> 00:05:04.310
+After the operation, you release
+
+120
+00:05:04.310 --> 00:05:08.285
+the uncharted non-local data
+back to the other GPUs as
+
+121
+00:05:08.285 --> 00:05:11.660
+original sharded data
+You can also choose to
+
+122
+00:05:11.660 --> 00:05:13.310
+keep it for future operations
+
+123
+00:05:13.310 --> 00:05:15.580
+during backward
+pass for example.
+
+124
+00:05:15.580 --> 00:05:19.080
+Note, this requires
+more GPU RAM again,
+
+125
+00:05:19.080 --> 00:05:20.990
+this is a typical performance
+
+126
+00:05:20.990 --> 00:05:23.255
+versus memory
+trade-off decision.
+
+127
+00:05:23.255 --> 00:05:26.175
+In the final step after
+the backward pass,
+
+128
+00:05:26.175 --> 00:05:29.270
+FSDP is synchronizes
+the gradients across
+
+129
+00:05:29.270 --> 00:05:32.690
+the GPUs in the same
+way they were for DDP.
+
+130
+00:05:32.690 --> 00:05:35.645
+Model sharding S
+described with FSDP
+
+131
+00:05:35.645 --> 00:05:39.620
+allows you to reduce your
+overall GPU memory utilization.
+
+132
+00:05:39.620 --> 00:05:43.640
+Optionally, you can specify
+that FSDP offloads part of
+
+133
+00:05:43.640 --> 00:05:46.130
+the training
+computation to GPUs to
+
+134
+00:05:46.130 --> 00:05:49.315
+further reduce your GPU
+memory utilization.
+
+135
+00:05:49.315 --> 00:05:51.140
+To manage the trade-off between
+
+136
+00:05:51.140 --> 00:05:53.825
+performance and
+memory utilization,
+
+137
+00:05:53.825 --> 00:05:55.985
+you can configure the
+level of sharding
+
+138
+00:05:55.985 --> 00:05:58.480
+using FSDP is charting factor.
+
+139
+00:05:58.480 --> 00:06:01.100
+A sharding factor of
+one basically removes
+
+140
+00:06:01.100 --> 00:06:02.780
+the sharding and replicates
+
+141
+00:06:02.780 --> 00:06:04.955
+the full model similar to DDP.
+
+142
+00:06:04.955 --> 00:06:06.590
+If you set the
+sharding factor to
+
+143
+00:06:06.590 --> 00:06:08.870
+the maximum number
+of available GPUs,
+
+144
+00:06:08.870 --> 00:06:10.855
+you turn on full sharding.
+
+145
+00:06:10.855 --> 00:06:13.070
+This has the most
+memory savings,
+
+146
+00:06:13.070 --> 00:06:16.880
+but increases the communication
+volume between GPUs.
+
+147
+00:06:16.880 --> 00:06:20.850
+Any sharding factor in-between
+enables hyper sharding.
+
+148
+00:06:20.850 --> 00:06:24.230
+Let's take a look at how
+FSDP performs in comparison
+
+149
+00:06:24.230 --> 00:06:27.955
+to DDP measured in
+teraflops per GPU.
+
+150
+00:06:27.955 --> 00:06:31.100
+These tests were performed
+using a maximum of
+
+151
+00:06:31.100 --> 00:06:34.355
+512 NVIDIA V100 GPUs,
+
+152
+00:06:34.355 --> 00:06:36.925
+each with 80
+gigabytes of memory.
+
+153
+00:06:36.925 --> 00:06:39.680
+Note, one teraflop
+corresponds to
+
+154
+00:06:39.680 --> 00:06:43.000
+one trillion floating-point
+operations per second.
+
+155
+00:06:43.000 --> 00:06:44.390
+The first figure shows
+
+156
+00:06:44.390 --> 00:06:48.035
+FSDP performance for
+different size T5 models.
+
+157
+00:06:48.035 --> 00:06:51.395
+You can see the different
+performance numbers for FSDP,
+
+158
+00:06:51.395 --> 00:06:52.985
+full sharding in blue,
+
+159
+00:06:52.985 --> 00:06:57.140
+hyper shard in orange and
+full replication in green.
+
+160
+00:06:57.140 --> 00:07:00.560
+For reference, DDP
+performance is shown in red.
+
+161
+00:07:00.560 --> 00:07:03.065
+For the first 25 models with
+
+162
+00:07:03.065 --> 00:07:07.640
+611 million parameters and
+2.28 billion parameters,
+
+163
+00:07:07.640 --> 00:07:11.165
+the performance of FSDP
+and DDP is similar.
+
+164
+00:07:11.165 --> 00:07:15.365
+Now, if you choose a model
+size beyond 2.28 billion,
+
+165
+00:07:15.365 --> 00:07:19.100
+such as 25 with 11.3
+billion parameters,
+
+166
+00:07:19.100 --> 00:07:21.820
+DDP runs into the
+out-of-memory error.
+
+167
+00:07:21.820 --> 00:07:23.710
+FSDP on the other hand can
+
+168
+00:07:23.710 --> 00:07:26.180
+easily handle models
+this size and
+
+169
+00:07:26.180 --> 00:07:28.250
+achieve much higher
+teraflops when
+
+170
+00:07:28.250 --> 00:07:30.910
+lowering the model's
+precision to 16-bit.
+
+171
+00:07:30.910 --> 00:07:32.550
+The second figure shows
+
+172
+00:07:32.550 --> 00:07:36.490
+7% decrease in per
+GPU teraflops when
+
+173
+00:07:36.490 --> 00:07:38.905
+increasing the
+number of GPUs from
+
+174
+00:07:38.905 --> 00:07:42.910
+8-512 for the 11
+billion T5 model,
+
+175
+00:07:42.910 --> 00:07:45.640
+plotted here using a
+batch size of 16 and
+
+176
+00:07:45.640 --> 00:07:48.700
+orange and a batch
+size of eight in blue.
+
+177
+00:07:48.700 --> 00:07:50.920
+As the model grows
+in size and is
+
+178
+00:07:50.920 --> 00:07:53.365
+distributed across
+more and more GPUs,
+
+179
+00:07:53.365 --> 00:07:56.110
+the increase in
+communication volume between
+
+180
+00:07:56.110 --> 00:07:58.855
+chips starts to impact
+the performance,
+
+181
+00:07:58.855 --> 00:08:01.150
+slowing down the computation.
+
+182
+00:08:01.150 --> 00:08:04.570
+In summary, this shows
+that you can use FSDP for
+
+183
+00:08:04.570 --> 00:08:06.850
+both small and large models and
+
+184
+00:08:06.850 --> 00:08:08.635
+seamlessly scale
+your model training
+
+185
+00:08:08.635 --> 00:08:10.615
+across multiple GPUs.
+
+186
+00:08:10.615 --> 00:08:14.150
+I know this discussion has
+been highly technical and I
+
+187
+00:08:14.150 --> 00:08:15.680
+want to emphasize that you don't
+
+188
+00:08:15.680 --> 00:08:17.770
+need to remember all
+of the details here.
+
+189
+00:08:17.770 --> 00:08:20.090
+The most important thing
+is to have a sense
+
+190
+00:08:20.090 --> 00:08:22.250
+of how the data model parameters
+
+191
+00:08:22.250 --> 00:08:24.710
+and training
+computations are shared
+
+192
+00:08:24.710 --> 00:08:27.505
+across processes
+when training LLMs.
+
+193
+00:08:27.505 --> 00:08:29.150
+Given the expense and
+
+194
+00:08:29.150 --> 00:08:32.825
+technical complexity of
+training models across GPUs,
+
+195
+00:08:32.825 --> 00:08:35.480
+some researchers have
+been exploring ways to
+
+196
+00:08:35.480 --> 00:08:38.405
+achieve better performance
+with smaller models.
+
+197
+00:08:38.405 --> 00:08:40.610
+In the next video,
+you'll learn more about
+
+198
+00:08:40.610 --> 00:08:43.820
+this research into
+compute optimal models.
+
+199
+00:08:43.820 --> 00:08:46.230
+Let's move on and take a look.

@@ -1,0 +1,219 @@
+This lesson on RLHF introduced
+a lot of new terms and concepts. My colleague Chris has put
+together an exciting lab that implements what you
+explored in these videos. So to get your hands dirty with RLHF, I'll hand it over to Chris to walk
+you through this week's notebook. >> Hey, thanks, Ancha, and
+now it's time for Lab 3. All right, welcome back, everyone,
+we are going to talk about Lab 3. Lab 3 was one of my favorite to work on. This is where we get hands on
+with reinforcement learning and human feedback, or RLHF. The purpose of this lab is to lower
+the toxicity of our instruction fine-tuned model from Lab 2,
+that was the output of Lab 2. That'll be the input to Lab 3 here. And we will lower the toxicity
+using a hate speech reward model where we want to optimize for
+not hate. We'll be using PPO that you learned about
+in the lesson, and we will wrap everything up with quantitative and then qualitative
+comparison of our detoxification process. Okay, let's install our Python libraries. Here we see that we're using PyTorch. We're also using the same transformers
+that we used in the previous labs, of course, data sets to get
+access to our public data set, evaluate so
+that we could run the rouge_score. Peft is the parameter
+efficient fine-tuning library. And here's a new library called trl. And this is what's going
+to give us access to PPO. And a similar type of trainer and
+then training arguments, there's going to be PPOTrainer and
+then training arguments following the hugging face convention of trainer and
+training arguments. Let's do a bunch of our imports up here. Familiar classes, the AutoModelForSeq2Seq. Note that there's a new one here,
+which is AutoModelForSeq1Classification. This is what we're going to use to
+load our Facebook binary classifier, seq1 classifier. Which when we give it a string of text or
+a sequence of text, it'll tell us whether or
+not that text contains hate speech or not, with a particular distribution
+across not hate or hate. And of course, in this lab,
+we'll be optimizing for not hate. Here we see our Peft and
+our LoraConfig, which we saw in Lab 2. Here we see the specific PPOTrainer. There's also this other class, AutoModelForSeqtoSeq language
+model with a value head. This is what's required when we do the PPO
+training, which we'll see in a bit. Also, this LengthSampler. This will give us the ability to filter or actually sample from our text various
+lengths, so we don't actually have to pull in the entire sequence,
+we could pull in just different samples. And this comes in handy when we're trying
+to either sample from our full data set, even though it's beyond
+the 512 context window. We may want to sample up to 512. In some cases, you would actually just throw away
+samples that are larger than 512. With LengthSampler for example,
+we can just sample the first 512 or take samples within the sequence,
+maybe not starting from the beginning, but maybe in the middle or towards the end. And so LengthSampler is kind of nice. Here we see PyTorch, the evaluate. If you haven't seen this before tqdm,
+this is where typically when you see progress
+bars showing up in Jupyter Notebooks or on your command line,
+they come from this tqdm library. As before,
+we're going to load our data set and then eventually our model here in a sec,
+we have this build data set Python function that we've
+defined that can do the length sampling using that LengthSampler
+that was mentioned up above, can also convert our text into those
+vectors, also called tokenizing. So here's where we start to see a little
+bit more complexity in our code. The first couple of labs
+we stayed pretty simple. Lab 3, we start to do a little
+bit more Pythonic type stuff. We have nested functions here to tokenize. We're starting to combine things
+into single functions, and we're going to just say
+build the data set here. We're going to give it the model name. We need the model name to know which
+tokenizer to use, because again, these models each have
+their own tokenizer. If you try to mix and match tokenizers
+between different model types, that's not good, and
+you'll see some pretty bad results. One other feature of this build
+data set function is that we're going to wrap our data set
+into this instruction prompt. So this is something that we did
+in the first and second lab. So we're kind of combining it all
+into one single function here. Now this is the model that we
+trained in the second lab. So I'm pulling it from cloud storage here. We pull it down and
+it should be in a folder here called peft-dialog-summary-checkpoint, let's
+crack it open just to see. Here's the adapter_model.bin. Again, that's the thing,
+that's only 14 megabyte. And here's our handy print number of
+trainable model parameters function that we'll use from time to time to get
+fancy and see when we're using peft. Throughout this entire lab,
+we will be using peft. So for the most part,
+we'll be just training and fine-tuning a very small
+percentage of our model size. So here once again, 1.4%. Now here's where we have to use this
+variant of the AutoModelForSeq2SeqLM, which is with ValueHead. So this is related to how PPO
+actually performs its training. And here, by the way, just to be clear,
+we do say is_trainable equals True. And that's on purpose because we
+are actually putting the model into fine-tuning model. And then later on when we
+go to make predictions and to generate summaries,
+we will set that to false. So if you notice this number is a little
+bit higher than it was in lab 2. And it's higher by exactly 769 parameters. And so
+let me explain what's happening there. 768 of those parameters
+are from the ValueHead. Actually, all 769 come from the ValueHead. It's 768, which is the dimension
+of the ValueHead plus our bias. And bias is very important,
+by the way, because it's always there, people just tend to not include
+it in their casual conversations. Now, I skipped over this
+create reference model. This actually comes from TRL. We had imported this up above. And what this is doing is,
+as you learned about in the lesson, when we do RLHF, you can specify
+a base model that's used with KL divergence to make sure that while
+the reward function is being optimized, right, while we are optimizing
+to maximize the reward, which in this case is not hate speech. We don't want to just
+wildly hack that reward and just generate things that are not hate,
+but that are not relevant to the original. So said differently, when we go to train, we're going to pass in two models,
+what's called a reference model, which is a model that is not going to be
+fine-tuned at all, not even with peft. It's just the original
+instruction fine-tuned model that was the output of Lab 2,
+that's now the input for Lab 3. And then KL divergence is used to
+compare what would the original model have generated versus what would
+the current PPO model have generated, and then keeps things sort
+of in line that way and then minimizes the model's ability
+to perform the reward hacking. So we'll see it here in a bit. Here's where we're actually going to load,
+what I'm calling the toxicity model. Again, this comes from Facebook. It was designed to detect hate speech,
+it's based on Bert. Facebook has a variant
+of Bert called Roberta. So this model is on the order of millions
+of parameters, not in the billions and billions like the large language
+models that we have today. Now that that model is loaded, so again,
+here's where we use the auto model for sequence classification. So this is a classifier. In this case, there's only two labels and that's what is going to make this a binary
+classifier, it's not hate or it's hate. And we'll see that in action here. Here is a sample, nontoxic text. I want to kiss you,
+pretty friendly piece of text here. And we see different ways that this
+model can actually generate output for this text,
+can actually classify this text. Just know that the first spot, the most important thing is the first
+slot that this model can generate. The first class is not hate, and
+that becomes very important. Hate is in the second position,
+right or 0 index, it's the first index. So 0 index is not hate,
+first index, the 1 index is hate. And we see that not hate is very high. So these are the logits, right? We can also, of course,
+perform a soft max on those logits and we see that the probability of
+this text being not toxic or not hate, is essentially 100%. The probability that this model is or
+that this text is hate is very close to 0. In our PPO training,
+we will actually use the logit, and it's very important to
+get the index right. And I say this because if you
+accidentally optimize for the wrong index, you can actually
+generate text that's more toxic, which is not what we're
+trying to do here today. And one thing that I did to actually
+make this more explicit is I call out the not hate index equals 0. And the reason why this is confusing is
+in a lot of cases, the sort of positive class is in the second position, and
+the negative class is in the 0th. And so if you go and copy somebody else's
+code or you find an example online, or you have a friend help you, you might
+accidentally mess up which index. Here is an example of toxic text,
+and now keep in mind, I did have to use a bad word
+here to actually trigger this. And so let's run it there. And so here we see 97, almost 97 and a half percent probability that
+this is toxic or hate speech. Now, hate speech is extreme. And so I do caution,
+if you do try to play with this example, that oftentimes you do have to be
+extreme to trigger the hate flag. So the good news, is we're not optimizing
+for the hate flag, we're optimizing for the not hate flag, so let's keep going. One thing we haven't
+shown much in these labs is what's called a hugging
+face inference pipeline. And so this gets imported up above,
+this was imported. And here we're creating what's
+called a sentiment pipeline. And the real value of these
+hugging face pipelines, this is from the transformers library. The real value is I can just say this
+is a sentiment analysis problem, basically 0, or sorry, two classes. And I give it the name of my model and
+then I can use this. And I don't have to call all those
+low level model.generate and do the tokenizer and all that stuff,
+this will actually do it all for us. So again, we did not use these
+in the first and second lab, we are using it here just to reduce
+the complexity of this lab and really, really focus on the RL part of it. But I do want to show you that there
+are these things called the inference pipelines, and they're very, very handy. You can mix and
+match as we're doing in this lab here. Sometimes you can use them,
+sometimes you don't have to use them. Here we are setting up
+a toxicity evaluation mechanism. And we're going to reuse
+the Evaluate Python library which does have a first class
+knowledge of toxicity. And so of course, when we set this up,
+we have to give it the toxicity model, which in this case we're using
+Facebook RoBERTa hate speech model. The other interesting thing is that
+we have to pass in the toxic label. In this case, the toxic label is hate. And we will use this evaluator
+later on when we compare before and then after our PPO, our reinforcement
+learning with human feedback. Here we see for the nontoxic text which we
+specified up above, I want to kiss you and the toxic text, we see that these scores
+are consistent with what we are expecting. Here is a convenience function where we
+pass in the model, pass in the data set. We can even tell it the number
+of samples to try and to calculate a mean toxicity
+score along with the standard deviation for
+a whole bunch of summaries that are generated tell us what
+is the mean toxicity score. And so the goal is to reduce the mean
+toxicity score after we do PPO. And so here we see what the mean and
+standard deviation toxicity is before we perform our detoxification to reduce
+the toxicity of our generated summaries. Here we're going to
+initialize the PPOTrainer. We have a PPOConfig as well too. These are really just sort
+of standard learning rates. We are doing a small
+number of the PPO epics. Again, just to keep the time for
+this lab down to a reasonable number. Batch_size, here, 16, not too bad. And you can actually play with some of
+these values when you get into the lab. Here we see PPOTrainer
+takes the reference model. So this we used up above when we
+called Create_Reference model. And that's essentially the original
+model that was the output of the Lab 2. And that's what's going to be used for
+KL divergence during PPO training. Now we actually fine-tune
+the model using RLHF. This is the exciting part. And so here we see kl divergence,
+which is something we want to minimize, just like you learned in the lesson. We don't want the KL divergence to go
+too high, that means that the model is starting to hack the reward function,
+and that's not good. It's just generating things
+to make the reward happy, it's not generating things that
+are actually similar to the original text that's being passed in for summarization. And we're trying to
+maximize the mean return. These are some of the PPO reinforcement
+learning concepts that you learned about in the slides. Maximize the advantage, and
+this will run for about 20 minutes or so. So go grab a cup of coffee. And what's happening here is, we're grabbing each of
+the samples that we provided from our dialog data set and
+we're summarizing the text. We're using the sentiment pipeline that we
+created up above that's going to classify both what's called the query, which is
+the prompt and the response together. So we're going to zip those two
+together using the python zip. And we have query response we're
+going to pass that pair in to the sentiment pipeline and
+ask the pipeline, is this toxic? Is this hate or is this not hate? That then gives us the logits for
+those query response pairs. We're going to pull out
+the not_hate score and we're going to pass all of
+this in to the PPOTrainer. So we're going to give it prompt,
+we're going to give it the response or the summary and
+we're going to give it the score. All of those three go in as lists,
+as batches into our PPOTrainer. That's then going to perform a PPO
+step to minimize the loss function as you saw in the slides. And this is where the actual
+gradients are being updated. And now keep in mind
+that we're using peft. And so we're not actually modifying
+the base LOM parameters peft, we are just modifying
+the 1.4% lorapeftadapters that are being used during
+this fine-tuning process. And we will run this for a bit. We see KL divergence is relatively stable,
+around 27, 28, 29. It goes up, it comes down,
+that's PPO trying to keep things balanced. And once this is done, we will compare the model quantitatively
+as well as qualitatively. After about ten iterations, we can compare
+the model that has been detoxified, or has reduced toxicity as
+compared to the original model. And here we could do this qualitatively
+by comparing the previous response to the response after. So here we see that the reward has
+actually gone up in a number of cases of these examples. So query is the original text
+that we want to summarize, the original conversation wrapped
+in that instruction prompt and we see the response before,
+we see the response after. And we see that the model has
+determined that the reward model, the hate speech model has determined that the reward actually is more
+positive in a number of these. If you were to train longer and
+had more time, you would see this a relatively
+significant difference. The other thing to mention is,
+because the reward model is so extreme, that really to get the most benefit,
+you would start with a relatively toxic data set, which this is not
+a relatively toxic data set, and then you would see a much
+larger difference. But here we see directionally
+by doing PPO and using the reward function that
+we're using the reward model for the hate speech,
+that we can actually lower the overall toxicity of our model
+responses by a decent amount.

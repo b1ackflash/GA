@@ -1,0 +1,551 @@
+WEBVTT
+
+1
+00:00:00.410 --> 00:00:04.397
+With LoRA, the goal was to find
+an efficient way to update the weights of
+
+2
+00:00:04.397 --> 00:00:08.196
+the model without having to train
+every single parameter again.
+
+3
+00:00:08.196 --> 00:00:12.384
+There are also additive methods within
+PEFT that aim to improve model performance
+
+4
+00:00:12.384 --> 00:00:14.452
+without changing the weights at all.
+
+5
+00:00:14.452 --> 00:00:18.568
+In this video, you'll explore a second
+parameter efficient fine tuning method
+
+6
+00:00:18.568 --> 00:00:19.898
+called prompt tuning.
+
+7
+00:00:19.898 --> 00:00:23.278
+Now, prompt tuning sounds a bit
+like prompt engineering, but
+
+8
+00:00:23.278 --> 00:00:25.740
+they are quite different from each other.
+
+9
+00:00:25.740 --> 00:00:27.307
+With prompt engineering,
+
+10
+00:00:27.307 --> 00:00:31.532
+you work on the language of your
+prompt to get the completion you want.
+
+11
+00:00:31.532 --> 00:00:35.652
+This could be as simple as trying
+different words or phrases or
+
+12
+00:00:35.652 --> 00:00:40.754
+more complex, like including examples for
+one or Few-shot Inference.
+
+13
+00:00:40.754 --> 00:00:43.614
+The goal is to help the model
+understand the nature of
+
+14
+00:00:43.614 --> 00:00:47.926
+the task you're asking it to carry out and
+to generate a better completion.
+
+15
+00:00:47.926 --> 00:00:51.439
+However, there are some
+limitations to prompt engineering,
+
+16
+00:00:51.439 --> 00:00:55.738
+as it can require a lot of manual effort
+to write and try different prompts.
+
+17
+00:00:55.738 --> 00:01:00.083
+You're also limited by the length of the
+context window, and at the end of the day,
+
+18
+00:01:00.083 --> 00:01:03.642
+you may still not achieve
+the performance you need for your task.
+
+19
+00:01:03.642 --> 00:01:08.005
+With prompt tuning, you add additional
+trainable tokens to your prompt and
+
+20
+00:01:08.005 --> 00:01:12.894
+leave it up to the supervised learning
+process to determine their optimal values.
+
+21
+00:01:12.894 --> 00:01:16.518
+The set of trainable tokens
+is called a soft prompt, and
+
+22
+00:01:16.518 --> 00:01:21.235
+it gets prepended to embedding vectors
+that represent your input text.
+
+23
+00:01:21.235 --> 00:01:25.182
+The soft prompt vectors have the same
+length as the embedding vectors of
+
+24
+00:01:25.182 --> 00:01:26.441
+the language tokens.
+
+25
+00:01:26.441 --> 00:01:28.920
+And including somewhere between 20 and
+
+26
+00:01:28.920 --> 00:01:32.759
+100 virtual tokens can be sufficient for
+good performance.
+
+27
+00:01:32.759 --> 00:01:37.330
+The tokens that represent natural
+language are hard in the sense that they
+
+28
+00:01:37.330 --> 00:01:41.544
+each correspond to a fixed location
+in the embedding vector space.
+
+29
+00:01:41.544 --> 00:01:46.344
+However, the soft prompts are not fixed
+discrete words of natural language.
+
+30
+00:01:46.344 --> 00:01:51.132
+Instead, you can think of them as
+virtual tokens that can take on any
+
+31
+00:01:51.132 --> 00:01:55.850
+value within the continuous
+multidimensional embedding space.
+
+32
+00:01:55.850 --> 00:01:59.515
+And through supervised learning,
+the model learns the values for
+
+33
+00:01:59.515 --> 00:02:03.192
+these virtual tokens that maximize
+performance for a given task.
+
+34
+00:02:03.192 --> 00:02:07.677
+In full fine tuning, the training data
+set consists of input prompts and
+
+35
+00:02:07.677 --> 00:02:09.673
+output completions or labels.
+
+36
+00:02:09.673 --> 00:02:14.287
+The weights of the large language model
+are updated during supervised learning.
+
+37
+00:02:14.287 --> 00:02:18.712
+In contrast with prompt tuning,
+the weights of the large language model
+
+38
+00:02:18.712 --> 00:02:22.454
+are frozen and
+the underlying model does not get updated.
+
+39
+00:02:22.454 --> 00:02:27.324
+Instead, the embedding vectors of
+the soft prompt gets updated over time to
+
+40
+00:02:27.324 --> 00:02:30.536
+optimize the model's
+completion of the prompt.
+
+41
+00:02:30.536 --> 00:02:35.216
+Prompt tuning is a very parameter
+efficient strategy because only a few
+
+42
+00:02:35.216 --> 00:02:37.329
+parameters are being trained.
+
+43
+00:02:37.329 --> 00:02:41.963
+In contrast with the millions to billions
+of parameters in full fine tuning,
+
+44
+00:02:41.963 --> 00:02:44.041
+similar to what you saw with LoRA.
+
+45
+00:02:44.041 --> 00:02:47.312
+You can train a different set of
+soft prompts for each task and
+
+46
+00:02:47.312 --> 00:02:49.761
+then easily swap them
+out at inference time.
+
+47
+00:02:49.761 --> 00:02:54.731
+You can train a set of soft prompts for
+one task and a different set for another.
+
+48
+00:02:54.731 --> 00:02:58.397
+To use them for inference,
+you prepend your input prompt with
+
+49
+00:02:58.397 --> 00:03:03.275
+the learned tokens to switch to another
+task, you simply change the soft prompt.
+
+50
+00:03:03.275 --> 00:03:05.708
+Soft prompts are very small on disk, so
+
+51
+00:03:05.708 --> 00:03:09.762
+this kind of fine tuning is
+extremely efficient and flexible.
+
+52
+00:03:09.762 --> 00:03:12.828
+You'll notice the same LLM is used for
+all tasks,
+
+53
+00:03:12.828 --> 00:03:17.056
+all you have to do is switch out
+the soft prompts at inference time.
+
+54
+00:03:17.056 --> 00:03:19.648
+So how well does prompt tuning perform?
+
+55
+00:03:19.648 --> 00:03:23.324
+In the original paper,
+Exploring the Method by Brian Lester and
+
+56
+00:03:23.324 --> 00:03:24.899
+collaborators at Google.
+
+57
+00:03:24.899 --> 00:03:28.683
+The authors compared prompt tuning
+to several other methods for
+
+58
+00:03:28.683 --> 00:03:30.250
+a range of model sizes.
+
+59
+00:03:30.250 --> 00:03:35.350
+In this figure from the paper, you can
+see the Model size on the X axis and
+
+60
+00:03:35.350 --> 00:03:37.966
+the SuperGLUE score on the Y axis.
+
+61
+00:03:37.966 --> 00:03:41.532
+This is the evaluation benchmark
+you learned about earlier this
+
+62
+00:03:41.532 --> 00:03:45.834
+week that grades model performance on
+a number of different language tasks.
+
+63
+00:03:45.834 --> 00:03:47.636
+The red line shows the scores for
+
+64
+00:03:47.636 --> 00:03:51.451
+models that were created through
+full fine tuning on a single task.
+
+65
+00:03:51.451 --> 00:03:53.730
+While the orange line shows the score for
+
+66
+00:03:53.730 --> 00:03:56.356
+models created using
+multitask fine tuning.
+
+67
+00:03:56.356 --> 00:04:00.324
+The green line shows the performance
+of prompt tuning and finally,
+
+68
+00:04:00.324 --> 00:04:03.672
+the blue line shows scores for
+prompt engineering only.
+
+69
+00:04:03.672 --> 00:04:08.331
+As you can see, prompt tuning doesn't
+perform as well as full fine tuning for
+
+70
+00:04:08.331 --> 00:04:09.430
+smaller LLMs.
+
+71
+00:04:09.430 --> 00:04:14.634
+However, as the model size increases, so
+does the performance of prompt tuning.
+
+72
+00:04:14.634 --> 00:04:17.832
+And once models have around
+10 billion parameters,
+
+73
+00:04:17.832 --> 00:04:21.098
+prompt tuning can be as effective
+as full fine tuning and
+
+74
+00:04:21.098 --> 00:04:25.758
+offers a significant boost in performance
+over prompt engineering alone.
+
+75
+00:04:25.758 --> 00:04:30.303
+One potential issue to consider is
+the interpretability of learned virtual
+
+76
+00:04:30.303 --> 00:04:30.875
+tokens.
+
+77
+00:04:30.875 --> 00:04:35.122
+Remember, because the soft prompt
+tokens can take any value within
+
+78
+00:04:35.122 --> 00:04:37.741
+the continuous embedding vector space.
+
+79
+00:04:37.741 --> 00:04:41.973
+The trained tokens don't correspond
+to any known token, word, or
+
+80
+00:04:41.973 --> 00:04:44.283
+phrase in the vocabulary of the LLM.
+
+81
+00:04:44.283 --> 00:04:48.682
+However, an analysis of the nearest
+neighbor tokens to the soft prompt
+
+82
+00:04:48.682 --> 00:04:52.342
+location shows that they form
+tight semantic clusters.
+
+83
+00:04:52.342 --> 00:04:57.590
+In other words, the words closest to the
+soft prompt tokens have similar meanings.
+
+84
+00:04:57.590 --> 00:05:01.223
+The words identified usually have
+some meaning related to the task,
+
+85
+00:05:01.223 --> 00:05:04.992
+suggesting that the prompts
+are learning word like representations.
+
+86
+00:05:04.992 --> 00:05:09.670
+You explored two PEFT methods in this
+lesson LoRA, which uses rank decomposition
+
+87
+00:05:09.670 --> 00:05:13.215
+matrices to update the model
+parameters in an efficient way.
+
+88
+00:05:13.215 --> 00:05:17.522
+And Prompt Tuning, where trainable
+tokens are added to your prompt and
+
+89
+00:05:17.522 --> 00:05:19.906
+the model weights are left untouched.
+
+90
+00:05:19.906 --> 00:05:23.673
+Both methods enable you to fine
+tune models with the potential for
+
+91
+00:05:23.673 --> 00:05:27.988
+improved performance on your tasks
+while using much less compute than full
+
+92
+00:05:27.988 --> 00:05:29.302
+fine tuning methods.
+
+93
+00:05:29.302 --> 00:05:33.816
+LoRA is broadly used in practice because
+of the comparable performance to full fine
+
+94
+00:05:33.816 --> 00:05:37.488
+tuning for many tasks and data sets,
+and you'll get to try it out for
+
+95
+00:05:37.488 --> 00:05:39.790
+yourself in this week's lab.
+
+96
+00:05:39.790 --> 00:05:43.488
+So congratulations on making
+it to the end of week 2.
+
+97
+00:05:43.488 --> 00:05:48.505
+Let's recap what you've seen earlier this
+week, Mike walked you through how to
+
+98
+00:05:48.505 --> 00:05:53.463
+adapt a foundation model through
+a process called instruction fine-tuning.
+
+99
+00:05:53.463 --> 00:05:56.790
+Along the way,
+you saw some of the prompt templates and
+
+100
+00:05:56.790 --> 00:06:00.128
+data sets that were used
+to train the FLAN-T5 model.
+
+101
+00:06:00.128 --> 00:06:05.195
+You also saw how to use evaluation
+metrics and benchmarks such as ROUGE and
+
+102
+00:06:05.195 --> 00:06:08.717
+HELM to measure success
+during model finetuning.
+
+103
+00:06:08.717 --> 00:06:13.464
+In practice instruction finetuning
+has proven very effective and
+
+104
+00:06:13.464 --> 00:06:18.306
+useful across a wide range of natural
+language use cases and tasks.
+
+105
+00:06:18.306 --> 00:06:20.445
+With just a few hundred examples,
+
+106
+00:06:20.445 --> 00:06:24.965
+you can fine tune a model to your
+specific task, which is truly amazing.
+
+107
+00:06:24.965 --> 00:06:29.390
+Next, you saw how parameter
+efficient fine tuning, or PEFT,
+
+108
+00:06:29.390 --> 00:06:33.823
+can reduce the amount of compute
+required to finetune a model.
+
+109
+00:06:33.823 --> 00:06:38.560
+You learned about two methods you can
+use for this LoRA and Prompt Tuning.
+
+110
+00:06:38.560 --> 00:06:43.218
+By the way you can also combine LoRA with
+the quantization techniques you learned
+
+111
+00:06:43.218 --> 00:06:46.593
+about in week 1 to further
+reduce your memory footprint.
+
+112
+00:06:46.593 --> 00:06:49.190
+This is known as QLoRA in practice,
+
+113
+00:06:49.190 --> 00:06:53.873
+PEFT is used heavily to minimize
+compute and memory resources.
+
+114
+00:06:53.873 --> 00:06:58.005
+And ultimately reducing the cost of fine
+tuning, allowing you to make the most
+
+115
+00:06:58.005 --> 00:07:01.340
+of your compute budget and
+speed up your development process.

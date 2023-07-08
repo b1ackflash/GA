@@ -1,0 +1,318 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.950
+While LLMs have become
+
+2
+00:00:01.950 --> 00:00:03.960
+famous for their
+ability to perform
+
+3
+00:00:03.960 --> 00:00:07.760
+many different language
+tasks within a single model,
+
+4
+00:00:07.760 --> 00:00:11.740
+your application may only need
+to perform a single task.
+
+5
+00:00:11.740 --> 00:00:15.630
+In this case, you can fine-tune
+a pre-trained model to
+
+6
+00:00:15.630 --> 00:00:18.480
+improve performance
+on only the task
+
+7
+00:00:18.480 --> 00:00:20.115
+that is of interest to you.
+
+8
+00:00:20.115 --> 00:00:22.500
+For example, summarization using
+
+9
+00:00:22.500 --> 00:00:25.200
+a dataset of examples
+for that task.
+
+10
+00:00:25.200 --> 00:00:27.650
+Interestingly, good
+results can be
+
+11
+00:00:27.650 --> 00:00:30.230
+achieved with relatively
+few examples.
+
+12
+00:00:30.230 --> 00:00:34.760
+Often just 500-1,000
+examples can result in
+
+13
+00:00:34.760 --> 00:00:37.970
+good performance in
+contrast to the billions of
+
+14
+00:00:37.970 --> 00:00:41.770
+pieces of texts that the model
+saw during pre-training.
+
+15
+00:00:41.770 --> 00:00:44.495
+However, there is a
+potential downside
+
+16
+00:00:44.495 --> 00:00:46.585
+to fine-tuning on a single task.
+
+17
+00:00:46.585 --> 00:00:48.650
+The process may lead to
+
+18
+00:00:48.650 --> 00:00:52.265
+a phenomenon called
+catastrophic forgetting.
+
+19
+00:00:52.265 --> 00:00:54.620
+Catastrophic forgetting
+happens because
+
+20
+00:00:54.620 --> 00:00:56.825
+the full fine-tuning process
+
+21
+00:00:56.825 --> 00:01:00.140
+modifies the weights
+of the original LLM.
+
+22
+00:01:00.140 --> 00:01:02.735
+While this leads to
+great performance
+
+23
+00:01:02.735 --> 00:01:05.315
+on the single fine-tuning task,
+
+24
+00:01:05.315 --> 00:01:08.825
+it can degrade performance
+on other tasks.
+
+25
+00:01:08.825 --> 00:01:11.150
+For example, while
+fine-tuning can
+
+26
+00:01:11.150 --> 00:01:13.370
+improve the ability
+of a model to perform
+
+27
+00:01:13.370 --> 00:01:15.725
+sentiment analysis on a review
+
+28
+00:01:15.725 --> 00:01:18.755
+and result in a
+quality completion,
+
+29
+00:01:18.755 --> 00:01:22.105
+the model may forget
+how to do other tasks.
+
+30
+00:01:22.105 --> 00:01:24.545
+This model knew how to carry out
+
+31
+00:01:24.545 --> 00:01:26.900
+named entity recognition before
+
+32
+00:01:26.900 --> 00:01:29.990
+fine-tuning correctly
+identifying Charlie
+
+33
+00:01:29.990 --> 00:01:32.485
+as the name of the
+cat in the sentence.
+
+34
+00:01:32.485 --> 00:01:34.255
+But after fine-tuning,
+
+35
+00:01:34.255 --> 00:01:37.145
+the model can no longer
+carry out this task,
+
+36
+00:01:37.145 --> 00:01:39.710
+confusing both the
+entity it is supposed to
+
+37
+00:01:39.710 --> 00:01:44.785
+identify and exhibiting behavior
+related to the new task.
+
+38
+00:01:44.785 --> 00:01:46.850
+What options do you have
+
+39
+00:01:46.850 --> 00:01:49.430
+to avoid catastrophic
+forgetting?
+
+40
+00:01:49.430 --> 00:01:52.370
+First of all, it's
+important to decide whether
+
+41
+00:01:52.370 --> 00:01:56.605
+catastrophic forgetting
+actually impacts your use case.
+
+42
+00:01:56.605 --> 00:01:58.295
+If all you need is
+
+43
+00:01:58.295 --> 00:01:59.840
+reliable performance on
+
+44
+00:01:59.840 --> 00:02:02.105
+the single task
+you fine-tuned on,
+
+45
+00:02:02.105 --> 00:02:04.130
+it may not be an
+issue that the model
+
+46
+00:02:04.130 --> 00:02:06.455
+can't generalize to other tasks.
+
+47
+00:02:06.455 --> 00:02:09.080
+If you do want or
+need the model to
+
+48
+00:02:09.080 --> 00:02:12.845
+maintain its multitask
+generalized capabilities,
+
+49
+00:02:12.845 --> 00:02:15.035
+you can perform fine-tuning on
+
+50
+00:02:15.035 --> 00:02:17.845
+multiple tasks at one time.
+
+51
+00:02:17.845 --> 00:02:20.430
+Good multitask fine-tuning may
+
+52
+00:02:20.430 --> 00:02:25.415
+require 50-100,000 examples
+across many tasks,
+
+53
+00:02:25.415 --> 00:02:29.420
+and so will require more
+data and compute to train.
+
+54
+00:02:29.420 --> 00:02:32.885
+Will discuss this option
+in more detail shortly.
+
+55
+00:02:32.885 --> 00:02:35.045
+Our second option is to perform
+
+56
+00:02:35.045 --> 00:02:37.535
+parameter efficient fine-tuning,
+
+57
+00:02:37.535 --> 00:02:41.380
+or PEFT for short instead
+of full fine-tuning.
+
+58
+00:02:41.380 --> 00:02:43.730
+PEFT is a set of techniques that
+
+59
+00:02:43.730 --> 00:02:46.850
+preserves the weights
+of the original LLM and
+
+60
+00:02:46.850 --> 00:02:48.890
+trains only a small number of
+
+61
+00:02:48.890 --> 00:02:52.570
+task-specific adapter
+layers and parameters.
+
+62
+00:02:52.570 --> 00:02:55.610
+PEFT shows greater robustness to
+
+63
+00:02:55.610 --> 00:02:58.100
+catastrophic forgetting
+since most of
+
+64
+00:02:58.100 --> 00:03:00.830
+the pre-trained weights
+are left unchanged.
+
+65
+00:03:00.830 --> 00:03:03.890
+PEFT is an exciting
+and active area of
+
+66
+00:03:03.890 --> 00:03:06.985
+research that we will
+cover later this week.
+
+67
+00:03:06.985 --> 00:03:10.520
+In the meantime, let's move
+on to the next video and
+
+68
+00:03:10.520 --> 00:03:14.910
+take a closer look at
+multitask fine-tuning.

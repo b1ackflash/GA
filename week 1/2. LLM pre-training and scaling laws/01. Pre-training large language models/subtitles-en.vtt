@@ -1,0 +1,1063 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.605
+In the previous video,
+
+2
+00:00:01.605 --> 00:00:02.730
+you were introduced to the
+
+3
+00:00:02.730 --> 00:00:04.980
+generative AI
+project life cycle.
+
+4
+00:00:04.980 --> 00:00:07.230
+As you saw, there
+are a few steps to
+
+5
+00:00:07.230 --> 00:00:09.750
+take before you can
+get to the fun part,
+
+6
+00:00:09.750 --> 00:00:12.075
+launching your
+generative AI app.
+
+7
+00:00:12.075 --> 00:00:14.145
+Once you have scoped
+out your use case,
+
+8
+00:00:14.145 --> 00:00:15.540
+and determined how you'll need
+
+9
+00:00:15.540 --> 00:00:17.835
+the LLM to work within
+your application,
+
+10
+00:00:17.835 --> 00:00:20.940
+your next step is to select
+a model to work with.
+
+11
+00:00:20.940 --> 00:00:23.100
+Your first choice will be to
+
+12
+00:00:23.100 --> 00:00:25.185
+either work with
+an existing model,
+
+13
+00:00:25.185 --> 00:00:27.630
+or train your own from scratch.
+
+14
+00:00:27.630 --> 00:00:30.360
+There are specific
+circumstances where training
+
+15
+00:00:30.360 --> 00:00:33.340
+your own model from scratch
+might be advantageous,
+
+16
+00:00:33.340 --> 00:00:35.800
+and you'll learn about
+those later in this lesson.
+
+17
+00:00:35.800 --> 00:00:37.520
+In general, however, you'll
+
+18
+00:00:37.520 --> 00:00:39.080
+begin the process of developing
+
+19
+00:00:39.080 --> 00:00:42.560
+your application using an
+existing foundation model.
+
+20
+00:00:42.560 --> 00:00:45.470
+Many open-source models are
+available for members of
+
+21
+00:00:45.470 --> 00:00:49.285
+the AI community like you
+to use in your application.
+
+22
+00:00:49.285 --> 00:00:51.110
+The developers of some of
+
+23
+00:00:51.110 --> 00:00:52.925
+the major frameworks
+for building
+
+24
+00:00:52.925 --> 00:00:56.675
+generative AI applications
+like Hugging Face and PyTorch,
+
+25
+00:00:56.675 --> 00:00:59.780
+have curated hubs where you
+can browse these models.
+
+26
+00:00:59.780 --> 00:01:01.460
+A really useful feature of
+
+27
+00:01:01.460 --> 00:01:04.265
+these hubs is the
+inclusion of model cards,
+
+28
+00:01:04.265 --> 00:01:06.440
+that describe important details
+
+29
+00:01:06.440 --> 00:01:09.095
+including the best use
+cases for each model,
+
+30
+00:01:09.095 --> 00:01:12.305
+how it was trained,
+and known limitations.
+
+31
+00:01:12.305 --> 00:01:13.880
+You'll find some links to
+
+32
+00:01:13.880 --> 00:01:16.700
+these model hubs in the reading
+at the end of the week.
+
+33
+00:01:16.700 --> 00:01:19.250
+The exact model that
+you'd choose will depend
+
+34
+00:01:19.250 --> 00:01:21.820
+on the details of the task
+you need to carry out.
+
+35
+00:01:21.820 --> 00:01:24.610
+Variance of the transformer
+model architecture
+
+36
+00:01:24.610 --> 00:01:26.840
+are suited to different
+language tasks,
+
+37
+00:01:26.840 --> 00:01:28.880
+largely because of differences
+
+38
+00:01:28.880 --> 00:01:30.755
+in how the models are trained.
+
+39
+00:01:30.755 --> 00:01:32.300
+To help you better understand
+
+40
+00:01:32.300 --> 00:01:34.280
+these differences and to develop
+
+41
+00:01:34.280 --> 00:01:36.200
+intuition about which model
+
+42
+00:01:36.200 --> 00:01:38.255
+to use for a particular task,
+
+43
+00:01:38.255 --> 00:01:39.980
+let's take a closer look at
+
+44
+00:01:39.980 --> 00:01:42.400
+how large language
+models are trained.
+
+45
+00:01:42.400 --> 00:01:44.090
+With this knowledge in hand,
+
+46
+00:01:44.090 --> 00:01:46.010
+you'll find it
+easier to navigate
+
+47
+00:01:46.010 --> 00:01:49.160
+the model hubs and find the
+best model for your use case.
+
+48
+00:01:49.160 --> 00:01:51.665
+To begin, let's take
+a high-level look
+
+49
+00:01:51.665 --> 00:01:54.280
+at the initial training
+process for LLMs.
+
+50
+00:01:54.280 --> 00:01:57.680
+This phase is often referred
+to as pre-training.
+
+51
+00:01:57.680 --> 00:01:59.585
+As you saw in Lesson 1,
+
+52
+00:01:59.585 --> 00:02:00.965
+LLMs encode
+
+53
+00:02:00.965 --> 00:02:04.360
+a deep statistical
+representation of language.
+
+54
+00:02:04.360 --> 00:02:06.230
+This understanding is developed
+
+55
+00:02:06.230 --> 00:02:08.315
+during the models
+pre-training phase
+
+56
+00:02:08.315 --> 00:02:10.610
+when the model learns
+from vast amounts
+
+57
+00:02:10.610 --> 00:02:12.950
+of unstructured textual data.
+
+58
+00:02:12.950 --> 00:02:14.450
+This can be gigabytes,
+
+59
+00:02:14.450 --> 00:02:17.375
+terabytes, and even
+petabytes of text.
+
+60
+00:02:17.375 --> 00:02:19.745
+This data is pulled
+from many sources,
+
+61
+00:02:19.745 --> 00:02:23.390
+including scrapes off the
+Internet and corpora of texts
+
+62
+00:02:23.390 --> 00:02:24.650
+that have been assembled
+
+63
+00:02:24.650 --> 00:02:27.400
+specifically for training
+language models.
+
+64
+00:02:27.400 --> 00:02:29.705
+In this self-supervised
+learning step,
+
+65
+00:02:29.705 --> 00:02:32.450
+the model internalizes
+the patterns
+
+66
+00:02:32.450 --> 00:02:35.645
+and structures present
+in the language.
+
+67
+00:02:35.645 --> 00:02:37.700
+These patterns then
+enable the model
+
+68
+00:02:37.700 --> 00:02:39.890
+to complete its
+training objective,
+
+69
+00:02:39.890 --> 00:02:42.665
+which depends on the
+architecture of the model,
+
+70
+00:02:42.665 --> 00:02:44.275
+as you'll see shortly.
+
+71
+00:02:44.275 --> 00:02:46.925
+During pre-training,
+the model weights get
+
+72
+00:02:46.925 --> 00:02:50.510
+updated to minimize the loss
+of the training objective.
+
+73
+00:02:50.510 --> 00:02:53.225
+The encoder generates
+an embedding
+
+74
+00:02:53.225 --> 00:02:56.065
+or vector representation
+for each token.
+
+75
+00:02:56.065 --> 00:02:58.700
+Pre-training also
+requires a large amount
+
+76
+00:02:58.700 --> 00:03:01.270
+of compute and the use of GPUs.
+
+77
+00:03:01.270 --> 00:03:03.530
+Note, when you
+scrape training data
+
+78
+00:03:03.530 --> 00:03:06.125
+from public sites
+such as the Internet,
+
+79
+00:03:06.125 --> 00:03:09.635
+you often need to process the
+data to increase quality,
+
+80
+00:03:09.635 --> 00:03:13.205
+address bias, and remove
+other harmful content.
+
+81
+00:03:13.205 --> 00:03:16.010
+As a result of this
+data quality curation,
+
+82
+00:03:16.010 --> 00:03:20.075
+often only 1-3% of tokens
+are used for pre-training.
+
+83
+00:03:20.075 --> 00:03:21.740
+You should consider
+this when you
+
+84
+00:03:21.740 --> 00:03:23.180
+estimate how much data you
+
+85
+00:03:23.180 --> 00:03:24.560
+need to collect if you
+
+86
+00:03:24.560 --> 00:03:26.560
+decide to pre-train
+your own model.
+
+87
+00:03:26.560 --> 00:03:28.835
+Earlier this week, you
+saw that there were
+
+88
+00:03:28.835 --> 00:03:31.445
+three variance of the
+transformer model;
+
+89
+00:03:31.445 --> 00:03:36.445
+encoder-only encoder-decoder
+models, and decode-only.
+
+90
+00:03:36.445 --> 00:03:39.635
+Each of these is trained
+on a different objective,
+
+91
+00:03:39.635 --> 00:03:42.695
+and so learns how to carry
+out different tasks.
+
+92
+00:03:42.695 --> 00:03:44.480
+Encoder-only models are also
+
+93
+00:03:44.480 --> 00:03:46.460
+known as Autoencoding models,
+
+94
+00:03:46.460 --> 00:03:49.400
+and they are pre-trained using
+masked language modeling.
+
+95
+00:03:49.400 --> 00:03:52.850
+Here, tokens in the input
+sequence or randomly mask,
+
+96
+00:03:52.850 --> 00:03:55.100
+and the training
+objective is to predict
+
+97
+00:03:55.100 --> 00:03:57.140
+the mask tokens in order to
+
+98
+00:03:57.140 --> 00:03:59.425
+reconstruct the
+original sentence.
+
+99
+00:03:59.425 --> 00:04:02.605
+This is also called a
+denoising objective.
+
+100
+00:04:02.605 --> 00:04:04.505
+Autoencoding models spilled
+
+101
+00:04:04.505 --> 00:04:06.365
+bi-directional representations
+
+102
+00:04:06.365 --> 00:04:07.985
+of the input sequence,
+
+103
+00:04:07.985 --> 00:04:10.460
+meaning that the model
+has an understanding of
+
+104
+00:04:10.460 --> 00:04:12.395
+the full context of a token
+
+105
+00:04:12.395 --> 00:04:15.175
+and not just of the
+words that come before.
+
+106
+00:04:15.175 --> 00:04:17.810
+Encoder-only models
+are ideally suited to
+
+107
+00:04:17.810 --> 00:04:21.140
+task that benefit from this
+bi-directional contexts.
+
+108
+00:04:21.140 --> 00:04:22.640
+You can use them to carry out
+
+109
+00:04:22.640 --> 00:04:25.280
+sentence classification
+tasks, for example,
+
+110
+00:04:25.280 --> 00:04:28.460
+sentiment analysis
+or token-level tasks
+
+111
+00:04:28.460 --> 00:04:31.490
+like named entity recognition
+or word classification.
+
+112
+00:04:31.490 --> 00:04:33.200
+Some well-known examples of
+
+113
+00:04:33.200 --> 00:04:36.080
+an autoencoder model
+are BERT and RoBERTa.
+
+114
+00:04:36.080 --> 00:04:37.550
+Now, let's take a look at
+
+115
+00:04:37.550 --> 00:04:40.475
+decoder-only or
+autoregressive models,
+
+116
+00:04:40.475 --> 00:04:43.750
+which are pre-trained using
+causal language modeling.
+
+117
+00:04:43.750 --> 00:04:46.715
+Here, the training
+objective is to predict
+
+118
+00:04:46.715 --> 00:04:50.380
+the next token based on the
+previous sequence of tokens.
+
+119
+00:04:50.380 --> 00:04:52.685
+Predicting the next token
+is sometimes called
+
+120
+00:04:52.685 --> 00:04:55.305
+full language modeling
+by researchers.
+
+121
+00:04:55.305 --> 00:04:57.845
+Decoder-based
+autoregressive models,
+
+122
+00:04:57.845 --> 00:05:00.770
+mask the input
+sequence and can only
+
+123
+00:05:00.770 --> 00:05:04.225
+see the input tokens leading
+up to the token in question.
+
+124
+00:05:04.225 --> 00:05:07.640
+The model has no knowledge
+of the end of the sentence.
+
+125
+00:05:07.640 --> 00:05:10.490
+The model then iterates
+over the input sequence
+
+126
+00:05:10.490 --> 00:05:13.280
+one by one to predict
+the following token.
+
+127
+00:05:13.280 --> 00:05:15.875
+In contrast to the
+encoder architecture,
+
+128
+00:05:15.875 --> 00:05:18.950
+this means that the
+context is unidirectional.
+
+129
+00:05:18.950 --> 00:05:20.930
+By learning to predict
+the next token
+
+130
+00:05:20.930 --> 00:05:22.895
+from a vast number of examples,
+
+131
+00:05:22.895 --> 00:05:24.200
+the model builds up
+
+132
+00:05:24.200 --> 00:05:26.720
+a statistical
+representation of language.
+
+133
+00:05:26.720 --> 00:05:28.730
+Models of this type make use of
+
+134
+00:05:28.730 --> 00:05:30.320
+the decoder component off
+
+135
+00:05:30.320 --> 00:05:33.115
+the original architecture
+without the encoder.
+
+136
+00:05:33.115 --> 00:05:36.410
+Decoder-only models are often
+used for text generation,
+
+137
+00:05:36.410 --> 00:05:38.780
+although larger
+decoder-only models
+
+138
+00:05:38.780 --> 00:05:41.345
+show strong zero-shot
+inference abilities,
+
+139
+00:05:41.345 --> 00:05:43.930
+and can often perform
+a range of tasks well.
+
+140
+00:05:43.930 --> 00:05:45.390
+Well known examples of
+
+141
+00:05:45.390 --> 00:05:48.715
+decoder-based autoregressive
+models are GBT and BLOOM.
+
+142
+00:05:48.715 --> 00:05:50.210
+The final variation of
+
+143
+00:05:50.210 --> 00:05:53.405
+the transformer model is the
+sequence-to-sequence model
+
+144
+00:05:53.405 --> 00:05:55.550
+that uses both the encoder and
+
+145
+00:05:55.550 --> 00:05:58.460
+decoder parts off the original
+transformer architecture.
+
+146
+00:05:58.460 --> 00:06:01.490
+The exact details of the
+pre-training objective vary
+
+147
+00:06:01.490 --> 00:06:02.740
+from model to model.
+
+148
+00:06:02.740 --> 00:06:06.000
+A popular sequence-to-sequence
+model T5,
+
+149
+00:06:06.000 --> 00:06:09.185
+pre-trains the encoder
+using span corruption,
+
+150
+00:06:09.185 --> 00:06:12.790
+which masks random
+sequences of input tokens.
+
+151
+00:06:12.790 --> 00:06:14.690
+Those mass sequences are then
+
+152
+00:06:14.690 --> 00:06:17.120
+replaced with a unique
+Sentinel token,
+
+153
+00:06:17.120 --> 00:06:19.640
+shown here as x. Sentinel
+
+154
+00:06:19.640 --> 00:06:22.805
+tokens are special tokens
+added to the vocabulary,
+
+155
+00:06:22.805 --> 00:06:24.290
+but do not correspond to
+
+156
+00:06:24.290 --> 00:06:27.070
+any actual word from
+the input text.
+
+157
+00:06:27.070 --> 00:06:29.060
+The decoder is then tasked with
+
+158
+00:06:29.060 --> 00:06:30.710
+reconstructing the mask
+
+159
+00:06:30.710 --> 00:06:32.885
+token sequences
+auto-regressively.
+
+160
+00:06:32.885 --> 00:06:35.195
+The output is the Sentinel token
+
+161
+00:06:35.195 --> 00:06:37.685
+followed by the
+predicted tokens.
+
+162
+00:06:37.685 --> 00:06:40.040
+You can use
+sequence-to-sequence models for
+
+163
+00:06:40.040 --> 00:06:44.275
+translation, summarization,
+and question-answering.
+
+164
+00:06:44.275 --> 00:06:47.390
+They are generally useful in
+cases where you have a body
+
+165
+00:06:47.390 --> 00:06:50.375
+of texts as both
+input and output.
+
+166
+00:06:50.375 --> 00:06:51.950
+Besides T5,
+
+167
+00:06:51.950 --> 00:06:53.820
+which you'll use in the
+labs in this course,
+
+168
+00:06:53.820 --> 00:06:56.300
+another well-known
+encoder-decoder model
+
+169
+00:06:56.300 --> 00:06:58.410
+is BART, not bird.
+
+170
+00:06:58.410 --> 00:07:01.520
+To summarize, here's
+a quick comparison of
+
+171
+00:07:01.520 --> 00:07:03.500
+the different model
+architectures and
+
+172
+00:07:03.500 --> 00:07:05.920
+the targets off the
+pre-training objectives.
+
+173
+00:07:05.920 --> 00:07:08.030
+Autoencoding models
+are pre-trained
+
+174
+00:07:08.030 --> 00:07:09.970
+using masked language modeling.
+
+175
+00:07:09.970 --> 00:07:11.810
+They correspond to
+the encoder part
+
+176
+00:07:11.810 --> 00:07:14.240
+of the original
+transformer architecture,
+
+177
+00:07:14.240 --> 00:07:16.790
+and are often used with
+sentence classification
+
+178
+00:07:16.790 --> 00:07:18.595
+or token classification.
+
+179
+00:07:18.595 --> 00:07:20.780
+Autoregressive models
+are pre-trained
+
+180
+00:07:20.780 --> 00:07:22.700
+using causal language modeling.
+
+181
+00:07:22.700 --> 00:07:24.470
+Models of this type make use of
+
+182
+00:07:24.470 --> 00:07:25.970
+the decoder component of
+
+183
+00:07:25.970 --> 00:07:27.950
+the original transformer
+architecture,
+
+184
+00:07:27.950 --> 00:07:30.265
+and often used for
+text generation.
+
+185
+00:07:30.265 --> 00:07:33.470
+Sequence-to-sequence models
+use both the encoder and
+
+186
+00:07:33.470 --> 00:07:36.910
+decoder part off the original
+transformer architecture.
+
+187
+00:07:36.910 --> 00:07:40.280
+The exact details of the
+pre-training objective vary
+
+188
+00:07:40.280 --> 00:07:41.490
+from model to model.
+
+189
+00:07:41.490 --> 00:07:44.615
+The T5 model is pre-trained
+using span corruption.
+
+190
+00:07:44.615 --> 00:07:47.060
+Sequence-to-sequence
+models are often used for
+
+191
+00:07:47.060 --> 00:07:50.965
+translation, summarization,
+and question-answering.
+
+192
+00:07:50.965 --> 00:07:52.700
+Now that you have seen how
+
+193
+00:07:52.700 --> 00:07:54.170
+this different model
+architectures are
+
+194
+00:07:54.170 --> 00:07:58.220
+trained and the specific tasks
+they are well-suited to,
+
+195
+00:07:58.220 --> 00:07:59.840
+you can select the
+type of model that
+
+196
+00:07:59.840 --> 00:08:02.185
+is best suited to your use case.
+
+197
+00:08:02.185 --> 00:08:04.250
+One additional thing
+to keep in mind
+
+198
+00:08:04.250 --> 00:08:05.930
+is that larger models of
+
+199
+00:08:05.930 --> 00:08:08.150
+any architecture
+are typically more
+
+200
+00:08:08.150 --> 00:08:11.200
+capable of carrying
+out their tasks well.
+
+201
+00:08:11.200 --> 00:08:14.330
+Researchers have found
+that the larger a model,
+
+202
+00:08:14.330 --> 00:08:16.850
+the more likely it is to
+work as you needed to
+
+203
+00:08:16.850 --> 00:08:18.380
+without additional in-context
+
+204
+00:08:18.380 --> 00:08:20.075
+learning or further training.
+
+205
+00:08:20.075 --> 00:08:23.300
+This observed trend of
+increased model capability with
+
+206
+00:08:23.300 --> 00:08:25.550
+size has driven
+the development of
+
+207
+00:08:25.550 --> 00:08:28.355
+larger and larger
+models in recent years.
+
+208
+00:08:28.355 --> 00:08:30.350
+This growth has been fueled by
+
+209
+00:08:30.350 --> 00:08:32.255
+inflection points and research,
+
+210
+00:08:32.255 --> 00:08:33.890
+such as the introduction of
+
+211
+00:08:33.890 --> 00:08:36.530
+the highly scalable
+transformer architecture,
+
+212
+00:08:36.530 --> 00:08:39.650
+access to massive amounts
+of data for training,
+
+213
+00:08:39.650 --> 00:08:42.995
+and the development of more
+powerful compute resources.
+
+214
+00:08:42.995 --> 00:08:45.800
+This steady increase in
+model size actually led
+
+215
+00:08:45.800 --> 00:08:48.140
+some researchers to hypothesize
+
+216
+00:08:48.140 --> 00:08:51.100
+the existence of a new
+Moore's law for LLMs.
+
+217
+00:08:51.100 --> 00:08:53.225
+Like them, you may be asking,
+
+218
+00:08:53.225 --> 00:08:55.250
+can we just keep
+adding parameters to
+
+219
+00:08:55.250 --> 00:08:57.455
+increase performance and
+make models smarter?
+
+220
+00:08:57.455 --> 00:08:59.680
+Where could this
+model growth lead?
+
+221
+00:08:59.680 --> 00:09:01.555
+While this may sound great,
+
+222
+00:09:01.555 --> 00:09:02.960
+it turns out that training
+
+223
+00:09:02.960 --> 00:09:06.710
+these enormous models is
+difficult and very expensive,
+
+224
+00:09:06.710 --> 00:09:09.500
+so much so that it
+may be infeasible to
+
+225
+00:09:09.500 --> 00:09:12.520
+continuously train larger
+and larger models.
+
+226
+00:09:12.520 --> 00:09:15.215
+Let's take a closer look
+at some of the challenges
+
+227
+00:09:15.215 --> 00:09:19.470
+associated with training large
+models in the next video.
